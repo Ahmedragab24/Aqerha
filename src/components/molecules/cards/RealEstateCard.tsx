@@ -1,6 +1,8 @@
 import Image from "next/image";
-import { Heart, Home, Bath, Bed } from "lucide-react";
 import type { RealEstesType } from "@/types/products";
+import FavoriteBtn from "@/components/atoms/buttons/FavoriteBtn";
+import Link from "next/link";
+import Riyal from "@/components/atoms/Icons/Riyal";
 
 interface RealEstateCardProps {
   product: RealEstesType;
@@ -11,42 +13,59 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
     product;
 
   return (
-    <div className="bg-white rounded-2xl  overflow-hidden max-w-sm mx-auto border border-gray-200 duration-200 shadow-md hover:shadow-lg group cursor-pointer">
+    <Link
+      href={"/"}
+      className="bg-white rounded-2xl  max-w-sm mx-auto border border-gray-200 duration-300 shadow-md hover:shadow-lg group cursor-pointer"
+    >
       {/* Image Container */}
       <div className="relative">
-        <Image
-          src={image || "/images/property.png"}
-          alt={name}
-          width={400}
-          height={240}
-          className="w-full h-60 object-cover duration-200 group-hover:scale-105"
-        />
+        <div className="h-60 overflow-hidden rounded-t-2xl">
+          <Image
+            src={image || "/images/property.png"}
+            alt={name}
+            width={400}
+            height={240}
+            loading="lazy"
+            className="w-full h-60 object-cover duration-300 group-hover:scale-105"
+          />
+        </div>
 
         {/* Popular Badge */}
         {isPopular && (
-          <div className="absolute top-4 right-4 bg-green-700 text-white px-3 py-1 rounded-full flex items-center gap-1 text-sm font-medium">
-            <span>رائجة</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          </div>
-        )}
+          <>
+            <div className="absolute top-56 translate-middle-x -right-[10px] bg-primary text-white px-6 py-[6px] rounded-t-md rounded-bl-md flex items-center gap-2 text-sm font-medium">
+              <Image
+                src="Icons/Stars.svg"
+                alt="Triangle"
+                width={15}
+                height={15}
+              />
+              <span>رائجة</span>
+            </div>
 
-        {/* Heart Icon */}
-        <button className="absolute bottom-4 left-4 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors">
-          <Heart className="w-5 h-5 text-gray-600" />
-        </button>
+            <div className="absolute top-64 translate-middle-x -right-[10px] -rotate-[360deg]">
+              <Image
+                src="Icons/Triangle.svg"
+                alt="Triangle"
+                width={11}
+                height={11}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        {/* Price */}
-        <div className="flex items-center justify-end gap-2 mb-3">
-          <span className="text-gray-500 text-sm">الشهر</span>
-          <span className="text-gray-500 text-sm">ج.م</span>
-          <span className="text-2xl font-bold text-green-700">
-            {price.toLocaleString()}
-          </span>
+      <div className="px-5 py-7">
+        <div className="flex items-center justify-between">
+          {/* Price */}
+          <div className="flex items-center gap-1 mb-3">
+            <span className="text-2xl font-medium text-primary">{price}</span>
+            <Riyal className="text-primary" />
+            <span className="text-gray-500 text-sm">\ الشهر</span>
+          </div>
+          {/* Heart Icon */}
+          <FavoriteBtn />
         </div>
 
         {/* Property Name */}
@@ -60,27 +79,37 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
         </p>
 
         {/* Property Features */}
-        <div className="flex items-center justify-between text-gray-600">
+        <div className="flex items-center justify-between text-gray-600 border-t border-gray-200 pt-4">
           {/* Area */}
           <div className="flex items-center gap-2">
-            <Home className="w-5 h-5 text-green-700" />
-            <span className="text-sm">{Area} م²</span>
+            <Image
+              src="Icons/LandArea.svg"
+              alt="Triangle"
+              width={20}
+              height={20}
+            />
+            <span className="text-sm text-gray-400">{Area} م²</span>
           </div>
 
           {/* Bathrooms */}
           <div className="flex items-center gap-2">
-            <Bath className="w-5 h-5 text-green-700" />
-            <span className="text-sm">{Bathrooms} حمام</span>
+            <Image
+              src="Icons/Bathroom.svg"
+              alt="Triangle"
+              width={20}
+              height={20}
+            />
+            <span className="text-sm text-gray-400">{Bathrooms} حمام</span>
           </div>
 
           {/* Bedrooms */}
           <div className="flex items-center gap-2">
-            <Bed className="w-5 h-5 text-green-700" />
-            <span className="text-sm">{beds} سرير</span>
+            <Image src="Icons/Bed.svg" alt="Triangle" width={20} height={20} />
+            <span className="text-sm text-gray-400">{beds} سرير</span>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

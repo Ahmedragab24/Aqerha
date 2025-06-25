@@ -54,7 +54,7 @@
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: hsla(161, 74%, 15%, 1);
+  --primary: hsla(155, 84%, 20%, 1);
   --primary-hover: hsla(160, 71%, 12%, 1);
   --primary-dark: hsla(160, 71%, 12%, 1);
   --primary-light: hsla(159, 80%, 43%, 1);
@@ -69,7 +69,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: hsla(161, 74%, 15%, 1);
   --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.723 0.219 149.579);
+  --ring: hsla(155, 84%, 20%, 1);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -96,5 +96,82 @@
 
   .Container {
     @apply container !max-w-[1380px] mx-auto  px-3 xl:px-0;
+  }
+
+  /* ================= Scroll Up ==================== */
+  .scrollup {
+    @apply !w-[25px] !h-[25px] md:!w-[35px] md:!h-[35px] fixed right-[1rem] md:right-[3rem] bottom-[-20%] duration-300;
+  }
+
+  /* Show scroll */
+  .show-scroll {
+    @apply bottom-[5rem] duration-300;
+  }
+
+  /*=============== SCROLL BAR ===============*/
+  ::-webkit-scrollbar {
+    @apply w-[0.5rem];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-[15rem];
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/80;
+  }
+
+  @layer base {
+    * {
+      @apply border-border outline-ring/50;
+    }
+
+    body {
+      @apply bg-background text-foreground;
+    }
+  }
+
+  /*=============== INTIMATIONS ===============*/
+
+  @keyframes bounce-gentle {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes glow {
+    0%,
+    100% {
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+    }
+  }
+
+  .animate-bounce-gentle {
+    animation: bounce-gentle 2s infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
   }
 }

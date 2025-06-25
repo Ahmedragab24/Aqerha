@@ -11,24 +11,27 @@ import React from "react";
 interface NavMenuItemProps {
   Trigger: string;
   Items: MenuType[];
+  className?: string;
 }
 
-const NavMenuItem = ({ Trigger, Items }: NavMenuItemProps) => {
+const NavMenuItem = ({ Trigger, Items, className }: NavMenuItemProps) => {
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger>{Trigger}</NavigationMenuTrigger>
-      <NavigationMenuContent className="!w-[200px] py-4 text-right" dir="rtl">
-        <h3 className="text-sm text-primary-light mb-2 px-2">{Trigger}</h3>
+      <NavigationMenuTrigger className={`${className}`}>
+        {Trigger}
+      </NavigationMenuTrigger>
+      <NavigationMenuContent className="!w-[220px] pt-4 text-right" dir="rtl">
+        <h3 className="text-xs text-primary-light mb-2 px-2">{Trigger}</h3>
         {Items.map((item, index) => (
           <NavigationMenuLink
             href={item.path}
             key={index}
-            className="!text-primary text-sm hover:!text-primary-hover"
+            className="!text-gray-600 text-sm hover:!text-primary-hover"
           >
             {item.label}
           </NavigationMenuLink>
         ))}
-        <div className="flex justify-end">
+        <div className="flex justify-end px-4">
           <SeeMore path="/" />
         </div>
       </NavigationMenuContent>

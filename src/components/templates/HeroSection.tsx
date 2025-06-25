@@ -8,6 +8,8 @@ const HeroSection = () => {
         src="/Images/Hero.jpg"
         alt="Hero"
         fill
+        priority
+        loading="eager"
         className="object-cover brightness-[60%]"
       />
 

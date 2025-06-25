@@ -1,16 +1,44 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
 
-const Logo = () => {
+interface LogoProps {
+  isScrolled?: boolean;
+  navbarBg?: boolean;
+}
+
+const LogoAdvanced = ({ isScrolled, navbarBg }: LogoProps) => {
+  const shouldShowButton = isScrolled || navbarBg;
+
   return (
-    <Image
-      src={"/Logo/Aqerha Logo.png"}
-      alt="Logo"
-      width={100}
-      height={100}
-      quality={100}
-      priority
-    />
+    <div className="relative">
+      <Link href={"/"}>
+        <div
+          className={`relative transition-all duration-700 ease-out transform ${
+            shouldShowButton
+              ? "bg-primary rounded-lg px-4 py-1 shadow-lg scale-105"
+              : "bg-transparent rounded-none px-0 py-0 shadow-none scale-100"
+          }`}
+        >
+          {/* Logo image with smooth transitions */}
+          <Image
+            src={"/Logo/Aqerha Logo.png"}
+            alt="Logo"
+            width={80}
+            height={80}
+            quality={100}
+            priority
+            loading="eager"
+            className={`relative z-10 transition-all duration-500 ease-out ${
+              shouldShowButton
+                ? "brightness-110 drop-shadow-md hover:scale-110 w-[80px]"
+                : "brightness-100 hover:scale-105 hover:brightness-110"
+            }`}
+          />
+        </div>
+      </Link>
+    </div>
   );
 };
 
-export default Logo;
+export default LogoAdvanced;
