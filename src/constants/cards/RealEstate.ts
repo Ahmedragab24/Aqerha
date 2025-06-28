@@ -1,4 +1,4 @@
-import { RealEstesType } from "@/types/products";
+import { RealEstateGuideType, RealEstesType } from "@/types/products";
 
 export const RealEstesData: RealEstesType[] = [
   {
@@ -37,6 +37,42 @@ export const RealEstesData: RealEstesType[] = [
   {
     id: 4,
     image: "/Images/RealEstes.jpg",
+    isPopular: true,
+    price: 2000,
+    name: "بالم هاربور",
+    location: "٢٦٩٩ وادي الأخضر، بحيرة هايلاند، فلوريدا",
+    Area: 126,
+    Bathrooms: 2,
+    beds: 3,
+  },
+];
+
+export const RealEstateGuideData: RealEstateGuideType[] = [
+  {
+    id: 1,
+    image: "/Images/RealEstateGuid.jpg",
+    isPopular: true,
+    price: 2000,
+    name: "بالم هاربور",
+    location: "٢٦٩٩ وادي الأخضر، بحيرة هايلاند، فلوريدا",
+    Area: 126,
+    Bathrooms: 2,
+    beds: 3,
+  },
+  {
+    id: 2,
+    image: "/Images/RealEstateGuid.jpg",
+    isPopular: true,
+    price: 2000,
+    name: "بالم هاربور",
+    location: "٢٦٩٩ وادي الأخضر، بحيرة هايلاند، فلوريدا",
+    Area: 126,
+    Bathrooms: 2,
+    beds: 3,
+  },
+  {
+    id: 3,
+    image: "/Images/RealEstateGuid.jpg",
     isPopular: true,
     price: 2000,
     name: "بالم هاربور",

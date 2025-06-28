@@ -3,7 +3,7 @@ import HeroFilter from "../organisms/filters/HeroFilter";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full h-screen">
+    <section className="relative w-full h-[40vh] md:h-screen">
       <Image
         src="/Images/Hero.jpg"
         alt="Hero"
@@ -13,17 +13,19 @@ const HeroSection = () => {
         className="object-cover brightness-[60%]"
       />
 
-      <div className="relative w-full h-screen flex flex-col justify-center items-center gap-8">
+      <div className="relative md:pt-[320px] w-full h-full md:h-screen flex flex-col justify-center items-center gap-8">
         <div className="space-y-4 drop-shadow-sm">
-          <h1 className="text-white text-5xl font-semibold">
+          <h1 className="text-white text-2xl md:text-5xl font-semibold text-center">
             وجهتك الأولى للعقارات
           </h1>
-          <h4 className="text-white text-xl text-center">
+          <h4 className="text-gray-200 text-md md:text-xl text-center">
             سواء كنت تشتري أو تستأجر، نحن هنا لمساعدتك!
           </h4>
         </div>
 
-        <HeroFilter />
+        <div className="hidden md:block">
+          <HeroFilter />
+        </div>
       </div>
     </section>
   );

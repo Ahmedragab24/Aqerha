@@ -9,7 +9,7 @@ import ScrollUp from "@/components/layout/scrollUp";
 const RubikSans = Rubik({
   variable: "--font-Rubik-sans",
   subsets: ["arabic"],
-  weight: ["300", "500", "700", "900"],
+  weight: ["300", "400", "500", "700", "900"],
 });
 
 export const metadata: Metadata = {

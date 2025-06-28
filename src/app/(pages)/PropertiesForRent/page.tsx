@@ -1,0 +1,41 @@
+import HeroFilter from "@/components/organisms/filters/HeroFilter";
+import PropertiesForRentSection from "@/components/templates/PropertiesForRentSection";
+import Image from "next/image";
+
+const PropertiesForRentPage = () => {
+  return (
+    <main className="pb-16 space-y-8">
+      <div className="relative">
+        <Image
+          src="/Images/PropertiesForRent.jpg"
+          alt="PropertiesForRent"
+          fill
+          priority
+          loading="eager"
+          className="object-cover brightness-[60%] w-full h-[40vh] md:!h-screen"
+        />
+
+        <div className="Container md:pt-[320px] relative w-full h-full md:h-screen flex flex-col justify-center items-center gap-8">
+          <div className="space-y-4 drop-shadow-sm">
+            <h1 className="text-white text-2xl md:text-5xl font-semibold text-center">
+              عَقْرُهَا؛ بَيْتٌ لِلْجَمِيعِ
+            </h1>
+            <h4 className="text-gray-200 text-md md:text-xl text-center">
+              اختبر سهولة وسرعة العثور علي بيت جديد في عَقْرُهَا
+            </h4>
+          </div>
+
+          <div className="hidden md:block">
+            <HeroFilter />
+          </div>
+        </div>
+      </div>
+
+      <div className="Container">
+        <PropertiesForRentSection />
+      </div>
+    </main>
+  );
+};
+
+export default PropertiesForRentPage;

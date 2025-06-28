@@ -32,7 +32,7 @@ const ScrollUp = () => {
     <Button
       variant={"outline"}
       size={"icon"}
-      className="scrollup z-10 bg-primary/70 hover:bg-primary text-white hover:text-white border border-primary"
+      className="scrollup z-10 bg-primary/70 hover:bg-primary text-white hover:text-white border border-primary rounded-full"
       id="scroll-up"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     >

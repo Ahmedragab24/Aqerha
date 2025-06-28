@@ -1,6 +1,7 @@
 import Image from "next/image";
 import EmailInput from "../atoms/inputs/EmailInput";
 import SocialMediaIcons from "../molecules/iconsGroup/SoicalMediaIcons";
+import LogoGreen from "../atoms/images/LogoGreen";
 
 const Footer = () => {
   return (
@@ -9,14 +10,7 @@ const Footer = () => {
         {/* Right section - Logo and Navigation */}
         <div className="space-y-6">
           {/* Logo */}
-          <div className="">
-            <Image
-              src="/Logo/Logo on Transparent BG.png"
-              alt="logo"
-              width={100}
-              height={100}
-            />
-          </div>
+          <LogoGreen />
 
           {/* Navigation Links */}
           <nav className="space-y-3">

@@ -9,19 +9,19 @@ interface RealEstateCardProps {
 }
 
 const RealEstateCard = ({ product }: RealEstateCardProps) => {
-  const { name, image, isPopular, Area, Bathrooms, beds, location, price } =
+  const { id, name, image, isPopular, Area, Bathrooms, beds, location, price } =
     product;
 
   return (
     <Link
-      href={"/"}
+      href={`/PropertiesForRent/${id}`}
       className="bg-white rounded-2xl  max-w-sm mx-auto border border-gray-200 duration-300 shadow-md hover:shadow-lg group cursor-pointer"
     >
       {/* Image Container */}
       <div className="relative">
         <div className="h-60 overflow-hidden rounded-t-2xl">
           <Image
-            src={image || "/images/property.png"}
+            src={image}
             alt={name}
             width={400}
             height={240}
@@ -35,7 +35,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
           <>
             <div className="absolute top-56 translate-middle-x -right-[10px] bg-primary text-white px-6 py-[6px] rounded-t-md rounded-bl-md flex items-center gap-2 text-sm font-medium">
               <Image
-                src="Icons/Stars.svg"
+                src="/Icons/Stars.svg"
                 alt="Triangle"
                 width={15}
                 height={15}
@@ -45,7 +45,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
 
             <div className="absolute top-64 translate-middle-x -right-[10px] -rotate-[360deg]">
               <Image
-                src="Icons/Triangle.svg"
+                src="/Icons/Triangle.svg"
                 alt="Triangle"
                 width={11}
                 height={11}
@@ -83,7 +83,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
           {/* Area */}
           <div className="flex items-center gap-2">
             <Image
-              src="Icons/LandArea.svg"
+              src="/Icons/LandArea.svg"
               alt="Triangle"
               width={20}
               height={20}
@@ -94,7 +94,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
           {/* Bathrooms */}
           <div className="flex items-center gap-2">
             <Image
-              src="Icons/Bathroom.svg"
+              src="/Icons/Bathroom.svg"
               alt="Triangle"
               width={20}
               height={20}
@@ -104,7 +104,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
 
           {/* Bedrooms */}
           <div className="flex items-center gap-2">
-            <Image src="Icons/Bed.svg" alt="Triangle" width={20} height={20} />
+            <Image src="/Icons/Bed.svg" alt="Triangle" width={20} height={20} />
             <span className="text-sm text-gray-400">{beds} سرير</span>
           </div>
         </div>

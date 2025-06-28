@@ -16,7 +16,7 @@ const FavoriteBtn = () => {
   };
   return (
     <Button
-      className="bg-transparent rounded-full !p-2 border-2 border-gray-200 hover:bg-gray-50 transition-colors"
+      className="bg-gray-100/60 rounded-full !p-2 border-2 border-gray-200 hover:bg-gray-50 transition-colors"
       onClick={(e) => handlerFavorite(e)}
     >
       <Heart

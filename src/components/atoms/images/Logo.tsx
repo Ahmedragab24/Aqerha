@@ -8,14 +8,14 @@ interface LogoProps {
 }
 
 const LogoAdvanced = ({ isScrolled, navbarBg }: LogoProps) => {
-  const shouldShowButton = isScrolled || navbarBg;
+  const ToggleNavStyle = isScrolled || navbarBg;
 
   return (
     <div className="relative">
       <Link href={"/"}>
         <div
           className={`relative transition-all duration-700 ease-out transform ${
-            shouldShowButton
+            ToggleNavStyle
               ? "bg-primary rounded-lg px-4 py-1 shadow-lg scale-105"
               : "bg-transparent rounded-none px-0 py-0 shadow-none scale-100"
           }`}
@@ -30,7 +30,7 @@ const LogoAdvanced = ({ isScrolled, navbarBg }: LogoProps) => {
             priority
             loading="eager"
             className={`relative z-10 transition-all duration-500 ease-out ${
-              shouldShowButton
+              ToggleNavStyle
                 ? "brightness-110 drop-shadow-md hover:scale-110 w-[80px]"
                 : "brightness-100 hover:scale-105 hover:brightness-110"
             }`}

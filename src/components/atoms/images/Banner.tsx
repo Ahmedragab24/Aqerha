@@ -7,7 +7,7 @@ interface BannerProps {
 
 const Banner = ({ image, className }: BannerProps) => {
   return (
-    <div className={`relative w-full h-[85vh] ${className}`}>
+    <div className={`relative w-full h-[30vh] md:h-[85vh] ${className}`}>
       <Image
         src={image}
         alt="Banner"

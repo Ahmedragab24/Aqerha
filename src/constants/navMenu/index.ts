@@ -14,11 +14,11 @@ export const SellingMenu: MenuType[] = [
 
 export const LoyerMenu: MenuType[] = [
   { label: "أضف عقارك للإيجار", path: "/" },
-  { label: "شقق للإيجار", path: "/" },
-  { label: "فيلات للإيجار", path: "/" },
-  { label: "أراضي للإيجار", path: "/" },
-  { label: "محلات تجارية للإيجار", path: "/" },
-  { label: "مكاتب للإيجار", path: "/" },
+  { label: "شقق للإيجار", path: "/PropertiesForRent" },
+  { label: "فيلات للإيجار", path: "/PropertiesForRent" },
+  { label: "أراضي للإيجار", path: "/PropertiesForRent" },
+  { label: "محلات تجارية للإيجار", path: "/PropertiesForRent" },
+  { label: "مكاتب للإيجار", path: "/PropertiesForRent" },
 ];
 
 export const ServicesMenu: MenuType[] = [
@@ -27,4 +27,9 @@ export const ServicesMenu: MenuType[] = [
   { label: "المكاتب الهندسية", path: "/" },
   { label: "شركات المقاولات", path: "/" },
   { label: "المطورين العقاريين", path: "/" },
+];
+
+export const quakilyMenu: MenuType[] = [
+  { label: "المفضلة", path: "/favorites" },
+  { label: "الأخبار", path: "/news" },
 ];

@@ -32,7 +32,7 @@ const NavMenuItem = ({ Trigger, Items, className }: NavMenuItemProps) => {
           </NavigationMenuLink>
         ))}
         <div className="flex justify-end px-4">
-          <SeeMore path="/" />
+          <SeeMore path="/PropertiesForRent/explore" />
         </div>
       </NavigationMenuContent>
     </NavigationMenuItem>

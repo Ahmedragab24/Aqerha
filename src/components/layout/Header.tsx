@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Logo from "../atoms/images/Logo";
-import NavMenu from "../molecules/menus/NavMenu";
-import { Button } from "../ui/button";
-import { useAppSelector } from "@/store/hooks";
+// import { useAppSelector } from "@/store/hooks";
+import NavLargeScreen from "./NavLageScreen";
+import NavSmallScreen from "./NavSmallScreen";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,46 +22,29 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const { navbarBg } = useAppSelector((state) => state.navbarBg);
+  // const { navbarBg } = useAppSelector((state) => state.navbarBg);
+  const pathname = usePathname();
+  const navbarBg = pathname !== "/";
+
+  const ToggleNavStyle = isScrolled || navbarBg;
 
   return (
-    <header
-      className={`w-full py-4 fixed z-50 left-1/2 translate-x-[-50%] transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-lg rounded-b-2xl"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="Container flex justify-between">
-        {/* LOGO & MENU */}
-        <div className="flex items-center gap-6">
-          <Logo isScrolled={isScrolled} navbarBg={navbarBg} />
-          <NavMenu isScrolled={isScrolled} navbarBg={navbarBg} />
-        </div>
+    <header>
+      <div
+        className={`w-full py-4 fixed z-50 left-1/2 translate-x-[-50%] transition-all duration-300 ${
+          ToggleNavStyle
+            ? "bg-white/95 backdrop-blur-sm shadow-lg rounded-b-2xl"
+            : "bg-transparent"
+        }`}
+      >
+        {/* Large Screen */}
+        <NavLargeScreen isScrolled={isScrolled} navbarBg={navbarBg} />
 
-        {/* ACTION BTN */}
-        <div className="flex items-center gap-4">
-          <div>
-            <Button
-              variant={"link"}
-              className={`text-md !drop-shadow-sm transition-colors duration-300 ${
-                isScrolled || navbarBg ? "text-foreground" : "text-white"
-              }`}
-            >
-              من نحن
-            </Button>
-            <Button
-              variant={"link"}
-              className={`text-md !drop-shadow-sm transition-colors duration-300 ${
-                isScrolled || navbarBg ? "text-foreground" : "text-white"
-              }`}
-            >
-              اتصل بنا
-            </Button>
-          </div>
-          <Button>الدخول</Button>
-        </div>
-      </nav>
+        {/* Small Screen */}
+        <nav className="Container md:hidden">
+          <NavSmallScreen isScrolled={isScrolled} navbarBg={navbarBg} />
+        </nav>
+      </div>
     </header>
   );
 };

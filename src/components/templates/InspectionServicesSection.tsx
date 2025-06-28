@@ -29,14 +29,14 @@ const InspectionServicesSection = () => {
             />
           </div>
 
-          <h1 className="text-4xl font-bold">خدمات التقييم</h1>
-          <p className="text-lg font-medium">
+          <h1 className="text-2xl md:text-4xl font-bold">خدمات التقييم</h1>
+          <p className="text-sm md:text-lg font-medium text-center">
             ابدأ الآن واحصل على تقييم احترافي لعقارك في أقل من ٢٤ ساعة.
           </p>
 
           <Button
             variant={"secondary"}
-            className="hover:bg-secondary/80 rounded-sm"
+            className="hover:bg-secondary/80 rounded-sm px-16 py-6"
           >
             طلب تقييم
           </Button>
