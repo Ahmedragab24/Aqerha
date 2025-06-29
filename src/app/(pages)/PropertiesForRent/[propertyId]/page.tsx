@@ -14,23 +14,6 @@ import LocationProperty from "@/components/molecules/Locations/LocationProperty"
 import DescriptionProperty from "@/components/molecules/textGroup/DescriptionProperty";
 import CallUserBtns from "@/components/molecules/btnsGroup/CallUserBtns";
 
-const productImages = {
-  mainImage: "/Images/Property Image slider.jpg",
-  secondaryImages: [
-    "/Images/Property Image slider.png",
-    "/Images/Property Image slider.png",
-    "/Images/Property Image slider.png",
-    "/Images/Property Image slider.png",
-  ],
-};
-
-export const AdvertiserData: AdvertiserType = {
-  name: "علي سلامة",
-  advertisementsNum: 500,
-  phone: "01228317491",
-  rating: 5,
-};
-
 const PropertyDetailsPage = async ({
   params,
 }: {
@@ -39,6 +22,23 @@ const PropertyDetailsPage = async ({
   const { propertyId } = await params;
 
   console.log(propertyId);
+
+  const productImages = {
+    mainImage: "/Images/Property Image slider.jpg",
+    secondaryImages: [
+      "/Images/Property Image slider.png",
+      "/Images/Property Image slider.png",
+      "/Images/Property Image slider.png",
+      "/Images/Property Image slider.png",
+    ],
+  };
+
+  const AdvertiserData: AdvertiserType = {
+    name: "علي سلامة",
+    advertisementsNum: 500,
+    phone: "01228317491",
+    rating: 5,
+  };
 
   return (
     <main className="Container pt-28 pb-10">

@@ -26,7 +26,11 @@ const EmailInput = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative w-[320px]" dir="rtl">
+    <form
+      onSubmit={handleSubmit}
+      className="relative w-full md:w-[320px]"
+      dir="rtl"
+    >
       <Input
         type="email"
         placeholder="أدخل البريد الإلكتروني الخاص بك"
@@ -45,7 +49,7 @@ const EmailInput = () => {
         disabled={!email || isSubmitting}
       >
         {isSubmitting ? "جاري الإرسال..." : "إرسال"}
-        <Image src="Icons/SendArrow.svg" alt="send" width={20} height={20} />
+        <Image src="/Icons/SendArrow.svg" alt="send" width={20} height={20} />
       </Button>
     </form>
   );

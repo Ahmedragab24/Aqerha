@@ -1,5 +1,6 @@
 import Logo from "../atoms/images/Logo";
 import NavMenu from "../molecules/menus/NavMenu";
+import UserAvatar from "../molecules/menus/UserAvatar";
 import RegisterDialog from "../organisms/Popups/RegisterDialog";
 import { Button } from "../ui/button";
 
@@ -39,6 +40,7 @@ const NavLargeScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
           </Button>
         </div>
         <RegisterDialog />
+        <UserAvatar />
       </div>
     </nav>
   );

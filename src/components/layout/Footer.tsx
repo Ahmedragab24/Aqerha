@@ -6,7 +6,7 @@ import LogoGreen from "../atoms/images/LogoGreen";
 const Footer = () => {
   return (
     <footer className="bg-secondary">
-      <div className="flex flex-col md:flex-row justify-between py-8 mb-4 m-auto !max-w-7xl">
+      <div className="Container flex flex-col md:flex-row justify-between py-8 mb-4 m-auto !max-w-7xl">
         {/* Right section - Logo and Navigation */}
         <div className="space-y-6">
           {/* Logo */}

@@ -26,10 +26,13 @@ export const ServicesMenu: MenuType[] = [
   { label: "خبراء التقييم", path: "/" },
   { label: "المكاتب الهندسية", path: "/" },
   { label: "شركات المقاولات", path: "/" },
-  { label: "المطورين العقاريين", path: "/" },
+  { label: "المطورين العقاريين", path: "/developers" },
 ];
 
 export const quakilyMenu: MenuType[] = [
   { label: "المفضلة", path: "/favorites" },
   { label: "الأخبار", path: "/news" },
+  { label: "تواصل معنا", path: "/contact" },
+  { label: "من نحن", path: "/aboutUs" },
+  { label: "الإشعارات", path: "/notifications" },
 ];

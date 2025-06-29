@@ -5,6 +5,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { HTMLInputTypeAttribute } from "react";
 
 interface CustomFormItemProps {
@@ -14,6 +15,7 @@ interface CustomFormItemProps {
   label?: string;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
+  typeInput?: "text" | "textAria";
 }
 
 const CustomFormItem = ({
@@ -22,17 +24,26 @@ const CustomFormItem = ({
   className,
   placeholder,
   type,
+  typeInput,
 }: CustomFormItemProps) => {
   return (
     <FormItem>
       {label && <FormLabel>{label}</FormLabel>}
       <FormControl>
-        <Input
-          type={type}
-          placeholder={placeholder}
-          {...field}
-          className={`${className}`}
-        />
+        {typeInput === "text" ? (
+          <Input
+            type={type}
+            placeholder={placeholder}
+            {...field}
+            className={`${className}`}
+          />
+        ) : (
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className={`${className}`}
+          />
+        )}
       </FormControl>
       <FormMessage />
     </FormItem>

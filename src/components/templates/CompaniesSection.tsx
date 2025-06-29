@@ -8,7 +8,7 @@ const CompaniesSection = () => {
   return (
     <section className="Container space-y-10">
       <div className="flex justify-between">
-        <SectionTitle Title="المطورون العقاريون" />
+        <SectionTitle Title="شركات المقاولات" />
         <SeeMore path="/" />
       </div>
 

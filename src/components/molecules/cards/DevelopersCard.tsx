@@ -7,11 +7,11 @@ interface DeveloperCardProps {
 }
 
 const DevelopersCard = ({ Developer }: DeveloperCardProps) => {
-  const { name, image } = Developer;
+  const { id, name, image } = Developer;
   return (
     <Link
-      href={"/"}
-      className="border border-gray-300 rounded-2xl py-8 px-4 group duration-300 hover:shadow-md"
+      href={`/developers/${id}`}
+      className="border border-gray-300 rounded-2xl py-8 px-4 group duration-300 hover:bg-secondary hover:shadow-md"
     >
       <div className="flex flex-col justify-center items-center gap-4 overflow-hidden p-1">
         <Image

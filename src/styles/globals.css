@@ -102,6 +102,10 @@
     @apply !w-32 !h-11 !px-6 bg-white text-gray-500 border-gray-300 cursor-pointer;
   }
 
+  .Gradient_Linear_Green {
+    background: linear-gradient(180deg, #0a4331 -59.11%, #a7b9c3 184.88%);
+  }
+
   /* ================= Scroll Up ==================== */
   .scrollup {
     @apply !w-[25px] !h-[25px] md:!w-[35px] md:!h-[35px] fixed right-[1rem] md:right-[3rem] bottom-[-20%] duration-300;

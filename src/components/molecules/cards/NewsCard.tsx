@@ -7,10 +7,10 @@ interface NewsCardProps {
 }
 
 const NewsCard = ({ News }: NewsCardProps) => {
-  const { name, description, image } = News;
+  const { id, name, description, image } = News;
   return (
     <Link
-      href={"/"}
+      href={`/news/${id}`}
       className="bg-secondary rounded-2xl p-2 group duration-300 shadow-sm hover:shadow-md"
     >
       <div className="relative w-full h-[180px] overflow-hidden rounded-xl">

@@ -7,13 +7,17 @@ import Link from "next/link";
 
 interface ProjectCardProps {
   project: ProjectType;
+  developerId?: string;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
-  const { name, image, utils } = project;
+const ProjectCard = ({ project, developerId }: ProjectCardProps) => {
+  const { id, name, image, utils } = project;
 
   return (
-    <Link href={"/"} className="relative w-full max-w-md mx-auto group">
+    <Link
+      href={`/developers/${developerId}/${id}`}
+      className="relative w-full max-w-md mx-auto group"
+    >
       {/* Main card container */}
       <div className="relative overflow-hidden rounded-2xl shadow-lg duration-300 group-hover:shadow-xl">
         {/* Background image */}
