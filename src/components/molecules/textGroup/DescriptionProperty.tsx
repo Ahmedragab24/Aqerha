@@ -3,7 +3,6 @@ import React from "react";
 const DescriptionProperty = () => {
   return (
     <div className="mb-8">
-      <h2 className="text-xl font-bold text-gray-900 text-right mb-4">الوصف</h2>
       <div className="text-gray-700 leading-relaxed text-right space-y-4">
         <p>
           مرحبا في هذه الشقة الحديثة الواقعة في قلب المدينة. تقدم هذه الشقة

@@ -7,10 +7,10 @@ interface AuctionCardProps {
 }
 
 const AuctionCard = ({ Auction }: AuctionCardProps) => {
-  const { image } = Auction;
+  const { id, image } = Auction;
   return (
     <Link
-      href={"/"}
+      href={`/auctions/${id}`}
       className="relative w-auto h-[220px] overflow-hidden rounded-xl duration-300 group hover:shadow-md"
     >
       <Image

@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import StoreProvider from "@/providers/StoreProvider";
 import Footer from "@/components/layout/Footer";
 import ScrollUp from "@/components/layout/scrollUp";
+import { Toaster } from "@/components/ui/sonner";
 
 const RubikSans = Rubik({
   variable: "--font-Rubik-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
           {children}
           <ScrollUp />
           <Footer />
+          <Toaster />
         </StoreProvider>
       </body>
     </html>

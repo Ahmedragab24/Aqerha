@@ -71,11 +71,11 @@ const SellingTabsContent = () => {
 
         <Casser className="shrink-0" />
 
-        <div className="min-w-[180px]">
+        <div className="min-w-[180px] mt-8">
           <CustomSelect
             placeholder="نوع الوحدة"
             options={UnitType}
-            className="w-full px-8 border-none shadow-none text-primary-dark"
+            className="bg-secondary hover:bg-secondary/80 cursor-pointer !h-10"
           />
         </div>
 

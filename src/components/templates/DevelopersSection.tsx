@@ -14,7 +14,11 @@ const DevelopersSection = () => {
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {DevelopersData.map((item) => (
-          <DevelopersCard key={item.id} Developer={item} />
+          <DevelopersCard
+            key={item.id}
+            Developer={item}
+            path={`/developers/${item.id}`}
+          />
         ))}
       </div>
     </section>

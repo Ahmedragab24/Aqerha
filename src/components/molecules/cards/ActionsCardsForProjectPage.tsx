@@ -9,7 +9,7 @@ const ActionsCardsForProjectPage = () => {
       <ProjectPlanDialog>
         <Card
           className={
-            "bg-secondary rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md border-none cursor-pointer"
+            "bg-secondary hover:bg-primary/20 rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md border-none cursor-pointer"
           }
         >
           <div className="flex flex-col justify-center items-center gap-4">
@@ -29,7 +29,7 @@ const ActionsCardsForProjectPage = () => {
 
       <Card
         className={
-          "bg-secondary rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md border-none cursor-pointer"
+          "bg-secondary hover:bg-primary/20 rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md border-none cursor-pointer"
         }
       >
         <div className="flex flex-col justify-center items-center gap-4">
@@ -49,7 +49,7 @@ const ActionsCardsForProjectPage = () => {
       <PaymentPlansDialog>
         <Card
           className={
-            "bg-secondary rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md border-none cursor-pointer"
+            "bg-secondary hover:bg-primary/20 rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md border-none cursor-pointer"
           }
         >
           <div className="flex flex-col justify-center items-center gap-4">

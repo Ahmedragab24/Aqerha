@@ -3,6 +3,7 @@ import NavMenu from "../molecules/menus/NavMenu";
 import UserAvatar from "../molecules/menus/UserAvatar";
 import RegisterDialog from "../organisms/Popups/RegisterDialog";
 import { Button } from "../ui/button";
+import { BellRing, Heart } from "lucide-react";
 
 interface NavLargeScreenProps {
   isScrolled: boolean;
@@ -12,7 +13,7 @@ interface NavLargeScreenProps {
 const NavLargeScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
   const ToggleNavStyle = isScrolled || navbarBg;
   return (
-    <nav className="Container  hidden md:flex justify-between">
+    <nav className="Container hidden md:flex justify-between">
       {/* LOGO & MENU */}
       <div className="flex items-center gap-6">
         <Logo isScrolled={isScrolled} navbarBg={navbarBg} />
@@ -21,7 +22,11 @@ const NavLargeScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
 
       {/* ACTION BTN */}
       <div className="flex items-center gap-4">
-        <div>
+        <div className="flex items-center gap-1">
+          <div className="flex items-center gap-4">
+            <Heart className="fill-primary text-primary !w-6 !h-6" />
+            <BellRing className="fill-primary text-primary !w-6 !h-6" />
+          </div>
           <Button
             variant={"link"}
             className={`text-md !drop-shadow-sm transition-colors duration-300 ${

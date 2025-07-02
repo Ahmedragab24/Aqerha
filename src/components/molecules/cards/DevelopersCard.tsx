@@ -4,13 +4,14 @@ import Link from "next/link";
 
 interface DeveloperCardProps {
   Developer: DeveloperType;
+  path: string;
 }
 
-const DevelopersCard = ({ Developer }: DeveloperCardProps) => {
-  const { id, name, image } = Developer;
+const DevelopersCard = ({ Developer, path }: DeveloperCardProps) => {
+  const { name, image } = Developer;
   return (
     <Link
-      href={`/developers/${id}`}
+      href={`${path}`}
       className="border border-gray-300 rounded-2xl py-8 px-4 group duration-300 hover:bg-secondary hover:shadow-md"
     >
       <div className="flex flex-col justify-center items-center gap-4 overflow-hidden p-1">

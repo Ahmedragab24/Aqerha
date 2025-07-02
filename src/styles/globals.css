@@ -105,6 +105,15 @@
   .Gradient_Linear_Green {
     background: linear-gradient(180deg, #0a4331 -59.11%, #a7b9c3 184.88%);
   }
+  .Gradient_Linear_Red {
+    background: linear-gradient(180deg, #ffebeb 39.33%, rgba(183, 201, 242, 0.6) 100%);
+  }
+  .Gradient_Linear_Yellow {
+    background: linear-gradient(180deg, #f3f7ec 39.33%, rgba(183, 201, 242, 0.6) 100%);
+  }
+  .Gradient_Linear_Purple {
+    background: linear-gradient(180deg, #e4edff 42%, rgba(162, 210, 223, 0.25) 100%);
+  }
 
   /* ================= Scroll Up ==================== */
   .scrollup {

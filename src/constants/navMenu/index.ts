@@ -23,10 +23,12 @@ export const LoyerMenu: MenuType[] = [
 
 export const ServicesMenu: MenuType[] = [
   { label: "الوسطاء العقاريون", path: "/" },
-  { label: "خبراء التقييم", path: "/" },
-  { label: "المكاتب الهندسية", path: "/" },
-  { label: "شركات المقاولات", path: "/" },
+  { label: "خبراء التقييم", path: "/examination&Evaluation" },
+  { label: "المكاتب الهندسية", path: "/engineeringOffices" },
+  { label: "شركات المقاولات", path: "/contractingCompanies" },
   { label: "المطورين العقاريين", path: "/developers" },
+  { label: "خدمات توثيق دال", path: "/dalDocumentationServices" },
+  { label: "المزادات", path: "/auctions" },
 ];
 
 export const quakilyMenu: MenuType[] = [

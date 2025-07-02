@@ -9,7 +9,7 @@ const AuthenticationServicesSection = () => {
     <section className="Container space-y-10">
       <div className="flex justify-between">
         <SectionTitle Title="خدمات توثيق الدال" />
-        <SeeMore path="/" />
+        <SeeMore path="/dalDocumentationServices" />
       </div>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">

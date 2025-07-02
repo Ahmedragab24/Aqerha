@@ -1,3 +1,30 @@
+export type SalesPropertyType =
+  | "apartment"
+  | "architecture"
+  | "villa"
+  | "duplex-villa"
+  | "rest-house"
+  | "floor"
+  | "farm"
+  | "land"
+  | "office"
+  | "shop";
+
+export type RentalPropertyType =
+  | "apartment"
+  | "architecture"
+  | "villa"
+  | "duplex-villa"
+  | "rest-house"
+  | "floor"
+  | "farm"
+  | "land"
+  | "office"
+  | "storehouse"
+  | "shop"
+  | "room"
+  | "camp";
+
 export interface RealEstesType {
   id: number;
   image: string;

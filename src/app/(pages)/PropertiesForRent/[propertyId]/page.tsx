@@ -113,10 +113,18 @@ const PropertyDetailsPage = async ({
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Description Section */}
-            <DescriptionProperty />
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 text-right mb-4">
+                الوصف
+              </h2>
+              <DescriptionProperty />
+            </div>
 
             {/* Location Section */}
-            <LocationProperty />
+            <div>
+              <h1 className="text-2xl font-bold text-right mb-6">الموقع</h1>
+              <LocationProperty />
+            </div>
           </div>
         </div>
         <ApartmentDrawing />

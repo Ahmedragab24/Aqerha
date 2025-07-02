@@ -17,10 +17,10 @@ const CallUserBtns = ({
   classNameBtns,
 }: CallUserBtnsProps) => {
   return (
-    <div className={`flex flex-wrap items-center gap-4 ${className}`}>
+    <div className={`flex flex-row items-center gap-2 md:gap-4 ${className}`}>
       <Button
         variant={"secondary"}
-        className={`!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
+        className={`md:!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
       >
         <Link href={`tel:${phone}`} className="flex items-center gap-2">
           <Image
@@ -35,7 +35,7 @@ const CallUserBtns = ({
 
       <Button
         variant={"secondary"}
-        className={`!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
+        className={`md:!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
       >
         <Link href={`tel:${phone}`} className="flex items-center gap-2">
           <Image
@@ -50,7 +50,7 @@ const CallUserBtns = ({
 
       <Button
         variant={"secondary"}
-        className={`!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
+        className={`md:!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
       >
         <Link href={`tel:${phone}`} className="flex items-center gap-2">
           <Image
