@@ -19,28 +19,8 @@ import {
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
-
-// Arab countries data with flags and codes
-const arabCountries = [
-  { code: "+966", country: "السعودية", flag: "🇸🇦", nameEn: "Saudi Arabia" },
-  { code: "+971", country: "الإمارات", flag: "🇦🇪", nameEn: "UAE" },
-  { code: "+965", country: "الكويت", flag: "🇰🇼", nameEn: "Kuwait" },
-  { code: "+974", country: "قطر", flag: "🇶🇦", nameEn: "Qatar" },
-  { code: "+973", country: "البحرين", flag: "🇧🇭", nameEn: "Bahrain" },
-  { code: "+968", country: "عُمان", flag: "🇴🇲", nameEn: "Oman" },
-  { code: "+962", country: "الأردن", flag: "🇯🇴", nameEn: "Jordan" },
-  { code: "+961", country: "لبنان", flag: "🇱🇧", nameEn: "Lebanon" },
-  { code: "+963", country: "سوريا", flag: "🇸🇾", nameEn: "Syria" },
-  { code: "+964", country: "العراق", flag: "🇮🇶", nameEn: "Iraq" },
-  { code: "+20", country: "مصر", flag: "🇪🇬", nameEn: "Egypt" },
-  { code: "+212", country: "المغرب", flag: "🇲🇦", nameEn: "Morocco" },
-  { code: "+213", country: "الجزائر", flag: "🇩🇿", nameEn: "Algeria" },
-  { code: "+216", country: "تونس", flag: "🇹🇳", nameEn: "Tunisia" },
-  { code: "+218", country: "ليبيا", flag: "🇱🇾", nameEn: "Libya" },
-  { code: "+249", country: "السودان", flag: "🇸🇩", nameEn: "Sudan" },
-  { code: "+967", country: "اليمن", flag: "🇾🇪", nameEn: "Yemen" },
-  { code: "+970", country: "فلسطين", flag: "🇵🇸", nameEn: "Palestine" },
-];
+import { arabCountries } from "@/constants/phoneCode";
+import Image from "next/image";
 
 interface CustomPhoneInputProps {
   field: {
@@ -107,7 +87,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
       <FormControl>
         <div
           className={cn(
-            "relative flex h-12 overflow-hidden rounded-lg border-2 bg-transparent transition-all duration-200",
+            "relative flex h-11 overflow-hidden rounded-lg border-2 bg-transparent transition-all duration-200",
             getBorderStyling()
           )}
         >
@@ -117,14 +97,17 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
               <Button
                 variant="ghost"
                 className={cn(
-                  "flex h-12 items-center gap-3 rounded-none border-0 border-r-2 px-4 transition-all duration-200",
+                  "flex h-11 items-center gap-3 rounded-none border-0 border-r-2 px-4 transition-all duration-200",
                   "focus:outline-none focus:ring-0",
                   getCountryButtonStyling()
                 )}
               >
-                <span className="text-xl drop-shadow-sm">
-                  {selectedCountry.flag}
-                </span>
+                <Image
+                  src={selectedCountry.flagUrl}
+                  alt={selectedCountry.nameEn}
+                  width={20}
+                  height={20}
+                />
                 <div className="flex flex-col items-start">
                   <span className="text-sm font-semibold leading-none">
                     {selectedCountry.code}
@@ -155,9 +138,12 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
                         "bg-primary/20 border border-primary/30"
                     )}
                   >
-                    <span className="text-xl drop-shadow-sm">
-                      {country.flag}
-                    </span>
+                    <Image
+                      src={country.flagUrl}
+                      alt={country.nameEn}
+                      width={20}
+                      height={20}
+                    />
                     <div className="flex flex-1 flex-col">
                       <span className="text-sm font-semibold leading-tight">
                         {country.country}

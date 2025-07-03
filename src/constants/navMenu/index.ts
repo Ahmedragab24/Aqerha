@@ -37,4 +37,5 @@ export const quakilyMenu: MenuType[] = [
   { label: "تواصل معنا", path: "/contact" },
   { label: "من نحن", path: "/aboutUs" },
   { label: "الإشعارات", path: "/notifications" },
+  { label: "المحادثات", path: "/conversations" },
 ];

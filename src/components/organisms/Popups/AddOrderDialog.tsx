@@ -37,41 +37,41 @@ const AddOrderDialog = ({ children }: Props) => {
             إ ضافة طلب
           </DialogTitle>
           <DialogDescription></DialogDescription>
-
-          <div>
-            {step === "stepOne" && (
-              <div className="flex flex-col gap-2">
-                <Button
-                  className="!h-11"
-                  onClick={() => {
-                    setOrderType("Sales");
-                    setStep("stepTwo");
-                  }}
-                >
-                  <Plus />
-                  طلب بيع
-                </Button>
-                <Button
-                  className="!h-11"
-                  onClick={() => {
-                    setOrderType("Rental");
-                    setStep("stepTwo");
-                  }}
-                >
-                  <Plus />
-                  طلب إيجار
-                </Button>
-              </div>
-            )}
-
-            {step === "stepTwo" && orderType === "Sales" && (
-              <SalesOrderForm changeOpen={changeOpen} />
-            )}
-            {step === "stepTwo" && orderType === "Rental" && (
-              <RentalOrderForm changeOpen={changeOpen} />
-            )}
-          </div>
         </DialogHeader>
+
+        <div>
+          {step === "stepOne" && (
+            <div className="flex flex-col gap-2">
+              <Button
+                className="!h-11"
+                onClick={() => {
+                  setOrderType("Sales");
+                  setStep("stepTwo");
+                }}
+              >
+                <Plus />
+                طلب بيع
+              </Button>
+              <Button
+                className="!h-11"
+                onClick={() => {
+                  setOrderType("Rental");
+                  setStep("stepTwo");
+                }}
+              >
+                <Plus />
+                طلب إيجار
+              </Button>
+            </div>
+          )}
+
+          {step === "stepTwo" && orderType === "Sales" && (
+            <SalesOrderForm changeOpen={changeOpen} />
+          )}
+          {step === "stepTwo" && orderType === "Rental" && (
+            <RentalOrderForm changeOpen={changeOpen} />
+          )}
+        </div>
         {step === "stepTwo" && (
           <DialogFooter>
             <Button onClick={() => setStep("stepOne")}>رجوع</Button>

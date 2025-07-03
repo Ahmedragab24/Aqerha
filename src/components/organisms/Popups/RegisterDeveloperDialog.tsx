@@ -13,6 +13,8 @@ import StepTwoForm from "../forms/RegisterDeveloper/StepTwoForm";
 
 interface Props {
   children: React.ReactNode;
+  // open: boolean;
+  // onOpenChange: (value: boolean) => void;
 }
 
 export type StepsType = "step1" | "step2" | "step3";

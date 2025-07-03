@@ -36,7 +36,9 @@ const CustomSelectField = ({
       {label && <FormLabel>{label}</FormLabel>}
       <Select onValueChange={field.onChange} value={field.value}>
         <FormControl>
-          <SelectTrigger className={`w-full ${className || ""}`}>
+          <SelectTrigger
+            className={`w-full border-border !h-11 ${className || ""}`}
+          >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
         </FormControl>

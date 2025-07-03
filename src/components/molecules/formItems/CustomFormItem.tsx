@@ -16,7 +16,7 @@ interface CustomFormItemProps {
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
   typeInput?: "text" | "textAria";
-  icon?: React.ReactNode;
+  // icon?: React.ReactNode;
 }
 
 const CustomFormItem = ({
@@ -26,43 +26,26 @@ const CustomFormItem = ({
   placeholder,
   type,
   typeInput = "text",
-  icon,
-}: CustomFormItemProps) => {
+}: // icon,
+CustomFormItemProps) => {
   return (
     <FormItem>
       {label && <FormLabel>{label}</FormLabel>}
       <FormControl>
-        <>
-          {icon ? (
-            typeInput === "text" && (
-              <div className="relative">
-                <Input
-                  type={type}
-                  placeholder={placeholder}
-                  {...field}
-                  className={`${className}`}
-                />
-
-                <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                  {icon}
-                </div>
-              </div>
-            )
-          ) : typeInput === "text" ? (
-            <Input
-              type={type}
-              placeholder={placeholder}
-              {...field}
-              className={`${className}`}
-            />
-          ) : (
-            <Textarea
-              placeholder={placeholder}
-              {...field}
-              className={`${className}`}
-            />
-          )}
-        </>
+        {typeInput === "text" ? (
+          <Input
+            type={type}
+            placeholder={placeholder}
+            {...field}
+            className={`${className}`}
+          />
+        ) : (
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className={`${className}`}
+          />
+        )}
       </FormControl>
       <FormMessage />
     </FormItem>

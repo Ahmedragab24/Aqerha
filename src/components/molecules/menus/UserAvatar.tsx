@@ -21,11 +21,13 @@ import Image from "next/image";
 import RegisterDeveloperDialog from "@/components/organisms/Popups/RegisterDeveloperDialog";
 
 export interface UserMenuType {
+  id: number;
   name: string;
   icon: string;
   path?: string;
   subMenu?: UserMenuType[];
   popup?: React.ReactNode;
+  popupType?: "RegisterDeveloperDialog" | "ChangePassword";
 }
 
 export interface UserMenuListType {
@@ -37,38 +39,45 @@ export interface UserMenuListType {
 const MenuItemsList: UserMenuListType = {
   orders: [
     {
+      id: 1,
       name: "أطلب عقارك",
       icon: "/Icons/solar_document-add-outline.svg",
       path: "/order-property",
     },
     {
+      id: 2,
       name: "طلبات الفحص والتقييم",
       icon: "/Icons/BoxIcons.svg",
       path: "/inspection-requests",
     },
     {
+      id: 3,
       name: "طلب تسويق عقار",
       icon: "/Icons/uit_house-user.svg",
       path: "/marketing-request",
     },
     {
+      id: 4,
       name: "طلبات المسوق/الوسيط",
       icon: "/Icons/material-symbols_map-search-outline-rounded.svg",
-      path: "/broker-requests",
+      path: "/MarketerOrBrokerRequests",
     },
   ],
   advertisements: [
     {
+      id: 1,
       name: "إعلان عن عقار من المالك/الوكيل",
       icon: "/Icons/fluent_building-32-regular.svg",
       path: "/owner-ad",
     },
     {
+      id: 2,
       name: "إعلان عن عقار من وسيط",
       icon: "/Icons/bi_house-add.svg",
       path: "/broker-ad",
     },
     {
+      id: 3,
       name: "إعلاناتي",
       icon: "/Icons/streamline_annoncement-megaphone.svg",
       path: "/my-ads",
@@ -76,31 +85,37 @@ const MenuItemsList: UserMenuListType = {
   ],
   more: [
     {
+      id: 1,
       name: "المحادثات",
       icon: "/Icons/proicons_chat-gray.svg",
-      path: "/chats",
+      path: "/conversations",
     },
     {
+      id: 2,
       name: "خدمات الترويج",
       icon: "/Icons/carbon_text-link-analysis.svg",
       path: "/promotion-services",
     },
     {
+      id: 3,
       name: "الاشتراكات",
       icon: "/Icons/fluent_person-money-20-regular.svg",
       path: "/subscriptions",
     },
     {
+      id: 4,
       name: "التسجيل كفاحص ومقيم",
       icon: "/Icons/system-uicons_home-check.svg",
       path: "/register-inspector",
     },
     {
+      id: 5,
       name: "التسجيل كمكتب هندسي",
       icon: "/Icons/formkit_add.svg",
       path: "/register-engineering",
     },
     {
+      id: 6,
       name: "التسجيل كمطور عقاري",
       icon: "/Icons/formkit_add.svg",
       popup: (
@@ -121,56 +136,86 @@ const MenuItemsList: UserMenuListType = {
       ),
     },
     {
+      id: 7,
       name: "التسجيل كشركة مزادات",
       icon: "/Icons/formkit_add.svg",
       path: "/register-auction",
     },
     {
+      id: 8,
       name: "التسجيل كشركة مقاولات",
       icon: "/Icons/formkit_add.svg",
       path: "/register-contractor",
     },
     {
+      id: 9,
       name: "خدمة العملاء",
       icon: "/Icons/MessagesCircle.svg",
       path: "/customer-service",
     },
     {
+      id: 10,
       name: "مشاركة التطبيق",
       icon: "/Icons/solar_share-outline.svg",
       path: "/share-app",
     },
     {
+      id: 11,
       name: "مستندات قانونية",
       icon: "/Icons/solar_document-linear.svg",
-      path: "/legal-documents",
+      subMenu: [
+        {
+          id: 1,
+          name: "الشروط والأحكام",
+          icon: "/Icons/T&C.svg",
+          path: "/terms-and-conditions",
+        },
+        {
+          id: 2,
+          name: "رخصة فال",
+          icon: "/Icons/Fal License.svg",
+          path: "/edit-company",
+        },
+        {
+          id: 3,
+          name: "شهادة ضريبة القيمة المضافة",
+          icon: "/Icons/VAT.svg",
+          path: "/change-password",
+        },
+      ],
     },
     {
+      id: 12,
       name: "عن تطبيق عقرها",
       icon: "/Icons/mdi_about-circle-outline.svg",
       path: "/about",
     },
     {
+      id: 13,
       name: "الإعدادات",
       icon: "/Icons/Setting.svg",
       subMenu: [
-        { name: "العربية", icon: "/Icons/globe.svg", path: "/language" },
+        { id: 1, name: "العربية", icon: "/Icons/globe.svg", path: "/language" },
         {
+          id: 2,
           name: "تعديل تفاصيل شركة المقاولات",
           icon: "/Icons/solar_document-add-outline.svg",
           path: "/edit-company",
         },
         {
+          id: 3,
           name: "تغيير كلمة المرور",
           icon: "/Icons/Lock.svg",
           path: "/change-password",
         },
         {
+          id: 4,
           name: "تغيير رقم الجوال",
           icon: "/Icons/ph_phone-light.svg",
           path: "/change-phone",
         },
         {
+          id: 5,
           name: "تسجيل الخروج",
           icon: "/Icons/Logout.svg",
           path: "/logout",

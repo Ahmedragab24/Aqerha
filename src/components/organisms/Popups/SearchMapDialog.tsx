@@ -10,14 +10,22 @@ import {
 import { Map } from "lucide-react";
 import Image from "next/image";
 
-const SearchMapDialog = () => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+const SearchMapDialog = ({ children }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="SelectBtn">
-          ابحث بالخريطة
-          <Map />
-        </Button>
+        {children ? (
+          children
+        ) : (
+          <Button variant={"outline"} className="SelectBtn">
+            ابحث بالخريطة
+            <Map />
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="flex flex-col justify-center items-center">

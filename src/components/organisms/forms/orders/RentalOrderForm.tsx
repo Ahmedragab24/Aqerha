@@ -106,7 +106,7 @@ const RentalOrderForm = ({ changeOpen }: Props) => {
   // const propertyType: RentalPropertyType = form.watch("propertyType");
 
   return (
-    <Card className="h-[80vh] overflow-hidden overflow-y-scroll">
+    <Card className="h-[70vh] overflow-hidden overflow-y-scroll">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center text-primary">
           طلب بحث عن عقار ( إيجار )

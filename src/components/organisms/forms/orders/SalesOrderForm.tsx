@@ -33,7 +33,7 @@ import {
 } from "@/constants/forms/Order";
 
 interface Props {
-  changeOpen: (value: boolean) => void;
+  changeOpen?: (value: boolean) => void;
 }
 
 const SalesOrderForm = ({ changeOpen }: Props) => {
@@ -79,7 +79,7 @@ const SalesOrderForm = ({ changeOpen }: Props) => {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Form submitted successfully:", values);
-      changeOpen(false);
+      changeOpen?.(false);
       // Reset form after successful submission
       setTimeout(() => {
         form.reset();
@@ -105,7 +105,7 @@ const SalesOrderForm = ({ changeOpen }: Props) => {
   // const propertyType: SalesPropertyType = form.watch("propertyType");
 
   return (
-    <Card className="h-[80vh] overflow-hidden overflow-y-scroll">
+    <Card className="h-[70vh] overflow-hidden overflow-y-scroll">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center text-primary">
           طلب بحث عن عقار ( بيع )

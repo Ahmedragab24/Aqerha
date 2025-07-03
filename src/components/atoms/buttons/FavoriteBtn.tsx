@@ -21,7 +21,7 @@ const FavoriteBtn = () => {
     >
       <Heart
         className={`transition-colors !w-5 !h-5 ${
-          isFavorite ? "fill-red-500 text-red-500" : "fill-none text-gray-600"
+          isFavorite ? "fill-primary text-primary" : "fill-none text-gray-600"
         }`}
       />
     </Button>
