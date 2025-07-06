@@ -99,3 +99,11 @@ export const RentalFeatures: OptionType[] = [
   { value: "balcony", label: "شرفة" },
   { value: "storage", label: "مخزن" },
 ];
+
+export const LeaseTermList: OptionType[] = [
+  { value: "all", label: "الكل" },
+  { value: "day", label: "يومي" },
+  { value: "week", label: "اسبوعي" },
+  { value: "month", label: "شهري" },
+  { value: "year", label: "سنوي" },
+];

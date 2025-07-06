@@ -76,15 +76,7 @@ const RealEstateRequests = () => {
             className="mt-0 focus-visible:outline-none"
           >
             {/* Responsive Grid */}
-            <div
-              className="
-                  grid 
-                  grid-cols-1 
-                  sm:grid-cols-2 
-                  gap-3 sm:gap-4 md:gap-5 lg:gap-6
-                  mb-8 sm:mb-10 md:mb-12
-                "
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {filteredData.map((item) => (
                 <MarketerOrBrokerCard
                   key={item.id}

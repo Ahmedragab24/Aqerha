@@ -4,6 +4,7 @@ import { InspectionServicesData } from "@/constants/cards/InspectionServices";
 import InspectionServiceCard from "../molecules/cards/InspectionServiceCard";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import RequestExaminationDialog from "../organisms/Popups/RequestExaminationDialog";
 
 const InspectionServicesSection = () => {
   return (
@@ -34,12 +35,14 @@ const InspectionServicesSection = () => {
             ابدأ الآن واحصل على تقييم احترافي لعقارك في أقل من ٢٤ ساعة.
           </p>
 
-          <Button
-            variant={"secondary"}
-            className="hover:bg-secondary/80 rounded-sm px-16 py-6"
-          >
-            طلب تقييم
-          </Button>
+          <RequestExaminationDialog type="evaluation">
+            <Button
+              variant={"secondary"}
+              className="hover:bg-secondary/80 rounded-sm px-16 py-6"
+            >
+              طلب تقييم
+            </Button>
+          </RequestExaminationDialog>
         </div>
       </div>
     </section>

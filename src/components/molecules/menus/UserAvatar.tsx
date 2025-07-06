@@ -48,7 +48,7 @@ const MenuItemsList: UserMenuListType = {
       id: 2,
       name: "طلبات الفحص والتقييم",
       icon: "/Icons/BoxIcons.svg",
-      path: "/inspection-requests",
+      path: "/inspection-and-evaluation-requests",
     },
     {
       id: 3,
@@ -98,24 +98,30 @@ const MenuItemsList: UserMenuListType = {
     },
     {
       id: 3,
+      name: "حملات التمييز",
+      icon: "/Icons/carbon_text-link-analysis.svg",
+      path: "/discrimination-campaigns",
+    },
+    {
+      id: 4,
       name: "الاشتراكات",
       icon: "/Icons/fluent_person-money-20-regular.svg",
       path: "/subscriptions",
     },
     {
-      id: 4,
+      id: 5,
       name: "التسجيل كفاحص ومقيم",
       icon: "/Icons/system-uicons_home-check.svg",
       path: "/register-inspector",
     },
     {
-      id: 5,
+      id: 6,
       name: "التسجيل كمكتب هندسي",
       icon: "/Icons/formkit_add.svg",
       path: "/register-engineering",
     },
     {
-      id: 6,
+      id: 7,
       name: "التسجيل كمطور عقاري",
       icon: "/Icons/formkit_add.svg",
       popup: (
@@ -136,31 +142,31 @@ const MenuItemsList: UserMenuListType = {
       ),
     },
     {
-      id: 7,
+      id: 8,
       name: "التسجيل كشركة مزادات",
       icon: "/Icons/formkit_add.svg",
       path: "/register-auction",
     },
     {
-      id: 8,
+      id: 9,
       name: "التسجيل كشركة مقاولات",
       icon: "/Icons/formkit_add.svg",
       path: "/register-contractor",
     },
     {
-      id: 9,
+      id: 10,
       name: "خدمة العملاء",
       icon: "/Icons/MessagesCircle.svg",
       path: "/customer-service",
     },
     {
-      id: 10,
+      id: 11,
       name: "مشاركة التطبيق",
       icon: "/Icons/solar_share-outline.svg",
       path: "/share-app",
     },
     {
-      id: 11,
+      id: 12,
       name: "مستندات قانونية",
       icon: "/Icons/solar_document-linear.svg",
       subMenu: [
@@ -185,13 +191,13 @@ const MenuItemsList: UserMenuListType = {
       ],
     },
     {
-      id: 12,
+      id: 13,
       name: "عن تطبيق عقرها",
       icon: "/Icons/mdi_about-circle-outline.svg",
-      path: "/about",
+      path: "/about-the-site",
     },
     {
-      id: 13,
+      id: 14,
       name: "الإعدادات",
       icon: "/Icons/Setting.svg",
       subMenu: [
@@ -358,7 +364,7 @@ const UserAvatar = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="w-80 max-w-[90vw] max-h-[80vh] overflow-y-auto p-2"
+        className="w-80 max-w-[90vw] max-h-[80vh] overflow-y-auto p-2 border-gray-300 shadow-lg"
         sideOffset={8}
         align="end"
       >

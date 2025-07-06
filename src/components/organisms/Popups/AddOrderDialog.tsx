@@ -13,8 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Plus } from "lucide-react";
-import SalesOrderForm from "../forms/orders/SalesOrderForm";
-import RentalOrderForm from "../forms/orders/RentalOrderForm";
+import AddAdOrRequestForm from "../forms/AddAdOrRequestForm";
 
 interface Props {
   children: React.ReactNode;
@@ -66,10 +65,18 @@ const AddOrderDialog = ({ children }: Props) => {
           )}
 
           {step === "stepTwo" && orderType === "Sales" && (
-            <SalesOrderForm changeOpen={changeOpen} />
+            <AddAdOrRequestForm
+              type="request"
+              formType="sales"
+              changeOpen={changeOpen}
+            />
           )}
           {step === "stepTwo" && orderType === "Rental" && (
-            <RentalOrderForm changeOpen={changeOpen} />
+            <AddAdOrRequestForm
+              type="request"
+              formType="rental"
+              changeOpen={changeOpen}
+            />
           )}
         </div>
         {step === "stepTwo" && (

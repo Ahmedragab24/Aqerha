@@ -1,30 +1,32 @@
 "use client";
-
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useState } from "react";
 import type { OptionType } from "@/types/selects";
 import { Label } from "@/components/ui/label";
 
 interface CustomToggleGroupProps {
-  title: string;
+  title?: string;
   Items: OptionType[];
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
-const CustomToggleGroup = ({ title, Items }: CustomToggleGroupProps) => {
-  const [selectedFormat, setSelectedFormat] = useState<string>(
-    Items[0]?.value || ""
-  );
-
+const CustomToggleGroup = ({
+  title,
+  Items,
+  value,
+  onValueChange,
+}: CustomToggleGroupProps) => {
   return (
     <div className="space-y-2 sm:space-y-3">
-      <Label className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300">
-        {title}
-      </Label>
-
+      {title && (
+        <Label className="text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300">
+          {title}
+        </Label>
+      )}
       <ToggleGroup
         type="single"
-        value={selectedFormat}
-        onValueChange={setSelectedFormat}
+        value={value}
+        onValueChange={onValueChange}
         className="flex flex-wrap gap-0 justify-start"
       >
         {Items.map((item) => (

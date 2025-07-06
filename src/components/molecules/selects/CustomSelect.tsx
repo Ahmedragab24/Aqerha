@@ -12,30 +12,32 @@ interface CustomSelectProps {
   className?: string;
   options: OptionType[];
   placeholder?: string;
-  image?: string;
 }
 
 const CustomSelect = ({
   options,
   className,
   placeholder,
-  image,
 }: CustomSelectProps) => {
   return (
     <Select>
       <SelectTrigger className={`w-[180px] ${className}`}>
-        <div className="w-full flex items-center justify-between gap-4">
-          <Avatar>
-            <AvatarImage src={image} className="w-8 h-8" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <SelectValue placeholder={placeholder} />
-        </div>
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         {options.map((item, index) => (
-          <SelectItem key={index} value={item.value}>
+          <SelectItem
+            key={index}
+            value={item.value}
+            className="flex items-center gap-2"
+          >
             {item.label}
+            {item?.image && (
+              <Avatar>
+                <AvatarImage src={item?.image} className="w-8 h-8" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            )}
           </SelectItem>
         ))}
       </SelectContent>

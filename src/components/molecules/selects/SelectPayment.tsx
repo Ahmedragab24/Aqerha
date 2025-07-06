@@ -5,6 +5,7 @@ import { CreditCard } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import Riyal from "@/components/atoms/Icons/Riyal";
+import { Button } from "@/components/ui/button";
 
 // Payment methods data array
 const paymentMethods = [
@@ -26,7 +27,12 @@ const paymentMethods = [
   },
 ];
 
-const SelectPayment = () => {
+interface Props {
+  price: number;
+  type?: string;
+}
+
+const SelectPayment = ({ price }: Props) => {
   const [selectedPayment, setSelectedPayment] = useState("apple-pay");
 
   return (
@@ -70,15 +76,15 @@ const SelectPayment = () => {
           مبلغ العربون
         </span>
         <div className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-gray-800">250,000</span>
+          <span className="text-2xl font-bold text-gray-800">{price}</span>
           <Riyal className="text-primary !w-5 !h-5" />
         </div>
       </div>
 
       {/* Confirm button */}
-      <button className="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-4 rounded-lg transition-colors">
+      <Button className="w-full !h-14 md:text-lg font-semibold py-4 rounded-lg transition-colors">
         <span dir="rtl">تأكيد الدفع</span>
-      </button>
+      </Button>
     </div>
   );
 };

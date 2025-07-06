@@ -4,7 +4,7 @@ import SectionTitle from "@/components/atoms/title/SectionTitle";
 import AddAdCompanyForm from "@/components/organisms/forms/addAd/AddAdCompanyForm";
 import AddAdMultipleAngelsForm from "@/components/organisms/forms/addAd/AddAdMultipleAngelsForm";
 import AddAdPersonForm from "@/components/organisms/forms/addAd/AddAdPersonForm";
-import SalesOrderForm from "@/components/organisms/forms/orders/SalesOrderForm";
+import AddAdOrRequestForm from "@/components/organisms/forms/AddAdOrRequestForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building2, UserRound, UsersRound } from "lucide-react";
 import React, { useState } from "react";
@@ -51,7 +51,7 @@ const OwnerAdPage = () => {
               {step === "stepOne" ? (
                 <AddAdPersonForm setStep={setStep} />
               ) : (
-                <SalesOrderForm />
+                <AddAdOrRequestForm type="ad" formType="sales" />
               )}
             </div>
           </TabsContent>
@@ -60,7 +60,7 @@ const OwnerAdPage = () => {
               {step === "stepOne" ? (
                 <AddAdCompanyForm setStep={setStep} />
               ) : (
-                <SalesOrderForm />
+                <AddAdOrRequestForm type="ad" formType="sales" />
               )}
             </div>
           </TabsContent>
@@ -69,7 +69,7 @@ const OwnerAdPage = () => {
               {step === "stepOne" ? (
                 <AddAdMultipleAngelsForm setStep={setStep} />
               ) : (
-                <SalesOrderForm />
+                <AddAdOrRequestForm type="ad" formType="sales" />
               )}
             </div>
           </TabsContent>

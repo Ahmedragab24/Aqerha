@@ -81,7 +81,7 @@ const ExaminationAndEvaluationPage = () => {
       </div>
 
       <div className="space-y-20">
-        <div className="space-y-6">
+        <div className="space-y-6" id="Engineering-inspection-with-report">
           <SectionTitle
             Title="الفحص الهندسي مع تقرير"
             className="!text-lg md:!text-2xl"
@@ -103,10 +103,10 @@ const ExaminationAndEvaluationPage = () => {
               PackagesInspectionElements.InspectionElementsList1
             }
           />
-          <RequestExaminationDialog />
+          <RequestExaminationDialog type="inspection" />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6" id="Engineering-inspection-without-report">
           <SectionTitle
             Title="الفحص الهندسي بدون تقرير"
             className="!text-lg md:!text-2xl"
@@ -128,10 +128,10 @@ const ExaminationAndEvaluationPage = () => {
               PackagesInspectionElements.InspectionElementsList2
             }
           />
-          <RequestExaminationDialog />
+          <RequestExaminationDialog type="inspection" />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6" id="Visit package">
           <SectionTitle
             Title="باقة الزيارة"
             className="!text-lg md:!text-2xl"
@@ -153,7 +153,7 @@ const ExaminationAndEvaluationPage = () => {
               PackagesInspectionElements.InspectionElementsList3
             }
           />
-          <RequestExaminationDialog />
+          <RequestExaminationDialog type="inspection" />
         </div>
       </div>
     </main>

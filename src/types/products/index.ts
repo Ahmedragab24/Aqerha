@@ -47,3 +47,11 @@ export interface RealEstateGuideType {
   Bathrooms: number;
   beds: number;
 }
+export interface DiscriminationCampaignType {
+  id: number;
+  image: string;
+  name: string;
+  dailyBudget: number;
+  startDate: string;
+  endDate: string;
+}

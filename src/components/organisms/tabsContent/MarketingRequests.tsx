@@ -32,7 +32,7 @@ const MarketingRequests = () => {
       <TabsList className="bg-transparent mb-16 lg:mb-8 mx-auto">
         <div className="flex flex-wrap gap-2 sm:gap-3">
           <SearchMapDialog>
-            <Button className={`!h-14 ${StyleTrigger}`}>عرض الخريطة</Button>
+            <Button className={`md:!h-14 ${StyleTrigger}`}>عرض الخريطة</Button>
           </SearchMapDialog>
           {tabItems.map((category) => (
             <TabsTrigger
@@ -62,8 +62,7 @@ const MarketingRequests = () => {
                   grid 
                   grid-cols-1 
                   sm:grid-cols-2 
-                  gap-3 sm:gap-4 md:gap-5 lg:gap-6
-                  mb-8 sm:mb-10 md:mb-12
+                  gap-6
                 "
             >
               {filteredData.map((item) => (

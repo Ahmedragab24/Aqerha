@@ -9,7 +9,7 @@ const FavoritesPage = () => {
     <main className="Container pt-28 mb-16">
       <SectionTitle Title="العقارات المفضلة" className="text-center mb-10" />
       <div className="space-y-10">
-        <Tabs defaultValue="renting" className="w-full">
+        <Tabs defaultValue="renting" className="w-full" dir="rtl">
           <TabsList className="w-1/2 h-14 mx-auto py-2 px-4 shadow-lg mb-6">
             <TabsTrigger
               value="renting"

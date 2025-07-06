@@ -4,6 +4,7 @@ import Link from "next/link";
 
 interface CallUserBtnsProps {
   phone?: string;
+  whatsapp?: string;
   email?: string;
   isText: boolean;
   className?: string;
@@ -13,6 +14,7 @@ interface CallUserBtnsProps {
 const CallUserBtns = ({
   isText,
   phone,
+  whatsapp,
   className,
   classNameBtns,
 }: CallUserBtnsProps) => {
@@ -37,7 +39,7 @@ const CallUserBtns = ({
         variant={"secondary"}
         className={`md:!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
       >
-        <Link href={`tel:${phone}`} className="flex items-center gap-2">
+        <Link href={`tel:${whatsapp}`} className="flex items-center gap-2">
           <Image
             src="/Icons/basil_whatsapp-outline.svg"
             alt="Real Estate"

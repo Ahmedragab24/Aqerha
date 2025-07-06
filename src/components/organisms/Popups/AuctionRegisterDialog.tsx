@@ -154,7 +154,7 @@ const AuctionRegisterDialog = ({ children }: Props) => {
         {step === "stepOne" ? (
           <AuctionDetails setStep={setStep} />
         ) : (
-          <SelectPayment />
+          <SelectPayment price={753375.0} />
         )}
       </DialogContent>
     </Dialog>

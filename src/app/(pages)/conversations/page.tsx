@@ -166,8 +166,16 @@ const ConversationsPage = () => {
                 <CustomSelect
                   placeholder="اختر الاشخاص"
                   options={[
-                    { label: "ahmed", value: "ahmed" },
-                    { label: "ali", value: "ali" },
+                    {
+                      label: "ahmed",
+                      value: "ahmed",
+                      image: "/Images/UserProfile.jpg",
+                    },
+                    {
+                      label: "ali",
+                      value: "ali",
+                      image: "/Images/UserProfile.jpg",
+                    },
                   ]}
                   className="!h-12"
                 />

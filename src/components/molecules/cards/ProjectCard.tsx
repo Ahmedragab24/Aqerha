@@ -29,7 +29,7 @@ const ProjectCard = ({ project, developerId }: ProjectCardProps) => {
             loading="lazy"
             className="object-cover duration-300 group-hover:scale-105"
           />
-          <GradientOverlay />
+          <GradientOverlay position="bottom" />
         </div>
 
         {/* Top left icon */}

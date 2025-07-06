@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import SalesOrderForm from "../forms/orders/SalesOrderForm";
+import AddAdOrRequestForm from "../forms/AddAdOrRequestForm";
 
 interface Props {
   children: React.ReactNode;
@@ -33,7 +33,11 @@ const RealEstateMarketingRequestDialog = ({ children }: Props) => {
         </DialogHeader>
 
         <div>
-          <SalesOrderForm changeOpen={changeOpen} />
+          <AddAdOrRequestForm
+            type="request"
+            formType="rental"
+            changeOpen={changeOpen}
+          />
         </div>
 
         <DialogFooter>

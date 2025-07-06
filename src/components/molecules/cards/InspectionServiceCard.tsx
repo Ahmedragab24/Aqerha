@@ -9,11 +9,11 @@ interface InspectionServiceCardProps {
 const InspectionServiceCard = ({
   InspectionService,
 }: InspectionServiceCardProps) => {
-  const { name, color, icon } = InspectionService;
+  const { id, name, color, icon } = InspectionService;
 
   return (
     <Link
-      href={"/"}
+      href={`/examination&Evaluation#${id}`}
       className={
         "rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md"
       }

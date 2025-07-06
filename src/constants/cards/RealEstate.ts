@@ -15,7 +15,7 @@ export const RealEstesData: RealEstesType[] = [
   {
     id: 2,
     image: "/Images/RealEstes.jpg",
-    isPopular: true,
+    isPopular: false,
     price: 2000,
     name: "بالم هاربور",
     location: "٢٦٩٩ وادي الأخضر، بحيرة هايلاند، فلوريدا",
@@ -37,7 +37,7 @@ export const RealEstesData: RealEstesType[] = [
   {
     id: 4,
     image: "/Images/RealEstes.jpg",
-    isPopular: true,
+    isPopular: false,
     price: 2000,
     name: "بالم هاربور",
     location: "٢٦٩٩ وادي الأخضر، بحيرة هايلاند، فلوريدا",
@@ -62,7 +62,7 @@ export const RealEstateGuideData: RealEstateGuideType[] = [
   {
     id: 2,
     image: "/Images/RealEstateGuid.jpg",
-    isPopular: true,
+    isPopular: false,
     price: 2000,
     name: "بالم هاربور",
     location: "٢٦٩٩ وادي الأخضر، بحيرة هايلاند، فلوريدا",
@@ -73,7 +73,7 @@ export const RealEstateGuideData: RealEstateGuideType[] = [
   {
     id: 3,
     image: "/Images/RealEstateGuid.jpg",
-    isPopular: true,
+    isPopular: false,
     price: 2000,
     name: "بالم هاربور",
     location: "٢٦٩٩ وادي الأخضر، بحيرة هايلاند، فلوريدا",

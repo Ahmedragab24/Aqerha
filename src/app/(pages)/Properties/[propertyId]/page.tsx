@@ -13,6 +13,9 @@ import LegalInfoProperty from "@/components/molecules/textGroup/LegalInfoPropert
 import LocationProperty from "@/components/molecules/Locations/LocationProperty";
 import DescriptionProperty from "@/components/molecules/textGroup/DescriptionProperty";
 import CallUserBtns from "@/components/molecules/btnsGroup/CallUserBtns";
+import AdvertisingPromotionCard from "@/components/molecules/cards/AdvertisingPromotionCard";
+import LicenseExpirationCard from "@/components/molecules/cards/LicenseExpirationCard";
+import Link from "next/link";
 
 const PropertyDetailsPage = async ({
   params,
@@ -109,6 +112,14 @@ const PropertyDetailsPage = async ({
 
             {/* Property Features Grid */}
             <PropertyFeatures className="grid grid-cols-1 gap-8" />
+          </div>
+
+          <div className="w-full md:w-1/2 mx-auto mb-10">
+            <Link href={"/promotion-services"}>
+              <AdvertisingPromotionCard />
+            </Link>
+
+            <LicenseExpirationCard />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

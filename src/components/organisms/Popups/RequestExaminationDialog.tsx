@@ -8,24 +8,31 @@ import {
 } from "@/components/ui/dialog";
 import ExaminationForm from "../forms/ExaminationForm";
 
-// interface Props {}
+interface Props {
+  children?: React.ReactNode;
+  type: "inspection" | "evaluation";
+}
 
-const RequestExaminationDialog = () => {
+const RequestExaminationDialog = ({ children, type }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex justify-center">
-          <Button size="lg" className="w-full h-12 md:w-[30%]">
-            طلب الخدمة
-          </Button>
-        </div>
+        {children ? (
+          children
+        ) : (
+          <div className="flex justify-center">
+            <Button size="lg" className="w-full h-12 md:w-[30%]">
+              طلب الخدمة
+            </Button>
+          </div>
+        )}
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader className="flex flex-col justify-center items-center">
-          <DialogTitle>طلب فحص</DialogTitle>
+        <DialogHeader>
+          <DialogTitle></DialogTitle>
         </DialogHeader>
 
-        <ExaminationForm />
+        <ExaminationForm type={type} />
       </DialogContent>
     </Dialog>
   );

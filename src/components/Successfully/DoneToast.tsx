@@ -14,7 +14,7 @@ export const showSuccessToast = ({ title }: Props) => {
         width={30}
         height={30}
       />
-      <h2 className="text-sm font-medium text-primary">{title}</h2>
+      <h2 className="text-sm font-medium text-gray-800">{title}</h2>
     </div>
   ));
 };
