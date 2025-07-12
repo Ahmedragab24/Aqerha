@@ -54,7 +54,7 @@ const CustomerServicesForm = () => {
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <CustomPhoneInput field={field} label="قم الجوال" />
+              <CustomPhoneInput field={field} label="رقم الجوال" />
             )}
           />
           <FormField

@@ -1,6 +1,5 @@
 import { AuthenticationServiceType } from "@/types/AuthenticationService";
 import Image from "next/image";
-import Link from "next/link";
 
 interface AuthenticationServicesCardProps {
   AuthenticationService: AuthenticationServiceType;
@@ -12,10 +11,9 @@ const AuthenticationServicesCard = ({
   const { name, icon } = AuthenticationService;
 
   return (
-    <Link
-      href={"/"}
+    <div
       className={
-        "bg-secondary hover:bg-primary/20 rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md"
+        "bg-secondary hover:bg-primary/20 rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md cursor-pointer"
       }
     >
       <div className="flex flex-col justify-center items-center gap-4">
@@ -25,7 +23,7 @@ const AuthenticationServicesCard = ({
           {name}
         </h2>
       </div>
-    </Link>
+    </div>
   );
 };
 

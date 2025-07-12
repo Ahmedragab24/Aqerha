@@ -9,7 +9,7 @@ export interface PromotionServiceType {
   icon: string;
 }
 
-const PromotionServicesList: PromotionServiceType[] = [
+export const PromotionServicesList: PromotionServiceType[] = [
   {
     id: 1,
     name: "الإعلان المميز",

@@ -51,6 +51,7 @@ export const AdOrRequestFormSchema = z
     bedrooms: z.number().optional(),
     bathrooms: z.number().optional(),
     description: z.string().optional(),
+    AgreeTerms: z.array(z.string()).optional(),
   })
   .refine((data) => data.maxPrice >= data.minPrice, {
     message: "السعر الأقصى يجب أن يكون أكبر من أو يساوي السعر الأدنى",

@@ -1,9 +1,10 @@
 import Logo from "../atoms/images/Logo";
 import NavMenu from "../molecules/menus/NavMenu";
 import UserAvatar from "../molecules/menus/UserAvatar";
+import Notifications from "../organisms/notifications/Notifications";
 import RegisterDialog from "../organisms/Popups/RegisterDialog";
 import { Button } from "../ui/button";
-import { BellRing, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 
 interface NavLargeScreenProps {
   isScrolled: boolean;
@@ -25,7 +26,7 @@ const NavLargeScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
         <div className="flex items-center gap-1">
           <div className="flex items-center gap-4">
             <Heart className="fill-primary text-primary !w-6 !h-6" />
-            <BellRing className="fill-primary text-primary !w-6 !h-6" />
+            <Notifications />
           </div>
           <Button
             variant={"link"}

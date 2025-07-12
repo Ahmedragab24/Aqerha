@@ -18,7 +18,6 @@ import {
 import { ChevronLeft, User, Mail, Settings, LogOut } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
-import RegisterDeveloperDialog from "@/components/organisms/Popups/RegisterDeveloperDialog";
 
 export interface UserMenuType {
   id: number;
@@ -54,7 +53,7 @@ const MenuItemsList: UserMenuListType = {
       id: 3,
       name: "طلب تسويق عقار",
       icon: "/Icons/uit_house-user.svg",
-      path: "/marketing-request",
+      path: "/real-estate-marketing-request",
     },
     {
       id: 4,
@@ -112,46 +111,31 @@ const MenuItemsList: UserMenuListType = {
       id: 5,
       name: "التسجيل كفاحص ومقيم",
       icon: "/Icons/system-uicons_home-check.svg",
-      path: "/register-inspector",
+      path: "/register-examination-and-evaluation",
     },
     {
       id: 6,
       name: "التسجيل كمكتب هندسي",
       icon: "/Icons/formkit_add.svg",
-      path: "/register-engineering",
+      path: "/register-engineering-office",
     },
     {
       id: 7,
       name: "التسجيل كمطور عقاري",
       icon: "/Icons/formkit_add.svg",
-      popup: (
-        <RegisterDeveloperDialog>
-          <button className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 group w-full cursor-pointer">
-            <Image
-              src="/Icons/formkit_add.svg"
-              alt="التسجيل كمطور عقاري"
-              width={18}
-              height={18}
-              className="flex-shrink-0 opacity-80 group-hover:opacity-100"
-            />
-            <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
-              التسجيل كمطور عقاري
-            </span>
-          </button>
-        </RegisterDeveloperDialog>
-      ),
+      path: "/register-developer",
     },
     {
       id: 8,
       name: "التسجيل كشركة مزادات",
       icon: "/Icons/formkit_add.svg",
-      path: "/register-auction",
+      path: "/register-auction-company",
     },
     {
       id: 9,
       name: "التسجيل كشركة مقاولات",
       icon: "/Icons/formkit_add.svg",
-      path: "/register-contractor",
+      path: "/register-contractor-company",
     },
     {
       id: 10,

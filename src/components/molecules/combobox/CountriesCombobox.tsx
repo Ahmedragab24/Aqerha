@@ -16,28 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+import { cities } from "@/constants/cities";
 
 const CountriesCombobox = () => {
   const [open, setOpen] = React.useState(false);
@@ -49,11 +28,11 @@ const CountriesCombobox = () => {
           variant="secondary"
           role="combobox"
           aria-expanded={open}
-          className="w-fit justify-between border-none !px-6 text-gray-500"
+          className="bg-white hover:bg-white/80 w-fit justify-between border-none !px-6 text-gray-500"
         >
           <MapPin />
           {value
-            ? frameworks.find((framework) => framework.value === value)?.label
+            ? cities.find((city) => city.value === value)?.label
             : "اختر مدينتك"}
         </Button>
       </PopoverTrigger>
@@ -63,20 +42,20 @@ const CountriesCombobox = () => {
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {cities.map((city) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={city.value}
+                  value={city.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
-                  {framework.label}
+                  {city.label}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === city.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>

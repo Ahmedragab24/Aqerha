@@ -256,7 +256,12 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
     { name: "الطائف", lat: 21.2854, lng: 40.4183 },
   ];
 
-  const handleCityClick = (city: (typeof saudiCities)[0]) => {
+  const handleCityClick = (
+    city: (typeof saudiCities)[0],
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
     updateMarker(city.lat, city.lng);
     handleLocationSelect({
       lat: city.lat,
@@ -335,10 +340,10 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
                   key={index}
                   variant="outline"
                   size="sm"
-                  onClick={() => handleCityClick(city)}
-                  className="justify-start h-auto p-2 text-xs"
+                  onClick={(e) => handleCityClick(city, e)}
+                  className="justify-start h-auto p-2 !text-xs"
                 >
-                  <MapPin className="h-3 w-3 mr-2 flex-shrink-0" />
+                  <MapPin className="!h-3 !w-3 mr-2 flex-shrink-0" />
                   <span>{city.name}</span>
                 </Button>
               ))}

@@ -1,7 +1,6 @@
 "use client";
 
 import LogoUpload from "@/components/molecules/uploads/UploadLogo";
-import type { StepsType } from "../../Popups/RegisterDeveloperDialog";
 import {
   Form,
   FormControl,
@@ -15,6 +14,7 @@ import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { StepsType } from "@/app/(pages)/register-developer/page";
 
 export const StepOneFormSchema = z.object({
   logo: z.any().optional(),
@@ -74,6 +74,7 @@ const StepOneForm = ({ setSteps }: RegisterFormProps) => {
                 placeholder="يرجي إدخال نبذة حول المطور العقاري"
                 type="text"
                 typeInput="textAria"
+                className="h-32"
               />
             )}
           />

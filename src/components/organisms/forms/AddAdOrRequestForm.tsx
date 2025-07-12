@@ -34,11 +34,13 @@ import {
   AdOrRequestFormSchema,
 } from "@/schemas/AdOrRequestFormInput";
 import ImageUpload from "@/components/molecules/uploads/ImageUpload";
+import AgreeTermsCheckboxField from "@/components/molecules/checkboxs/AgreeTermsCheckboxField";
 
 interface Props {
   changeOpen?: (value: boolean) => void;
-  type: "ad" | "request";
+  type: "ad" | "request" | "any";
   formType: "sales" | "rental";
+  title: boolean;
 }
 
 export interface LocationData {
@@ -47,7 +49,7 @@ export interface LocationData {
   address: string;
 }
 
-const AddAdOrRequestForm = ({ changeOpen, formType, type }: Props) => {
+const AddAdOrRequestForm = ({ changeOpen, formType, type, title }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<AdOrRequestFormInput>({
@@ -64,6 +66,7 @@ const AddAdOrRequestForm = ({ changeOpen, formType, type }: Props) => {
         address: "",
       },
       image: undefined,
+      AgreeTerms: [],
     },
   });
 
@@ -152,13 +155,16 @@ const AddAdOrRequestForm = ({ changeOpen, formType, type }: Props) => {
 
   return (
     <Card className="h-[70vh] overflow-hidden overflow-y-scroll" dir="rtl">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center text-primary">
-          {type === "request"
-            ? `طلب بحث عن عقار ( ${formType === "sales" ? "بيع" : "إيجار"} )`
-            : "إضافة إعلان"}
-        </CardTitle>
-      </CardHeader>
+      {title && (
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center text-primary">
+            {type === "request"
+              ? `طلب بحث عن عقار ( ${formType === "sales" ? "بيع" : "إيجار"} )`
+              : "إضافة إعلان"}
+          </CardTitle>
+        </CardHeader>
+      )}
+
       <CardContent>
         <Form {...form}>
           <form
@@ -168,7 +174,7 @@ const AddAdOrRequestForm = ({ changeOpen, formType, type }: Props) => {
             }`}
           >
             {/* Image Upload Field */}
-            {type === "ad" && (
+            {type !== "request" && (
               <FormField
                 control={form.control}
                 name="image"
@@ -356,6 +362,14 @@ const AddAdOrRequestForm = ({ changeOpen, formType, type }: Props) => {
               field={form.control}
               handleLocationSelect={handleLocationSelect}
             />
+
+            {type === "any" && (
+              <FormField
+                control={form.control}
+                name="AgreeTerms"
+                render={() => <AgreeTermsCheckboxField field={form.control} />}
+              />
+            )}
 
             {/* Submit Button */}
             <Button

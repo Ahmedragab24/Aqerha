@@ -1,5 +1,6 @@
 import { PromotionServiceType } from "@/app/(pages)/promotion-services/page";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -7,9 +8,10 @@ interface Props {
 }
 
 const PromotionServiceCard = ({ service }: Props) => {
-  const { name, description, icon } = service;
+  const { id, name, description, icon } = service;
   return (
-    <div
+    <Link
+      href={`/promotion-services/${id}`}
       className={`p-8 rounded-lg cursor-pointer hover:bg-primary/20 hover:shadow-md duration-300 border border-gray-400`}
     >
       <div className="flex items-center gap-4">
@@ -22,7 +24,7 @@ const PromotionServiceCard = ({ service }: Props) => {
           <h4 className="font-normal">{description}</h4>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -27,7 +27,7 @@ const NavSmallScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Menu className="text-primary cursor-pointer" />
+            <Menu className="text-primary cursor-pointer shadow-sm hover:text-primary-light duration-300" />
           </SheetTrigger>
           <SheetContent className="px-4 py-8">
             <SheetHeader className="text-center space-y-1">

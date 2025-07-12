@@ -14,11 +14,11 @@ export const SellingMenu: MenuType[] = [
 
 export const LoyerMenu: MenuType[] = [
   { label: "أضف عقارك للإيجار", path: "/" },
-  { label: "شقق للإيجار", path: "/PropertiesForRent" },
-  { label: "فيلات للإيجار", path: "/PropertiesForRent" },
-  { label: "أراضي للإيجار", path: "/PropertiesForRent" },
-  { label: "محلات تجارية للإيجار", path: "/PropertiesForRent" },
-  { label: "مكاتب للإيجار", path: "/PropertiesForRent" },
+  { label: "شقق للإيجار", path: "/Properties" },
+  { label: "فيلات للإيجار", path: "/Properties" },
+  { label: "أراضي للإيجار", path: "/Properties" },
+  { label: "محلات تجارية للإيجار", path: "/Properties" },
+  { label: "مكاتب للإيجار", path: "/Properties" },
 ];
 
 export const ServicesMenu: MenuType[] = [

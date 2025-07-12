@@ -57,7 +57,7 @@ const LogoUpload = ({
   };
 
   return (
-    <div className="relative mx-auto w-[130px] h-[130px] p-2 rounded-full border-2 border-secondary group">
+    <div className="relative mx-auto w-[150px] h-[150px] p-2 rounded-full border-2 border-secondary group">
       <div className="relative w-full h-full rounded-full overflow-hidden">
         <Image
           src={imagePreview || "/placeholder.svg"}

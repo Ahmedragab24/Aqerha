@@ -14,7 +14,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
 
   return (
     <Link
-      href={`/PropertiesForRent/${id}`}
+      href={`/Properties/${id}`}
       className="bg-white rounded-2xl  max-w-sm mx-auto border border-gray-200 duration-300 shadow-md hover:shadow-lg group cursor-pointer"
     >
       {/* Image Container */}

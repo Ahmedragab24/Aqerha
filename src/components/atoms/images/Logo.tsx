@@ -16,7 +16,7 @@ const LogoAdvanced = ({ isScrolled, navbarBg }: LogoProps) => {
         <div
           className={`relative transition-all duration-700 ease-out transform ${
             ToggleNavStyle
-              ? "bg-primary rounded-lg px-4 py-1 shadow-lg scale-105"
+              ? "bg-primary rounded-lg px-2 md:px-4 py-1 shadow-lg scale-105"
               : "bg-transparent rounded-none px-0 py-0 shadow-none scale-100"
           }`}
         >
@@ -29,9 +29,9 @@ const LogoAdvanced = ({ isScrolled, navbarBg }: LogoProps) => {
             quality={100}
             priority
             loading="eager"
-            className={`relative z-10 transition-all duration-500 ease-out ${
+            className={`relative z-10 transition-all duration-500 ease-out w-[60px] md:w-[80px] ${
               ToggleNavStyle
-                ? "brightness-110 drop-shadow-md hover:scale-110 w-[80px]"
+                ? "brightness-110 drop-shadow-md hover:scale-110"
                 : "brightness-100 hover:scale-105 hover:brightness-110"
             }`}
           />

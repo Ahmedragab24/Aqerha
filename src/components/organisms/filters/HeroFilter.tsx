@@ -23,7 +23,7 @@ const HeroFilter = () => {
           </TabsList>
         </div>
         <div
-          className="w-full bg-secondary md:bg-background/90 py-4 px-4 sm:py-6 sm:px-6 rounded-l-2xl rounded-br-2xl "
+          className="w-full bg-secondary py-4 px-4 sm:py-6 sm:px-6 rounded-l-2xl rounded-br-2xl "
           dir="rtl"
         >
           <TabsContent value="selling" className="mt-0">

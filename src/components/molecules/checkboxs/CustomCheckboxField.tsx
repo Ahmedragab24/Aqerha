@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import type { OptionType } from "@/types/selects";
+import clsx from "clsx";
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,52 +18,70 @@ interface Props {
 }
 
 const CustomCheckboxField = ({ field, options, className, label }: Props) => {
+  if (!field?.name || !field?.control || !Array.isArray(options)) {
+    console.warn(
+      "CustomCheckboxField: field.name, control, or options missing"
+    );
+    return null;
+  }
+
   return (
-    <FormItem className="!w-full !min-w-xl">
+    <FormItem className="w-full">
       {label && (
         <div className="mb-4">
           <FormLabel className="text-base">{label}</FormLabel>
         </div>
       )}
-      <div className="grid grid-cols-4 gap-1">
-        {options.map((item) => (
-          <FormField
-            key={item.value}
-            control={field.control}
-            name={field.name}
-            render={({ field: checkboxField }) => {
-              return (
-                <FormItem
-                  key={item.value}
-                  className="flex flex-row items-center gap-2"
-                >
-                  <FormControl>
-                    <Checkbox
-                      className={`${className}`}
-                      checked={checkboxField.value?.includes(item.value)}
-                      onCheckedChange={(checked) => {
-                        return checked
-                          ? checkboxField.onChange([
-                              ...checkboxField.value,
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        {options.map((item) => {
+          if (!item?.value) return null;
+
+          return (
+            <FormField
+              key={item.value}
+              control={field.control}
+              name={field.name}
+              render={({ field: checkboxField }) => {
+                const currentValue = Array.isArray(checkboxField.value)
+                  ? checkboxField.value
+                  : [];
+
+                const isChecked = currentValue.includes(String(item.value));
+
+                return (
+                  <FormItem className="flex items-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        className={clsx("border-muted", className)}
+                        checked={isChecked}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            checkboxField.onChange([
+                              ...currentValue,
                               item.value,
-                            ])
-                          : checkboxField.onChange(
-                              checkboxField.value?.filter(
-                                (value: string) => value !== item.value
+                            ]);
+                          } else {
+                            checkboxField.onChange(
+                              currentValue.filter(
+                                (v: string) => v !== item.value
                               )
                             );
-                      }}
-                    />
-                  </FormControl>
-                  <FormLabel className="text-sm font-normal">
-                    {item.label}
-                  </FormLabel>
-                </FormItem>
-              );
-            }}
-          />
-        ))}
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal cursor-pointer">
+                      {item.label}
+                    </FormLabel>
+                  </FormItem>
+                );
+              }}
+            />
+          );
+        })}
       </div>
+
       <FormMessage />
     </FormItem>
   );

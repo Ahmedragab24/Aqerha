@@ -107,3 +107,21 @@ export const LeaseTermList: OptionType[] = [
   { value: "month", label: "شهري" },
   { value: "year", label: "سنوي" },
 ];
+
+export const FoundOrNoFound: OptionType[] = [
+  { value: "found", label: "يوجد" },
+  { value: "not_found", label: "لا يوجد" },
+];
+
+export const AdvertisingChannelsList: OptionType[] = [
+  { value: "Licensed", label: "منصة مرخصة" },
+  { value: "Unlicensed", label: "منصة غير مرخصة" },
+];
+
+export const PropertyServicesList: OptionType[] = [
+  { value: "electricity", label: "كهرباء" },
+  { value: "waters", label: "مياه" },
+  { value: "exchange", label: "صرف" },
+  { value: "gas", label: "غاز" },
+  { value: "all", label: "كهرباء , مياه .صرف , غاز" },
+];

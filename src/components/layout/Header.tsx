@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// import { useAppSelector } from "@/store/hooks";
 import NavLargeScreen from "./NavLageScreen";
 import NavSmallScreen from "./NavSmallScreen";
 import { usePathname } from "next/navigation";
@@ -22,7 +21,6 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  // const { navbarBg } = useAppSelector((state) => state.navbarBg);
   const pathname = usePathname();
   const navbarBg = pathname !== "/";
 
