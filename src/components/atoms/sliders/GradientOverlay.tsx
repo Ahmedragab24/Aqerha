@@ -7,7 +7,7 @@ const GradientOverlay = ({ position }: Props) => {
     <div
       className={`absolute inset-0 ${
         position === "bottom" ? "bg-gradient-to-t" : "bg-gradient-to-b"
-      }  from-black/40 via-transparent to-transparent`}
+      }  from-black/70 via-transparent to-transparent`}
     />
   );
 };

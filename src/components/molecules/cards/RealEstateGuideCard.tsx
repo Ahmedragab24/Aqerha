@@ -1,34 +1,45 @@
-import type { RealEstateGuideType } from "@/types/products";
 import { MapPin } from "lucide-react";
 
 import Image from "next/image";
-import GradientOverlay from "@/components/atoms/sliders/GradientOverlay";
-import Riyal from "@/components/atoms/Icons/Riyal";
-import FavoriteBtn from "@/components/atoms/buttons/FavoriteBtn";
-import ShareBtn from "@/components/atoms/buttons/ShareBtn";
-import Link from "next/link";
-import PopularBadge from "@/components/atoms/badges/PopularBadge";
+import GradientOverlay from "../../atoms/sliders/GradientOverlay";
+import Riyal from "../../atoms/Icons/Riyal";
+import FavoriteBtn from "../../atoms/buttons/FavoriteBtn";
+import ShareBtn from "../../atoms/buttons/ShareBtn";
+import { ExploreRealEstateType } from "@/types/Real-estates";
+import { formatName, formatPurpose } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  RealEstateGuideData: RealEstateGuideType;
+  ExploreRealEstate: ExploreRealEstateType;
 }
 
-const RealEstateGuideCard = ({ RealEstateGuideData }: Props) => {
-  const { id, Area, Bathrooms, beds, image, isPopular, location, name, price } =
-    RealEstateGuideData;
+const RealEstateGuideCard = ({ ExploreRealEstate }: Props) => {
+  const {
+    id,
+    area,
+    bathrooms,
+    location,
+    main_image,
+    price,
+    rooms,
+    type,
+    purpose,
+  } = ExploreRealEstate;
+  const router = useRouter();
 
-  console.log(id, isPopular);
+  const Name = formatName(type);
+  const Purpose = formatPurpose(purpose);
 
   return (
-    <Link
-      href={`/Properties/${id}`}
-      className="bg-secondary rounded-2xl shadow-md p-2 group duration-300 hover:shadow-lg"
+    <div
+      onClick={() => router.push(`/real-estate/${id}`)}
+      className="bg-secondary rounded-2xl shadow-md p-2 cursor-pointer group duration-300 hover:shadow-lg"
     >
       {/* Image Container */}
       <div className="relative w-auto h-60 overflow-hidden rounded-xl">
         <Image
-          src={image || "/placeholder.svg"}
-          alt={name}
+          src={main_image || "/placeholder.svg"}
+          alt={type}
           fill
           loading="lazy"
           className="w-full h-full object-cover rounded-xl duration-300 group-hover:scale-105"
@@ -37,36 +48,36 @@ const RealEstateGuideCard = ({ RealEstateGuideData }: Props) => {
 
         {/* Overlay Icons */}
         <div className="absolute top-4 left-4 flex gap-2">
-          <FavoriteBtn />
+          <FavoriteBtn type="card" RealStateId={id} />
           <ShareBtn />
         </div>
 
         {/* Overlay Popular */}
-        {isPopular && (
+        {/* {purpose !== "none" && (
           <div className="absolute top-4 right-4 flex gap-2">
             <PopularBadge />
           </div>
-        )}
+        )} */}
 
         {/* Price Overlay */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-white">
+        {/* <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-white">
           <div className="flex items-center justify-center gap-2 text-2xl font-bold mb-1">
             {price}
             <Riyal className="!w-6 !h-6" />
           </div>
           <div className="text-lg font-medium">112,467 شهرياً / 6 سنوات</div>
-        </div>
+        </div> */}
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-4 space-y-4">
         {/* Title & Price */}
         <div className="flex items-center justify-between gap-4">
           <h3 className="text-lg font-semibold text-primary mb-2">
-            شقة للإيجار
+            {Name} {Purpose}
           </h3>
 
-          <div className="flex items-center gap-1 md:text-lg font-medium text-primary">
+          <div className="flex items-center md:text:lg font-semibold text-primary">
             <h4>{price}</h4>
             <Riyal className="!w-5 !h-5" />
             <h4>/الشهر</h4>
@@ -74,10 +85,12 @@ const RealEstateGuideCard = ({ RealEstateGuideData }: Props) => {
         </div>
 
         {/* Location */}
-        <div className="flex items-center gap-1 mb-4 text-gray-600">
-          <MapPin className="w-4 h-4" />
-          <p className="text-gray-500 text-sm  leading-relaxed">{location}</p>
-        </div>
+        {location && (
+          <div className="flex items-center gap-1 mb-4 text-gray-600">
+            <MapPin className="w-4 h-4" />
+            <p className="text-gray-500 text-sm  leading-relaxed">{location}</p>
+          </div>
+        )}
 
         {/* Property Features */}
         <div className="flex items-center justify-between text-gray-600">
@@ -89,7 +102,7 @@ const RealEstateGuideCard = ({ RealEstateGuideData }: Props) => {
               width={20}
               height={20}
             />
-            <span className="text-sm text-gray-500">{Area} م²</span>
+            <span className="text-sm text-gray-500">{area} م²</span>
           </div>
 
           {/* Bathrooms */}
@@ -100,17 +113,17 @@ const RealEstateGuideCard = ({ RealEstateGuideData }: Props) => {
               width={20}
               height={20}
             />
-            <span className="text-sm text-gray-500">{Bathrooms} حمام</span>
+            <span className="text-sm text-gray-500">{bathrooms} حمام</span>
           </div>
 
           {/* Bedrooms */}
           <div className="flex items-center gap-2">
             <Image src="/Icons/Bed.svg" alt="Triangle" width={20} height={20} />
-            <span className="text-sm text-gray-500">{beds} سرير</span>
+            <span className="text-sm text-gray-500">{rooms} سرير</span>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

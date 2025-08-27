@@ -1,42 +1,14 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import PromotionServiceCard from "@/components/molecules/cards/PromotionServiceCard";
+"use client";
+
+import { useGetPromotionsServicesQuery } from "@/store/services/Promotions";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import PromotionServiceCard from "../../../components/molecules/cards/PromotionServiceCard";
 import React from "react";
 
-export interface PromotionServiceType {
-  id: number;
-  name: string;
-  description: string;
-  icon: string;
-}
-
-export const PromotionServicesList: PromotionServiceType[] = [
-  {
-    id: 1,
-    name: "الإعلان المميز",
-    description: "ميز إعلانك علي عقار لجذب الانتباه العملاء",
-    icon: "/Icons/gravity-ui_star-fill.svg",
-  },
-  {
-    id: 2,
-    name: "تنبيه المهتمين",
-    description: "أرسل إعلانك للباحثين عن عقارات مشابهة",
-    icon: "/Icons/clarity_notification-solid.svg",
-  },
-  {
-    id: 3,
-    name: "الإعلان الذهبي",
-    description: "أظهر إعلانك باللون الذهبي علي منصة عقرها",
-    icon: "/Icons/material-symbols_crown-rounded-yellow.svg",
-  },
-  {
-    id: 4,
-    name: "إعلان منصات التواصل الإجتماعي",
-    description: "أعلن عبر حسابات عقار فى منصات التواصل",
-    icon: "/Icons/Layer_1.svg",
-  },
-];
-
 const PromotionServicesPage = () => {
+  const { data } = useGetPromotionsServicesQuery();
+  const PromotionServicesList = data?.data || [];
+
   return (
     <main className="Container pt-28 mb-16">
       <div className="space-y-16">

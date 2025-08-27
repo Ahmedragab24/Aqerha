@@ -1,46 +1,51 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import RealEstateCard from "@/components/molecules/cards/RealEstateCard";
-import PaginationList from "@/components/organisms/paginations/PaginationList";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RealEstesData } from "@/constants/cards/RealEstate";
+"use client";
+
+import { useGetFavoritesQuery } from "@/store/services/Favorites";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
+import FavoriteRealEstateCard from "@/components/molecules/cards/FavoriteRealEstateCard";
+import DataNotFount from "@/components/Error&NotFound/DataNotFount";
 
 const FavoritesPage = () => {
+  const { data, isLoading, isError } = useGetFavoritesQuery();
+
+  const favoritesList = data?.data || [];
+
   return (
     <main className="Container pt-28 mb-16">
-      <SectionTitle Title="العقارات المفضلة" className="text-center mb-10" />
-      <div className="space-y-10">
-        <Tabs defaultValue="renting" className="w-full" dir="rtl">
-          <TabsList className="w-1/2 h-14 mx-auto py-2 px-4 shadow-lg mb-6">
-            <TabsTrigger
-              value="renting"
-              className="text-xl data-[state=active]:text-white data-[state=active]:bg-primary"
-            >
-              إيجار
-            </TabsTrigger>
-            <TabsTrigger
-              value="selling"
-              className="text-xl data-[state=active]:text-white data-[state=active]:bg-primary"
-            >
-              بيع
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="renting">
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {RealEstesData.map((item) => (
-                <RealEstateCard key={item.id} product={item} />
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="selling">
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {RealEstesData.map((item) => (
-                <RealEstateCard key={item.id} product={item} />
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+      <SectionTitle
+        Title="العقارات المفضلة"
+        className="text-center mb-10 md:mb-20"
+      />
 
-        <PaginationList />
+      <div className="space-y-10">
+        {isLoading && (
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <GroupCardsSkeletons count={4} />
+          </div>
+        )}
+
+        {isError && (
+          <DataNotFount
+            title="حدث خطأ ما"
+            description="يرجى تحديث الصفحة أو المحاولة لاحقاً."
+          />
+        )}
+
+        {!isLoading && !isError && favoritesList.length === 0 && (
+          <DataNotFount
+            title="لا توجد عقارات في المفضلة حالياً"
+            description="يمكنك إضافة العقارات التي تعجبك إلى المفضلة لعرضها هنا لاحقاً."
+          />
+        )}
+
+        {!isLoading && favoritesList.length > 0 && (
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {favoritesList.map((item) => (
+              <FavoriteRealEstateCard key={item.id} product={item} />
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );

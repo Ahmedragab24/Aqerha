@@ -1,4 +1,6 @@
-import { Menu } from "lucide-react";
+"use client";
+
+import { Heart, Menu } from "lucide-react";
 import Logo from "../atoms/images/Logo";
 import NavMenu from "../molecules/menus/NavMenu";
 import { Button } from "../ui/button";
@@ -6,12 +8,17 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "../ui/sheet";
 import Image from "next/image";
-import RegisterDialog from "../organisms/Popups/RegisterDialog";
+import Notifications from "../organisms/notifications/Notifications";
+import { useState } from "react";
+import Link from "next/link";
+import AuthNav from "../templates/AuthNav";
+import UserAdditionsBtn from "../atoms/buttons/UserAdditionsBtn";
 
 interface NavLargeScreenProps {
   isScrolled: boolean;
@@ -19,15 +26,21 @@ interface NavLargeScreenProps {
 }
 
 const NavSmallScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <nav className="Container md:hidden">
       {/* LOGO & MENU */}
       <div className="flex items-center justify-between gap-6">
         <Logo isScrolled={isScrolled} navbarBg={navbarBg} />
 
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Menu className="text-primary cursor-pointer shadow-sm hover:text-primary-light duration-300" />
+            <Menu
+              className={`${
+                open ? "text-primary-light" : "text-primary"
+              } cursor-pointer hover:text-primary-light duration-300`}
+            />
           </SheetTrigger>
           <SheetContent className="px-4 py-8">
             <SheetHeader className="text-center space-y-1">
@@ -43,30 +56,55 @@ const NavSmallScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
               <SheetDescription>
                 سواء كنت تشتري أو تستأجر، نحن هنا لمساعدتك!
               </SheetDescription>
-              <div className="space-y-8 mt-4">
-                {/* NAV MENU*/}
-                <NavMenu isScrolled={isScrolled} navbarBg={navbarBg} />
-
-                {/* ACTION BTN */}
-                <div className="flex flex-col items-center gap-4">
-                  <div>
-                    <Button
-                      variant={"link"}
-                      className={`text-md !drop-shadow-sm transition-colors duration-300 text-foreground`}
-                    >
-                      من نحن
-                    </Button>
-                    <Button
-                      variant={"link"}
-                      className={`text-md !drop-shadow-sm transition-colors duration-300 text-foreground`}
-                    >
-                      اتصل بنا
-                    </Button>
-                  </div>
-                  <RegisterDialog />
-                </div>
-              </div>
             </SheetHeader>
+            <div className="space-y-10 mt-4">
+              {/* NAV MENU*/}
+              <NavMenu
+                isScrolled={isScrolled}
+                navbarBg={navbarBg}
+                setOpen={setOpen}
+              />
+
+              {/* ACTION BTN */}
+              <div className="flex flex-col items-center gap-8">
+                <div>
+                  <Button
+                    variant={"link"}
+                    className={`text-md !drop-shadow-sm transition-colors duration-300 text-foreground`}
+                    onClick={() => setOpen(false)}
+                  >
+                    من نحن
+                  </Button>
+                  <Button
+                    variant={"link"}
+                    className={`text-md !drop-shadow-sm transition-colors duration-300 text-foreground`}
+                    onClick={() => setOpen(false)}
+                  >
+                    اتصل بنا
+                  </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <Link href={"/favorites"} onClick={() => setOpen(false)}>
+                    <Heart className="fill-primary text-primary !w-6 !h-6" />
+                  </Link>
+                  <Notifications isScrolled={isScrolled} navbarBg={navbarBg} />
+                  <UserAdditionsBtn
+                    isScrolled={isScrolled}
+                    navbarBg={navbarBg}
+                  />
+                </div>
+
+                <AuthNav />
+              </div>
+            </div>
+
+            <SheetFooter>
+              {/* Copyright */}
+              <div className="text-gray-600 text-sm">
+                جميع الحقوق محفوظة © عقريها {new Date().getFullYear()}
+              </div>
+            </SheetFooter>
           </SheetContent>
         </Sheet>
       </div>

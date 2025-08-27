@@ -1,26 +1,41 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+"use client";
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../ui/select";
 import { OptionType } from "@/types/selects";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 interface CustomSelectProps {
   className?: string;
   options: OptionType[];
   placeholder?: string;
+  value?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatch?: (value: any) => void;
+  onChange?: (value: string) => void;
 }
 
 const CustomSelect = ({
   options,
   className,
   placeholder,
+  value,
+  dispatch,
+  onChange,
 }: CustomSelectProps) => {
   return (
-    <Select>
+    <Select
+      defaultValue={value}
+      value={value}
+      onValueChange={(val) =>
+        dispatch ? dispatch(val) : onChange && onChange(val)
+      }
+    >
       <SelectTrigger className={`w-[180px] ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

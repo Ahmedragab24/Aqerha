@@ -1,8 +1,8 @@
-import FavoriteBtn from "@/components/atoms/buttons/FavoriteBtn";
-import ShareBtn from "@/components/atoms/buttons/ShareBtn";
-import Riyal from "@/components/atoms/Icons/Riyal";
-import GradientOverlay from "@/components/atoms/sliders/GradientOverlay";
-import SectionTitle from "@/components/atoms/title/SectionTitle";
+import FavoriteBtn from "../../../../components/atoms/buttons/FavoriteBtn";
+import ShareBtn from "../../../../components/atoms/buttons/ShareBtn";
+import Riyal from "../../../../components/atoms/Icons/Riyal";
+import GradientOverlay from "../../../../components/atoms/sliders/GradientOverlay";
+import SectionTitle from "../../../../components/atoms/title/SectionTitle";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
 
@@ -34,7 +34,7 @@ const CampaignDetailsPage = async ({
             />
             <GradientOverlay position="top" />
             <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex gap-2">
-              <FavoriteBtn />
+              <FavoriteBtn RealStateId={1} type="page" />
               <ShareBtn />
             </div>
           </div>

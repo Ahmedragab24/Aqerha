@@ -1,5 +1,5 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import RegisterEngineeringOfficeForm from "@/components/organisms/forms/RegisterEngineeringOfficeForm";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import RegisterEngineeringOfficeForm from "../../../components/organisms/forms/RegisterEngineeringOfficeForm";
 import React from "react";
 
 const RegisterEngineeringOfficePage = () => {

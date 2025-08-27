@@ -1,30 +1,92 @@
 "use client";
 
+import {
+  useGetFavoritesQuery,
+  useToggleFavoriteMutation,
+} from "@/store/services/Favorites";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
-import React, { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import type { ErrorType } from "@/types/errors";
+import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import { showSuccessToast } from "@/components/Successfully/DoneToast";
+import { checkAuthStatus } from "@/lib/auth/auth-client";
 
-const FavoriteBtn = () => {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+interface Props {
+  RealStateId: number;
+  type: "card" | "page";
+}
 
-  const handlerFavorite = async (
+const FavoriteBtn = ({ RealStateId, type }: Props) => {
+  const { data } = useGetFavoritesQuery();
+  const FavoritesList = useMemo(() => data?.data || [], [data?.data]);
+
+  const [toggleFavorite, { isLoading }] = useToggleFavoriteMutation();
+  const [IsFavorite, setIsFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    const found = FavoritesList.some((item) => item.id === RealStateId);
+    setIsFavorite(found);
+  }, [FavoritesList, RealStateId]);
+
+  const handleFavorite = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsFavorite((prev) => !prev);
+
+    if (!checkAuthStatus) {
+      showFailedToast({
+        title: "يجب تسجيل الدخول أولاً",
+      });
+      return;
+    }
+    try {
+      const res = await toggleFavorite(RealStateId).unwrap();
+      setIsFavorite((prev) => !prev);
+      showSuccessToast({
+        title: `${res?.message || "تم تحديث الحالة بنجاح"}`,
+      });
+    } catch (error) {
+      const err = error as ErrorType;
+      showFailedToast({
+        title: `${err?.data?.message || "حدث خطأ أثناء تحديث المفضلة"}`,
+      });
+    }
   };
+
   return (
-    <Button
-      className="bg-gray-100/60 rounded-full !p-2 border-2 border-gray-200 hover:bg-gray-50 transition-colors"
-      onClick={(e) => handlerFavorite(e)}
-    >
-      <Heart
-        className={`transition-colors !w-5 !h-5 ${
-          isFavorite ? "fill-primary text-primary" : "fill-none text-gray-600"
-        }`}
-      />
-    </Button>
+    <>
+      {type === "card" ? (
+        <Button
+          className="bg-gray-100/60 rounded-full !p-2 border-2 border-gray-200 hover:bg-gray-50 transition-colors"
+          onClick={handleFavorite}
+          disabled={isLoading}
+        >
+          <Heart
+            className={`transition-colors !w-5 !h-5 ${
+              IsFavorite
+                ? "fill-primary text-primary"
+                : "fill-none text-gray-600"
+            }`}
+          />
+        </Button>
+      ) : (
+        <Button
+          className="bg-[#FFF0F0] hover:bg-[#FFF0F0]/80 rounded-xl"
+          onClick={handleFavorite}
+          disabled={isLoading}
+        >
+          <Heart
+            className={`transition-colors !w-5 !h-5 ${
+              IsFavorite
+                ? "!fill-red-600 !text-red-600"
+                : "fill-none text-red-600"
+            }`}
+          />
+        </Button>
+      )}
+    </>
   );
 };
 

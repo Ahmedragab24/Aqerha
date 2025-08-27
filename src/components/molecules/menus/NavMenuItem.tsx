@@ -1,23 +1,29 @@
-import SeeMore from "@/components/atoms/buttons/SeeMore";
+import SeeMore from "../../atoms/buttons/SeeMore";
 import {
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { MenuType } from "@/constants/navMenu";
+import { type MenuType } from "@/constants/navMenu";
 import React from "react";
 
 interface NavMenuItemProps {
   Trigger: string;
   Items: MenuType[];
   className?: string;
+  seeMore?: boolean;
 }
 
-const NavMenuItem = ({ Trigger, Items, className }: NavMenuItemProps) => {
+const NavMenuItem = ({
+  Trigger,
+  Items,
+  className,
+  seeMore,
+}: NavMenuItemProps) => {
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger className={`${className}`}>
+      <NavigationMenuTrigger className={className} suppressHydrationWarning>
         {Trigger}
       </NavigationMenuTrigger>
       <NavigationMenuContent className="!w-[220px] pt-4 text-right" dir="rtl">
@@ -31,9 +37,11 @@ const NavMenuItem = ({ Trigger, Items, className }: NavMenuItemProps) => {
             {item.label}
           </NavigationMenuLink>
         ))}
-        <div className="flex justify-end px-4">
-          <SeeMore path="/PropertiesForRent/explore" />
-        </div>
+        {seeMore && (
+          <div className="flex justify-end px-4">
+            <SeeMore path="/Properties/explore" />
+          </div>
+        )}
       </NavigationMenuContent>
     </NavigationMenuItem>
   );

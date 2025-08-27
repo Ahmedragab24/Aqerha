@@ -1,113 +1,103 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import NotificationNotFount from "@/components/Error&NotFound/NotificationNotFount";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+"use client";
+
+import {
+  useDeleteAllNotificationsMutation,
+  useGetAllNotificationsQuery,
+  useNotificationsMarkAllReadMutation,
+} from "@/store/services/Notifications";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import NotificationNotFount from "../../../components/Error&NotFound/NotificationNotFount";
+import DataNotFount from "@/components/Error&NotFound/DataNotFount";
+import { BellRing, Trash2 } from "lucide-react";
+import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
+import { NotificationType } from "@/types/Notifications";
+import { useEffect } from "react";
+import { showSuccessToast } from "@/components/Successfully/DoneToast";
+import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import { ErrorType } from "@/types/errors";
+import { Button } from "@/components/ui/button";
+import NotificationCard from "@/components/molecules/cards/NotificationCard";
 
 const NotificationsPage = () => {
-  const notifications = [
-    {
-      id: 1,
-      type: "inspection",
-      title: "طلب فحص",
-      content: "يوجد طلب فحص قريب من موقعك",
-      date: "30 سبتمبر 2025",
-      time: "12:57 ص",
-      avatar: "A",
-      isNew: true,
-      hasGreenDot: true,
-    },
-    {
-      id: 2,
-      type: "auction",
-      title: "مزادات",
-      content:
-        "تهانينا، لقد ربحت المزاد بنجاح تواصل معنا لترتيب التسليم والدفع",
-      date: "30 سبتمبر 2025",
-      time: "12:57 ص",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isNew: false,
-      hasGreenDot: false,
-    },
-    {
-      id: 3,
-      type: "auction",
-      title: "مزادات",
-      content:
-        "تهانينا، لقد ربحت المزاد بنجاح تواصل معنا لترتيب التسليم والدفع",
-      date: "30 سبتمبر 2025",
-      time: "12:57 ص",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isNew: false,
-      hasGreenDot: false,
-    },
-    {
-      id: 4,
-      type: "auction",
-      title: "مزادات",
-      content:
-        "تهانينا، لقد ربحت المزاد بنجاح تواصل معنا لترتيب التسليم والدفع",
-      date: "30 سبتمبر 2025",
-      time: "12:57 ص",
-      avatar: "/placeholder.svg?height=40&width=40",
-      isNew: false,
-      hasGreenDot: false,
-    },
-  ];
+  const { data, isLoading, isError } = useGetAllNotificationsQuery();
+  const [ReadAll] = useNotificationsMarkAllReadMutation();
+  const [DeleteAll] = useDeleteAllNotificationsMutation();
+
+  const notifications: NotificationType[] = data?.notifications || [];
+
+  useEffect(() => {
+    const ReadAllNotifications = async () => {
+      try {
+        await ReadAll().unwrap();
+      } catch (error) {
+        console.error("خطأ أثناء تعليم الإشعارات كمقروءة:", error);
+      }
+    };
+    ReadAllNotifications();
+  }, [ReadAll]);
+
+  const DeleteAllNotifications = async () => {
+    try {
+      await DeleteAll().unwrap();
+      showSuccessToast({
+        title: "تم حذف جميع الإشعارات",
+      });
+    } catch (error) {
+      const err = error as ErrorType;
+      showFailedToast({
+        title: `${err?.data?.message || "حدث خطأ أثناء حذف الإشعارات"}`,
+      });
+    }
+  };
 
   return (
-    <main className="Container pt-28 mb-16 space-y-6">
+    <main className="Container pt-28 mb-16 space-y-10">
       {/* Header */}
-      <SectionTitle Title="الإشعارات" />
+      <div className="flex items-center justify-between gap-4">
+        <SectionTitle Title={`الإشعارات (${notifications.length})`} />
+
+        {notifications.length > 0 && (
+          <Button
+            variant={"link"}
+            className="text-red-500"
+            onClick={() => DeleteAllNotifications()}
+          >
+            <Trash2 className="w-5 h-5" />
+            حذف جميع الإشعارات
+          </Button>
+        )}
+      </div>
+
+      {/* Loading State */}
+      {isLoading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <GroupCardsSkeletons count={4} />
+        </div>
+      )}
+
+      {/* Error State */}
+      {isError && !isLoading && (
+        <DataNotFount
+          title="حدث خطأ ما"
+          description="يرجى تحديث الصفحة"
+          icon={<BellRing />}
+        />
+      )}
 
       {/* Notifications List */}
-      {notifications && notifications.length > 0 ? (
-        <div className="space-y-4">
+      {!isLoading && !isError && notifications.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {notifications.map((notification) => (
-            <div
+            <NotificationCard
               key={notification.id}
-              className={`flex items-start gap-4 p-4 rounded-lg ${
-                notification.isNew ? "bg-gray-100" : "bg-white"
-              } border border-gray-200`}
-            >
-              {/* Avatar Section */}
-              <div className="relative flex-shrink-0">
-                <Avatar className="h-12 w-12">
-                  {notification.type === "inspection" ? (
-                    <AvatarFallback className="bg-green-600 text-white font-semibold">
-                      {notification.avatar}
-                    </AvatarFallback>
-                  ) : (
-                    <AvatarImage
-                      src={notification.avatar || "/placeholder.svg"}
-                      alt="Profile"
-                    />
-                  )}
-                </Avatar>
-                {notification.hasGreenDot && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
-                )}
-              </div>
-
-              {/* Content Section */}
-              <div className="flex-1 text-right">
-                <div className="flex justify-between items-start mb-1">
-                  <div className="text-sm text-gray-500">
-                    {notification.time}
-                  </div>
-                  <div className="font-semibold text-gray-900">
-                    {notification.title}
-                  </div>
-                </div>
-
-                <p className="text-gray-700 text-sm leading-relaxed mb-2">
-                  {notification.content}
-                </p>
-
-                <div className="text-xs text-gray-500">{notification.date}</div>
-              </div>
-            </div>
+              notification={notification}
+            />
           ))}
         </div>
-      ) : (
+      )}
+
+      {/* No Notifications */}
+      {!isLoading && !isError && notifications.length === 0 && (
         <NotificationNotFount />
       )}
     </main>

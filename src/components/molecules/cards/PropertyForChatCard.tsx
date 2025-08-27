@@ -1,8 +1,8 @@
 import { AlertCircle, Archive, Bath, Bed, Home, Trash2, X } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "../../ui/card";
 import React from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from "../../ui/badge";
+import { Button } from "../../ui/button";
 import Image from "next/image";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 const PropertyForChatCard = ({ mockProperty }: Props) => {
   return (
-    <div className="w-100 px-4">
+    <div className="w-full lg:w-100 px-4">
       <div className="flex items-center justify-between mb-4">
         <X className="w-5 h-5 text-gray-400 cursor-pointer" />
         <div className="flex gap-2">

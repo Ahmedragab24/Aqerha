@@ -8,7 +8,7 @@ interface DeveloperCardProps {
 }
 
 const DevelopersCard = ({ Developer, path }: DeveloperCardProps) => {
-  const { name, image } = Developer;
+  const { name, profile } = Developer;
   return (
     <Link
       href={`${path}`}
@@ -16,7 +16,7 @@ const DevelopersCard = ({ Developer, path }: DeveloperCardProps) => {
     >
       <div className="flex flex-col justify-center items-center gap-4 overflow-hidden p-1">
         <Image
-          src={image}
+          src={profile?.image || "/placeholder.svg"}
           alt={name}
           width={100}
           height={100}
@@ -25,7 +25,7 @@ const DevelopersCard = ({ Developer, path }: DeveloperCardProps) => {
         />
 
         <h3 className="duration-300 group-hover:drop-shadow-sm group-hover:text-primary">
-          {name}
+          {profile?.name}
         </h3>
       </div>
     </Link>

@@ -1,50 +1,116 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { AlignLeft, Bold, Italic, Link, List, Paperclip } from "lucide-react";
-import Image from "next/image";
+"use client";
 
-interface Props {
-  handleKeyPress: any;
-  newMessage: any;
-  setNewMessage: any;
-  handleSendMessage: any;
+import type React from "react";
+import { useRef } from "react";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
+import { Paperclip, ImageIcon, Send, MapPin } from "lucide-react";
+import { MessageType } from "@/types/chat";
+
+interface MessageInputProps {
+  newMessage: string | File;
+  setNewMessage: (message: string | File) => void;
+  handleKeyPress: (e: React.KeyboardEvent) => void;
+  handleSendMessage: (type?: MessageType, payload?: File | string) => void;
+  isLoading?: boolean;
+  typeMessage?: MessageType;
+  setTypeMessage?: (type: MessageType) => void;
 }
 
 const MessageInput = ({
-  handleKeyPress,
-  setNewMessage,
   newMessage,
+  setNewMessage,
+  handleKeyPress,
   handleSendMessage,
-}: Props) => {
+  isLoading = false,
+  setTypeMessage,
+}: MessageInputProps) => {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setTypeMessage?.("file");
+      setNewMessage(file);
+      handleSendMessage("file", file);
+    }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setTypeMessage?.("image");
+      setNewMessage(file);
+      handleSendMessage("image", file);
+    }
+  };
+
+  const handleSendLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const coords = `${pos.coords.latitude},${pos.coords.longitude}`;
+        setTypeMessage?.("location");
+        handleSendMessage("location", coords);
+      });
+    }
+  };
+
   return (
     <div className="p-4 border-t border-gray-200">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="flex gap-2">
-          <Paperclip className="w-4 h-4 text-gray-500 cursor-pointer" />
-          <Link className="w-4 h-4 text-gray-500 cursor-pointer" />
-          <Bold className="w-4 h-4 text-gray-500 cursor-pointer" />
-          <Italic className="w-4 h-4 text-gray-500 cursor-pointer" />
-          <List className="w-4 h-4 text-gray-500 cursor-pointer" />
-          <AlignLeft className="w-4 h-4 text-gray-500 cursor-pointer" />
-        </div>
-      </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Paperclip className="w-5 h-5 text-gray-600" />
+        </Button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+          className="hidden"
+        />
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => imageInputRef.current?.click()}
+        >
+          <ImageIcon className="w-5 h-5 text-gray-600" />
+        </Button>
+        <input
+          type="file"
+          accept="image/*"
+          ref={imageInputRef}
+          onChange={handleImageUpload}
+          className="hidden"
+        />
+
+        <Button variant="ghost" size="icon" onClick={handleSendLocation}>
+          <MapPin className="w-5 h-5 text-gray-600" />
+        </Button>
+
         <Input
-          value={newMessage}
+          value={typeof newMessage === "string" ? newMessage : ""}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="اكتب رسالتك..."
           className="flex-1"
+          disabled={isLoading}
         />
-        <Button onClick={handleSendMessage} className="!h-11">
-          أرسل
-          <Image
-            src="/Icons/SendMessage.svg"
-            alt="send message"
-            width={20}
-            height={20}
-          />
+
+        <Button
+          onClick={() => handleSendMessage("text", newMessage as string)}
+          className="!h-11"
+          disabled={
+            isLoading ||
+            !newMessage ||
+            (typeof newMessage === "string" && !newMessage.trim())
+          }
+        >
+          {isLoading ? "..." : <Send className="w-5 h-5" />}
         </Button>
       </div>
     </div>

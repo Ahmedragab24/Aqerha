@@ -3,9 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormField } from "@/components/ui/form";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
+import { Form, FormField } from "../../../ui/form";
+import CustomFormItem from "../../../molecules/formItems/CustomFormItem";
+import SubmitBtn from "../../../atoms/buttons/SubmitBtn";
 import { StepType } from "@/app/(pages)/broker-ad/page";
 import { StepOneFormSchema } from "@/schemas/broker-ad";
 
@@ -55,7 +55,7 @@ const StepOneForm = ({ setStep }: Props) => {
               />
             )}
           />
-          <SubmitBtn title="التالي" />
+          <SubmitBtn title="التالي" loading={false} disabled={false} />
         </form>
       </div>
     </Form>

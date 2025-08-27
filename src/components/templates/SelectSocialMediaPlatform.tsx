@@ -5,21 +5,6 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import { SocialType } from "./PromotionServiceDetails";
 
-const ServicesList = [
-  {
-    id: 1,
-    title: "حملة إعلانية مدفوعة",
-    description: "ترويج إعلانك العقاري من خلال حملة مدفوعة",
-    icon: "/Icons/ic_sharp-language.svg",
-  },
-  {
-    id: 2,
-    title: "الإعلان عبر حسابات عقرها",
-    description: "نشر إعلانك من خلال حساب عقرها",
-    icon: "/Icons/ic_baseline-app-shortcut.svg",
-  },
-];
-
 const SocialList = [
   {
     label: "انستغرام",
@@ -46,49 +31,18 @@ const SocialList = [
 interface SocialMediaPlatformProps {
   selectedSocial: SocialType;
   setSelectedSocial: (social: SocialType) => void;
-  selectedService: number;
-  setSelectedService: (service: number) => void;
 }
 
 const SelectSocialMediaPlatform = ({
-  selectedService,
   selectedSocial,
-  setSelectedService,
   setSelectedSocial,
 }: SocialMediaPlatformProps) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("✅ شبكة التواصل المختارة:", selectedSocial);
-    console.log("🛠️ الخدمة المختارة:", selectedService);
   };
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <div>
-        <h3 className="text-xl font-semibold mb-4">الرجاء اختيار الخدمة</h3>
-        <div className="flex flex-col gap-6">
-          {ServicesList.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => setSelectedService(item.id)}
-              className={`flex items-center gap-4 border p-4 rounded-md md:w-1/2 cursor-pointer transition hover:bg-gray-100 ${
-                selectedService === item.id
-                  ? "border-primary bg-gray-100"
-                  : "border-gray-200"
-              }`}
-            >
-              <Image src={item.icon} width={30} height={30} alt={item.title} />
-              <div className="space-y-1">
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div>
         <h3 className="text-xl font-semibold mb-4">
           اختر شبكة التواصل الاجتماعي

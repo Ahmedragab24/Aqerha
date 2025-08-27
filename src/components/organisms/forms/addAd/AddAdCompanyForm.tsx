@@ -1,39 +1,64 @@
 "use client";
 
-import { stepType } from "@/app/(pages)/owner-ad/page";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
-import CustomPhoneInput from "@/components/atoms/inputs/CustomPhoneInput";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import { Form, FormField } from "@/components/ui/form";
-import { AddAdCompanyFormSchema } from "@/schemas/AddAdCompanyFormSchema";
+import { stepType } from "@/app/(pages)/add-advertisement/page";
+import SubmitBtn from "../../../atoms/buttons/SubmitBtn";
+import CustomPhoneInput from "../../../atoms/inputs/CustomPhoneInput";
+import CustomFormItem from "../../../molecules/formItems/CustomFormItem";
+import { Form, FormField } from "../../../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { AddAdStepOneFormSchema } from "@/schemas/AddAdStepOneFormSchema";
+import { TypeUserRoleType, TypeUserType } from "@/types/Auth";
+import { useStoreAdRealEstateMutation } from "@/store/services/RealEstate";
+import { showSuccessToast } from "@/components/Successfully/DoneToast";
+import { ErrorType } from "@/types/errors";
+import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import { TypeUserRealEstateType } from "@/types/Real-estates";
 
 interface Props {
   setStep: (value: stepType) => void;
 }
 
 const AddAdCompanyForm = ({ setStep }: Props) => {
-  const form = useForm<z.infer<typeof AddAdCompanyFormSchema>>({
-    resolver: zodResolver(AddAdCompanyFormSchema),
+  const [StoreAd, { isLoading }] = useStoreAdRealEstateMutation();
+  const form = useForm<z.infer<typeof AddAdStepOneFormSchema>>({
+    resolver: zodResolver(AddAdStepOneFormSchema),
     defaultValues: {
-      DeedRegisterNumber: "",
-      DeedRegisterDate: "",
-      commercialRegistrationNumber: "",
-      idNumber: "",
-      agencyNumber: "",
-      LicenseNumber: "",
-      birthDate: "",
+      userType: "company" as TypeUserType,
+      user_role: "agent" as TypeUserRoleType,
       phone: "",
       whatsapp: "",
+      birth_date: "",
+      agent_nation_id: "",
+      instrument_number: "",
+      instrument_date: "",
+      unified_commercial_registration_number: "",
+      agency_number: "",
+      agency_date: "",
+      licence_number: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof AddAdCompanyFormSchema>) {
-    console.log(values);
-    setStep("stepTwo");
+  async function onSubmit(values: z.infer<typeof AddAdStepOneFormSchema>) {
+    try {
+      const cleanedValues = {
+        ...values,
+        user_type: values.userType as TypeUserRealEstateType,
+        user_role: values.user_role as TypeUserRoleType,
+        userType: undefined,
+      };
+      delete cleanedValues.userType;
+
+      const res = await StoreAd(cleanedValues).unwrap();
+      showSuccessToast({ title: res.message });
+
+      setStep("stepTwo");
+    } catch (error) {
+      const err = error as ErrorType;
+      showFailedToast({ title: err.data.message || "حدث خطأ غير متوقع" });
+    }
   }
 
   return (
@@ -47,46 +72,7 @@ const AddAdCompanyForm = ({ setStep }: Props) => {
           <div className="grid md:grid-cols-2 gap-8">
             <FormField
               control={form.control}
-              name="DeedRegisterNumber"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="رقم الصك/السجل العيني"
-                  placeholder="أدخل رقم الصك أو السجل العيني"
-                  type="text"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="DeedRegisterDate"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="تاريخ الصك"
-                  placeholder="أدخل تاريخ الصك"
-                  type="date"
-                />
-              )}
-            />
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <FormField
-              control={form.control}
-              name="commercialRegistrationNumber"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="الرقم الموحد للسجل التجاري"
-                  placeholder="أدخل الرقم الموحد للسجل التجاري"
-                  type="number"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="idNumber"
+              name="agent_nation_id"
               render={({ field }) => (
                 <CustomFormItem
                   field={field}
@@ -98,34 +84,7 @@ const AddAdCompanyForm = ({ setStep }: Props) => {
             />
             <FormField
               control={form.control}
-              name="agencyNumber"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="رقم الوكالة"
-                  placeholder="أدخل رقم الوكالة"
-                  type="number"
-                />
-              )}
-            />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <FormField
-              control={form.control}
-              name="LicenseNumber"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="رقم الترخيص"
-                  placeholder="أدخل رقم الترخيص"
-                  type="number"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="birthDate"
+              name="birth_date"
               render={({ field }) => (
                 <CustomFormItem
                   field={field}
@@ -154,8 +113,90 @@ const AddAdCompanyForm = ({ setStep }: Props) => {
             />
           </div>
 
+          <div className="grid md:grid-cols-3 gap-8">
+            <FormField
+              control={form.control}
+              name="licence_number"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="رقم الترخيص"
+                  placeholder="أدخل رقم الترخيص"
+                  type="number"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instrument_number"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="رقم الصك/السجل العيني"
+                  placeholder="أدخل رقم الصك أو السجل العيني"
+                  type="text"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instrument_date"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="تاريخ الصك"
+                  placeholder="أدخل تاريخ الصك"
+                  type="date"
+                />
+              )}
+            />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <FormField
+              control={form.control}
+              name="unified_commercial_registration_number"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="الرقم الموحد للسجل التجاري"
+                  placeholder="أدخل الرقم الموحد للسجل التجاري"
+                  type="number"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="agency_number"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="رقم الوكالة"
+                  placeholder="أدخل رقم الوكالة"
+                  type="number"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="agency_date"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="تاريخ الوكالة"
+                  placeholder="أدخل تاريخ الوكالة"
+                  type="date"
+                />
+              )}
+            />
+          </div>
+
           <div className="md:w-[30%] mx-auto">
-            <SubmitBtn title="التالي" />
+            <SubmitBtn
+              title="التالي"
+              loading={isLoading}
+              disabled={isLoading}
+            />
           </div>
         </form>
       </div>

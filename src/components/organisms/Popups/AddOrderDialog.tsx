@@ -9,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import AddAdOrRequestForm from "../forms/AddAdOrRequestForm";
@@ -67,15 +67,9 @@ const AddOrderDialog = ({ children }: Props) => {
           {step === "stepTwo" && orderType === "Sales" && (
             <AddAdOrRequestForm
               type="request"
-              formType="sales"
               changeOpen={changeOpen}
-            />
-          )}
-          {step === "stepTwo" && orderType === "Rental" && (
-            <AddAdOrRequestForm
-              type="request"
-              formType="rental"
-              changeOpen={changeOpen}
+              isPage={false}
+              title={false}
             />
           )}
         </div>

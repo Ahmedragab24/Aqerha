@@ -9,17 +9,17 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
+} from "../../../ui/form";
+import CustomFormItem from "../../../molecules/formItems/CustomFormItem";
+import SubmitBtn from "../../../atoms/buttons/SubmitBtn";
 import { StepType } from "@/app/(pages)/broker-ad/page";
 import { StepFourFormSchema } from "@/schemas/broker-ad";
-import { Switch } from "@/components/ui/switch";
+import { Switch } from "../../../ui/switch";
 import { Percent } from "lucide-react";
-import CustomToggleGroup from "@/components/molecules/btnsGroup/CustomToggleGroup";
-import AgreeTermsCheckboxField from "@/components/molecules/checkboxs/AgreeTermsCheckboxField";
-import { showSuccessToast } from "@/components/Successfully/DoneToast";
-import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import CustomToggleGroup from "../../../molecules/btnsGroup/CustomToggleGroup";
+import AgreeTermsCheckboxField from "../../../molecules/checkboxs/AgreeTermsCheckboxField";
+import { showSuccessToast } from "../../../Successfully/DoneToast";
+import { showFailedToast } from "../../../Error&NotFound/FailedToast";
 
 interface Props {
   setStep: (value: StepType) => void;
@@ -76,7 +76,7 @@ const StepFourForm = ({ setStep }: Props) => {
                 label="وصف العقار"
                 placeholder="يرجي إدخال تفاصيل حول العقار المطلوب"
                 type="text"
-                typeInput="textAria"
+                typeInput="textarea"
                 className="h-32"
               />
             )}
@@ -133,7 +133,7 @@ const StepFourForm = ({ setStep }: Props) => {
                         { label: "ثابت", value: "static" },
                       ]}
                       value={field.value}
-                      onValueChange={field.onChange}
+                      dispatch={field.onChange}
                     />
                   </div>
                 )}
@@ -147,7 +147,7 @@ const StepFourForm = ({ setStep }: Props) => {
             render={() => <AgreeTermsCheckboxField field={form.control} />}
           />
 
-          <SubmitBtn title="نشر الإعلان" />
+          <SubmitBtn title="نشر الإعلان" loading disabled />
         </form>
       </div>
     </Form>

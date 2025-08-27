@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import QuickChatDialog from "@/components/organisms/chats/QuickChatDialog";
+import { Button } from "../../ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,6 +10,8 @@ interface CallUserBtnsProps {
   isText: boolean;
   className?: string;
   classNameBtns?: string;
+  userId?: number;
+  productId?: number;
 }
 
 const CallUserBtns = ({
@@ -17,12 +20,14 @@ const CallUserBtns = ({
   whatsapp,
   className,
   classNameBtns,
+  userId,
+  productId,
 }: CallUserBtnsProps) => {
   return (
     <div className={`flex flex-row items-center gap-2 md:gap-4 ${className}`}>
       <Button
         variant={"secondary"}
-        className={`md:!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
+        className={`md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
       >
         <Link href={`tel:${phone}`} className="flex items-center gap-2">
           <Image
@@ -37,7 +42,7 @@ const CallUserBtns = ({
 
       <Button
         variant={"secondary"}
-        className={`md:!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
+        className={`md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
       >
         <Link href={`tel:${whatsapp}`} className="flex items-center gap-2">
           <Image
@@ -52,17 +57,13 @@ const CallUserBtns = ({
 
       <Button
         variant={"secondary"}
-        className={`md:!p-6 border-none hover:bg-secondary/80 ${classNameBtns}`}
+        className={`md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
       >
-        <Link href={`tel:${phone}`} className="flex items-center gap-2">
-          <Image
-            src="/Icons/proicons_chat.svg"
-            alt="Real Estate"
-            width={25}
-            height={25}
-          />
-          {isText && <h4>محادثة</h4>}
-        </Link>
+        <QuickChatDialog
+          isText={isText}
+          userId={userId!}
+          productId={productId!}
+        />
       </Button>
     </div>
   );

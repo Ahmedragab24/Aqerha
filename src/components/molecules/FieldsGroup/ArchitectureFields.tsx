@@ -1,7 +1,7 @@
-import { FormField } from "@/components/ui/form";
+import { FormField } from "../../ui/form";
 import React from "react";
 import CustomSelectField from "../selects/CustomSelectField";
-import { numberOptions } from "@/constants/forms/Order";
+import { numberOptions } from "@/constants/selects";
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

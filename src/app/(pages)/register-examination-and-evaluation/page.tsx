@@ -1,5 +1,5 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import RegisterExaminationAndEvaluationForm from "@/components/organisms/forms/RegisterExaminationAndEvaluationForm";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import RegisterExaminationAndEvaluationForm from "../../../components/organisms/forms/RegisterExaminationAndEvaluationForm";
 import React from "react";
 
 const RegisterExaminationAndEvaluationPage = () => {

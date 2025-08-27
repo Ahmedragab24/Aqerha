@@ -1,6 +1,6 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import DiscriminationCampaignCard from "@/components/molecules/cards/DiscriminationCampaignCard";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import DiscriminationCampaignCard from "../../../components/molecules/cards/DiscriminationCampaignCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import { DiscriminationCampaignsData } from "@/constants/discrimination-campaigns";
 import React from "react";
 

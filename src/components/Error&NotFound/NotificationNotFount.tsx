@@ -10,7 +10,7 @@ const NotificationNotFount = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <Image
-        src="/Icons/carbon_notification.png"
+        src="/Icons/carbon_notification.svg"
         alt="not found"
         width={180}
         height={180}

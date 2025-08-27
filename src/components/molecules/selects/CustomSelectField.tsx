@@ -5,14 +5,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../ui/select";
 import type { OptionType } from "@/types/selects";
 
 interface CustomSelectProps {
@@ -22,6 +22,7 @@ interface CustomSelectProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   field?: any;
   label?: string;
+  icon?: React.ReactNode;
 }
 
 const CustomSelectField = ({
@@ -30,6 +31,7 @@ const CustomSelectField = ({
   placeholder,
   field,
   label,
+  icon,
 }: CustomSelectProps) => {
   return (
     <FormItem>
@@ -39,7 +41,10 @@ const CustomSelectField = ({
           <SelectTrigger
             className={`w-full border-border !h-11 ${className || ""}`}
           >
-            <SelectValue placeholder={placeholder} />
+            <div className="flex items-center gap-2.5">
+              <SelectValue placeholder={placeholder} />
+              {icon && icon}
+            </div>
           </SelectTrigger>
         </FormControl>
         <SelectContent>

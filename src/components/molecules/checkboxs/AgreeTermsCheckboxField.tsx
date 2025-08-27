@@ -1,14 +1,15 @@
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "../../ui/checkbox";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../ui/form";
 import React from "react";
 
 export const AgreeTermsList = [
+  { value: "agree", label: "أوافق علي شروط الإستخدام و ألتزم برسوم الإعلان." },
   { value: "agree", label: "أوافق علي شروط الإستخدام و ألتزم برسوم الإعلان." },
 ];
 
@@ -24,7 +25,7 @@ const AgreeTermsCheckboxField = ({ field }: Props) => {
         <FormField
           key={item.value}
           control={field}
-          name="AgreeTerms"
+          name="terms_acceptance"
           render={({ field }) => {
             return (
               <FormItem

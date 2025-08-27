@@ -2,9 +2,9 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "../../ui/card";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
 import { MapPin, Search, Locate, Loader2 } from "lucide-react";
 
 interface LocationMapProps {
@@ -12,6 +12,7 @@ interface LocationMapProps {
     lat: number;
     lng: number;
     address: string;
+    city: string;
   }) => void;
 }
 
@@ -23,21 +24,20 @@ declare global {
   }
 }
 
-// Place these at the top, outside the component
+// حدود المملكة
 const saudiBounds = {
   north: 32.158,
   south: 16.002,
   west: 34.495,
   east: 55.667,
 };
-
 const saudiCenter = { lat: 24.7136, lng: 46.6753 };
 
 const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
   const [selectedLocation, setSelectedLocation] = useState<{
     lat: number;
     lng: number;
-    address: string;
+    city: string;
   } | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -49,43 +49,59 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
   const markerRef = useRef<any>(null);
   const geocoderRef = useRef<any>(null);
 
+  const extractCity = (results: any[]): string => {
+    for (const result of results) {
+      const cityComponent = result.address_components.find(
+        (comp: any) =>
+          comp.types.includes("locality") ||
+          comp.types.includes("administrative_area_level_1")
+      );
+      if (cityComponent) return cityComponent.long_name;
+    }
+    return "غير معروف";
+  };
+
   const handleLocationSelect = useCallback(
-    (location: { lat: number; lng: number; address: string }) => {
-      setSelectedLocation(location);
-      onLocationSelect(location);
+    (location: {
+      lat: number;
+      lng: number;
+      address: string;
+      city?: string;
+    }) => {
+      const finalLocation = {
+        ...location,
+        city: location.city || "غير معروف",
+      };
+      setSelectedLocation(finalLocation);
+      onLocationSelect(finalLocation);
     },
     [onLocationSelect]
   );
 
-  // Load Google Maps
+  // تحميل Google Maps
   useEffect(() => {
     const loadGoogleMaps = async () => {
       try {
-        // Check if Google Maps is already loaded
         if (window.google && window.google.maps) {
           initializeMap();
           return;
         }
 
-        // Create script element
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&language=ar&region=SA&callback=initMap`;
         script.async = true;
         script.defer = true;
 
-        // Set up callback
         window.initMap = initializeMap;
 
-        // Handle script load errors
         script.onerror = () => {
-          setMapError("فشل في تحميل خرائط جوجل. يرجى التحقق من مفتاح API.");
+          setMapError("فشل في تحميل خرائط جوجل. تحقق من مفتاح API.");
           setIsMapLoading(false);
         };
 
         document.head.appendChild(script);
       } catch (error) {
         console.log(error);
-
         setMapError("حدث خطأ في تحميل الخريطة");
         setIsMapLoading(false);
       }
@@ -93,9 +109,7 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
 
     const initializeMap = () => {
       if (!mapRef.current || !window.google) return;
-
       try {
-        // Initialize map
         const map = new window.google.maps.Map(mapRef.current, {
           center: saudiCenter,
           zoom: 6,
@@ -110,30 +124,25 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
         });
 
         mapInstanceRef.current = map;
-
-        // Initialize geocoder
         geocoderRef.current = new window.google.maps.Geocoder();
 
-        // Add click listener to map
         map.addListener("click", (event: any) => {
           const lat = event.latLng.lat();
           const lng = event.latLng.lng();
 
-          // Reverse geocode to get address
           geocoderRef.current.geocode(
             { location: { lat, lng } },
             (results: any[], status: string) => {
               let address = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+              let city = "غير معروف";
 
               if (status === "OK" && results[0]) {
                 address = results[0].formatted_address;
+                city = extractCity(results);
               }
 
-              // Update marker
               updateMarker(lat, lng);
-
-              // Call location select handler
-              handleLocationSelect({ lat, lng, address });
+              handleLocationSelect({ lat, lng, address, city });
             }
           );
         });
@@ -141,7 +150,6 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
         setIsMapLoading(false);
       } catch (error) {
         console.log(error);
-
         setMapError("فشل في تهيئة الخريطة");
         setIsMapLoading(false);
       }
@@ -149,7 +157,6 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
 
     loadGoogleMaps();
 
-    // Cleanup
     return () => {
       if (Object.prototype.hasOwnProperty.call(window, "initMap")) {
         delete (window as any).initMap;
@@ -160,12 +167,10 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
   const updateMarker = (lat: number, lng: number) => {
     if (!mapInstanceRef.current || !window.google) return;
 
-    // Remove existing marker
     if (markerRef.current) {
       markerRef.current.setMap(null);
     }
 
-    // Create new marker
     markerRef.current = new window.google.maps.Marker({
       position: { lat, lng },
       map: mapInstanceRef.current,
@@ -173,40 +178,35 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
       animation: window.google.maps.Animation.DROP,
     });
 
-    // Center map on marker
     mapInstanceRef.current.setCenter({ lat, lng });
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (e: React.KeyboardEvent) => {
+    e.preventDefault();
     if (!searchQuery.trim() || !geocoderRef.current) return;
-
     setIsSearching(true);
 
     try {
       geocoderRef.current.geocode(
-        {
-          address: searchQuery,
-          componentRestrictions: { country: "SA" }, // Restrict to Saudi Arabia
-        },
+        { address: searchQuery, componentRestrictions: { country: "SA" } },
         (results: any[], status: string) => {
           setIsSearching(false);
-
           if (status === "OK" && results[0]) {
             const location = results[0].geometry.location;
             const lat = location.lat();
             const lng = location.lng();
             const address = results[0].formatted_address;
+            const city = extractCity(results);
 
             updateMarker(lat, lng);
-            handleLocationSelect({ lat, lng, address });
+            handleLocationSelect({ lat, lng, address, city });
           } else {
-            alert("لم يتم العثور على الموقع. يرجى المحاولة مرة أخرى.");
+            alert("لم يتم العثور على الموقع.");
           }
         }
       );
     } catch (error) {
       console.log(error);
-
       setIsSearching(false);
       alert("حدث خطأ أثناء البحث");
     }
@@ -219,19 +219,27 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
 
-          // Check if location is within Saudi Arabia bounds
           if (
             lat >= saudiBounds.south &&
             lat <= saudiBounds.north &&
             lng >= saudiBounds.west &&
             lng <= saudiBounds.east
           ) {
-            updateMarker(lat, lng);
-            handleLocationSelect({
-              lat,
-              lng,
-              address: "الموقع الحالي",
-            });
+            geocoderRef.current.geocode(
+              { location: { lat, lng } },
+              (results: any[], status: string) => {
+                let address = "الموقع الحالي";
+                let city = "غير معروف";
+
+                if (status === "OK" && results[0]) {
+                  address = results[0].formatted_address;
+                  city = extractCity(results);
+                }
+
+                updateMarker(lat, lng);
+                handleLocationSelect({ lat, lng, address, city });
+              }
+            );
           } else {
             alert("موقعك الحالي خارج المملكة العربية السعودية");
           }
@@ -246,7 +254,6 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
     }
   };
 
-  // Predefined Saudi cities for quick selection
   const saudiCities = [
     { name: "الرياض", lat: 24.7136, lng: 46.6753 },
     { name: "جدة", lat: 21.4858, lng: 39.1925 },
@@ -267,6 +274,7 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
       lat: city.lat,
       lng: city.lng,
       address: `${city.name}, المملكة العربية السعودية`,
+      city: city.name,
     });
   };
 
@@ -280,10 +288,10 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
               placeholder="ابحث عن موقع في السعودية..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+              onKeyPress={(e) => e.key === "Enter" && handleSearch(e as any)}
             />
             <Button
-              onClick={handleSearch}
+              onClick={(e) => handleSearch(e as any)}
               disabled={isSearching}
               variant="outline"
             >
@@ -312,7 +320,6 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
                 </div>
               </div>
             )}
-
             {mapError && (
               <div className="h-64 bg-red-50 rounded-lg flex items-center justify-center border-2 border-red-200">
                 <div className="text-center">
@@ -321,7 +328,6 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
                 </div>
               </div>
             )}
-
             <div
               ref={mapRef}
               className={`h-64 rounded-lg ${
@@ -341,7 +347,7 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
                   variant="outline"
                   size="sm"
                   onClick={(e) => handleCityClick(city, e)}
-                  className="justify-start h-auto p-2 !text-xs"
+                  className="justify-start h-auto p-2 !text-[10px]"
                 >
                   <MapPin className="!h-3 !w-3 mr-2 flex-shrink-0" />
                   <span>{city.name}</span>
@@ -359,8 +365,8 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
                   <p className="text-sm font-medium text-green-800">
                     الموقع المحدد:
                   </p>
-                  <p className="text-xs text-green-600">
-                    {selectedLocation.address}
+                  <p className="text-xs text-gray-500">
+                    المدينة: {selectedLocation.city}
                   </p>
                   <p className="text-xs text-gray-500">
                     {selectedLocation.lat.toFixed(6)},{" "}

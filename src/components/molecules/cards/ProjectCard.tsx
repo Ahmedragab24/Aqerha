@@ -1,21 +1,20 @@
-import ArrowTLBlend from "@/components/atoms/Icons/ArrowTLBlend";
-import Riyal from "@/components/atoms/Icons/Riyal";
-import GradientOverlay from "@/components/atoms/sliders/GradientOverlay";
+import { House, MapPin } from "lucide-react";
+import ArrowTLBlend from "../../atoms/Icons/ArrowTLBlend";
+import GradientOverlay from "../../atoms/sliders/GradientOverlay";
 import type { ProjectType } from "@/types/projects";
 import Image from "next/image";
 import Link from "next/link";
 
 interface ProjectCardProps {
   project: ProjectType;
-  developerId?: string;
 }
 
-const ProjectCard = ({ project, developerId }: ProjectCardProps) => {
-  const { id, name, image, utils } = project;
+const ProjectCard = ({ project }: ProjectCardProps) => {
+  const { id, name, real_estates_number, cover_image, city } = project;
 
   return (
     <Link
-      href={`/developers/${developerId}/${id}`}
+      href={`/projects/${id}`}
       className="relative w-full max-w-md mx-auto group"
     >
       {/* Main card container */}
@@ -23,7 +22,7 @@ const ProjectCard = ({ project, developerId }: ProjectCardProps) => {
         {/* Background image */}
         <div className="relative h-64 w-full">
           <Image
-            src={image}
+            src={cover_image}
             alt={name}
             fill
             loading="lazy"
@@ -40,18 +39,25 @@ const ProjectCard = ({ project, developerId }: ProjectCardProps) => {
 
         {/* Bottom right text content */}
         <div className="absolute bottom-4 right-4 text-right">
-          <h3 className="text-white text-xl font-bold mb-1" dir="rtl">
+          <h3
+            className="text-white text-xl font-bold mb-1 drop-shadow-sm drop-shadow-gray-700"
+            dir="rtl"
+          >
             {name}
           </h3>
+          <div className="flex items-center text-white">
+            <MapPin size={15} />
+            <h4 className="text-sm drop-shadow-sm drop-shadow-gray-700">
+              {city}
+            </h4>
+          </div>
           <div
             className="text-white/90 text-sm flex items-center gap-1"
             dir="rtl"
           >
-            <span>{utils}</span>
+            <span>{real_estates_number}</span>
             <span>وحدات متاحة</span>
-            <span>
-              <Riyal />
-            </span>
+            <House size={18} />
           </div>
         </div>
       </div>

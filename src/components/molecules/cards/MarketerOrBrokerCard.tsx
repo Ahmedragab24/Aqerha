@@ -1,18 +1,19 @@
-import Riyal from "@/components/atoms/Icons/Riyal";
-import RealEstateMarketingRequestDialog from "@/components/organisms/Popups/RealEstateMarketingRequestDialog";
-import { Button } from "@/components/ui/button";
-import { MarketerOrBrokerRequestType } from "@/types/marketerOrBroker";
-import { ArrowLeft } from "lucide-react";
+import { formatName, formatPurpose } from "@/lib/utils";
+import Riyal from "../../atoms/Icons/Riyal";
+import { Button } from "../../ui/button";
+import { RealEstesType } from "@/types/Real-estates";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
-  data: MarketerOrBrokerRequestType;
-  path: string;
+  data: RealEstesType;
 }
 
 const MarketerOrBrokerCard = ({ data }: Props) => {
-  const { name, maxAria, maxPrice, minAria, minPrice, phone, whatsapp } = data;
+  const title = `مطلوب ${formatName(
+    data?.real_estate_type
+  )} ${" "} ${formatPurpose(data?.purpose)} في ${data?.city}`;
+
   return (
     <div className="bg-secondary p-6 rounded-lg shadow-md">
       <div className="flex flex-col gap-6">
@@ -23,20 +24,32 @@ const MarketerOrBrokerCard = ({ data }: Props) => {
             width={25}
             height={25}
           />
-          <h2 className="text-lg md:text-xl font-semibold">{name}</h2>
+          <h2 className="text-lg md:text-xl font-semibold">{title}</h2>
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-gray-500">
-            {minAria} - {maxAria} م2
-          </h3>
-          <h2 className="flex items-center gap-1 text-lg font-semibold text-primary">
-            {minPrice} - {maxPrice} <Riyal />
-          </h2>
+          {data?.max_area ? (
+            <h3 className="text-lg font-semibold text-gray-500">
+              {data?.main_area} - {data?.max_area} م2
+            </h3>
+          ) : (
+            <h3 className="text-lg font-semibold text-gray-500">
+              {data?.main_area} م2
+            </h3>
+          )}
+          {data?.max_price ? (
+            <h2 className="flex items-center gap-1 text-lg font-semibold text-primary">
+              {data?.main_price} - {data?.max_price} <Riyal />
+            </h2>
+          ) : (
+            <h2 className="flex items-center gap-1 text-lg font-semibold text-primary">
+              {data?.main_price} <Riyal />
+            </h2>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
-          <Link href={`tel:${phone}`} className="w-full">
+          <Link href={`tel:${data?.user?.phone}`} className="w-full">
             <Button
               variant={"outline"}
               size={"lg"}
@@ -52,7 +65,7 @@ const MarketerOrBrokerCard = ({ data }: Props) => {
             </Button>
           </Link>
 
-          <Link href={`tel:${whatsapp}`} className="w-full">
+          <Link href={`https://wa.me/${data?.user?.phone}`} className="w-full">
             <Button
               variant={"secondary"}
               size={"lg"}
@@ -67,15 +80,6 @@ const MarketerOrBrokerCard = ({ data }: Props) => {
               واتساب
             </Button>
           </Link>
-        </div>
-
-        <div className="flex justify-end">
-          <RealEstateMarketingRequestDialog>
-            <div className="flex items-center gap-1 text-sm duration-200 group text-gray-500 hover:text-gray-600 cursor-pointer py-2">
-              <h5> عرض الطلب</h5>
-              <ArrowLeft className="w-4 h-4 duration-200 group-hover:-translate-x-1" />
-            </div>
-          </RealEstateMarketingRequestDialog>
         </div>
       </div>
     </div>

@@ -1,13 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "../../ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { useStoreReviewMutation } from "@/store/services/Profile";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { showSuccessToast } from "@/components/Successfully/DoneToast";
+import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import { RealEstesUser } from "@/types/Real-estates";
+import { Input } from "@/components/ui/input";
 
-const RateAdvertiser = () => {
+interface Props {
+  AdvertiserData: RealEstesUser;
+}
+
+const RateAdvertiser = ({ AdvertiserData }: Props) => {
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [name, setName] = useState("");
+  const [StoreReview, { isLoading }] = useStoreReviewMutation();
 
   const handleRatingClick = (rating: number) => {
     setSelectedRating(rating);
@@ -21,12 +33,58 @@ const RateAdvertiser = () => {
     setHoveredRating(0);
   };
 
+  const handlerStoreReview = async () => {
+    if (!AdvertiserData?.id) {
+      showFailedToast({ title: "لا يمكن إضافة التقييم بدون معرف المعلن" });
+      return;
+    }
+
+    if (!selectedRating) {
+      showFailedToast({ title: "يجب اختيار تقييم" });
+      return;
+    }
+
+    if (!comment) {
+      showFailedToast({ title: "يجب إدخال تقييم" });
+      return;
+    }
+
+    if (!name) {
+      showFailedToast({ title: "يجب إدخال اسمك" });
+      return;
+    }
+
+    try {
+      await StoreReview({
+        reviewed_user_id: AdvertiserData.id,
+        rating: selectedRating,
+        comment,
+        name,
+      }).unwrap();
+
+      // ✅ إعادة تعيين القيم
+      setSelectedRating(0);
+      setHoveredRating(0);
+      setComment("");
+      setName("");
+
+      showSuccessToast({
+        title: "تم إضافة التقييم بنجاح",
+      });
+    } catch (error) {
+      console.error(error);
+      showFailedToast({
+        title: "حدث خطأ أثناء إضافة التقييم",
+      });
+    }
+  };
+
   return (
     <Card className="bg-white">
       <CardContent className="p-6">
         <div className="text-center mb-4">
           <p className="text-sm text-gray-600 mb-3">
-            ما هي التجربة التي تتطلع لها؟ سلامة؟
+            ما هي التجربة التي تتطلع لها {AdvertiserData?.name} ؟
           </p>
 
           {/* Interactive Star Rating */}
@@ -63,23 +121,28 @@ const RateAdvertiser = () => {
             </p>
           )}
 
-          <p className="text-sm text-gray-600 mb-4">
-            معدل رضا المستخدمين: 4.9 من 5
-          </p>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="ادخل اسمك"
+            className="mb-4"
+          />
 
-          <Button
-            variant="outline"
-            className="h-12 text-lg text-red-500 border-red-200 hover:bg-red-50 bg-transparent"
-          >
-            <Image
-              src="/Icons/warning-2.svg"
-              alt="warning"
-              width={30}
-              height={30}
-            />
-            تقرير المخالفة
-          </Button>
+          <Textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="ادخل رسالتك"
+            className="mb-4"
+          />
         </div>
+
+        <Button
+          className="w-full"
+          disabled={isLoading || selectedRating === 0}
+          onClick={handlerStoreReview}
+        >
+          {isLoading ? "جاري الارسال..." : "إرسال"}
+        </Button>
       </CardContent>
     </Card>
   );

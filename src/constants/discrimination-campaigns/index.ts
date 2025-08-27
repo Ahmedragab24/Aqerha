@@ -1,4 +1,4 @@
-import { DiscriminationCampaignType } from "@/types/products";
+import { DiscriminationCampaignType } from "@/types/Real-estates";
 
 export const DiscriminationCampaignsData: DiscriminationCampaignType[] = [
   {

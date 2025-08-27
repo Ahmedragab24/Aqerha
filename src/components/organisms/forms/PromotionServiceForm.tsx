@@ -10,15 +10,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
-import Riyal from "@/components/atoms/Icons/Riyal";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../../ui/form";
+import SubmitBtn from "../../atoms/buttons/SubmitBtn";
+import Riyal from "../../atoms/Icons/Riyal";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
 import { PromotionServiceFormSchema } from "@/schemas/PromotionServiceFormSchema";
 import { OptionType } from "@/types/selects";
 import { StepType } from "../Popups/PromotionServiceDialog";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
 
 const DiscriminationPeriodList: OptionType[] = [
   {
@@ -84,7 +84,7 @@ const PromotionServiceForm = ({ setStep }: PromotionServiceFormProps) => {
                 <FormLabel className="text-base">مدة التمييز:</FormLabel>
                 <FormControl>
                   <RadioGroup
-                  dir="rtl"
+                    dir="rtl"
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     className="flex flex-col space-y-1"
@@ -115,7 +115,7 @@ const PromotionServiceForm = ({ setStep }: PromotionServiceFormProps) => {
             <li>نوصي أن لا تقل مدة التمييز عن 3 أيام </li>
           </ul>
 
-          <SubmitBtn title="ابدأ الخدمة" />
+          <SubmitBtn title="ابدأ الخدمة" loading disabled />
         </form>
       </div>
     </Form>

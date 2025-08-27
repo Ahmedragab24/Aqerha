@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import type React from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,13 +10,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Map } from "lucide-react";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import FindRealEstateOnMap from "@/components/molecules/Locations/FindRealEstateOnMap";
+import { RealEstesType } from "@/types/Real-estates";
 
 interface Props {
   children?: React.ReactNode;
+  properties: RealEstesType[];
 }
 
-const SearchMapDialog = ({ children }: Props) => {
+const SearchMapDialog = ({ children, properties }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,16 +32,16 @@ const SearchMapDialog = ({ children }: Props) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="h-[80vh] overflow-y-scroll">
         <DialogHeader className="flex flex-col justify-center items-center">
           <DialogTitle>ابحث بالخريطة</DialogTitle>
           <DialogDescription>
-            ابحث عن البيوت المتاحة علي الخريطة
+            ابحث عن العقارات المتاحة علي الخريطة
           </DialogDescription>
         </DialogHeader>
 
         <div>
-          <Image src="/Images/Map.jpg" alt="map" width={500} height={500} />
+          <FindRealEstateOnMap properties={properties} />
         </div>
       </DialogContent>
     </Dialog>

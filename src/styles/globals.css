@@ -57,7 +57,7 @@
   --primary: hsla(155, 84%, 20%, 1);
   --primary-hover: hsla(160, 71%, 12%, 1);
   --primary-dark: hsla(160, 71%, 12%, 1);
-  --primary-light: hsla(159, 80%, 43%, 1);
+  --primary-light: hsl(159, 80%, 43%);
   --primary-foreground: oklch(0.982 0.018 155.826);
   --gray-300: hsla(216, 6%, 85%, 1);
   --secondary: oklch(0.967 0.001 286.375);
@@ -113,6 +113,9 @@
   }
   .Gradient_Linear_Purple {
     background: linear-gradient(180deg, #e4edff 42%, rgba(162, 210, 223, 0.25) 100%);
+  }
+  .footer_Link {
+    @apply block text-gray-500 hover:text-gray-900 hover:-translate-x-1 transition duration-200 text-sm font-medium
   }
 
   /* ================= Scroll Up ==================== */

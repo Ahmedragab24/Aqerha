@@ -1,6 +1,8 @@
-export interface NewsType {
+export interface NewType {
   id: number;
-  name: string;
+  title: string;
   description: string;
   image: string;
+  created_at: string;
+  updated_at: string;
 }

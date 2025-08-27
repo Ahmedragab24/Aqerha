@@ -1,93 +1,61 @@
-import DataNotFount from "@/components/Error&NotFound/DataNotFount";
-import MarketerOrBrokerCard from "@/components/molecules/cards/MarketerOrBrokerCard";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DataNotFount from "../../Error&NotFound/DataNotFount";
+import MarketerOrBrokerCard from "../../molecules/cards/MarketerOrBrokerCard";
 import React from "react";
-import PaginationList from "../paginations/PaginationList";
-import { MarketerOrBrokerRequestList } from "@/constants/cards/MarketerOrBrokerRequests";
-import { MarketerOrBrokerRequestCategoryType } from "@/types/marketerOrBroker";
-import { Button } from "@/components/ui/button";
-import SearchMapDialog from "../Popups/SearchMapDialog";
+import { MarketingRealEstatesResponse } from "@/store/services/RealEstate";
+import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
+import { SearchX } from "lucide-react";
+import PaginationProducts from "../paginations/PaginationList";
 
-const MarketingRequests = () => {
-  const tabItems: MarketerOrBrokerRequestCategoryType[] = [
-    "الكل",
-    "فيلا",
-    "أرض",
-    "شقق",
-    "عمارة",
-  ];
-
-  const StyleTrigger =
-    "flex-shrink-0 px-3 sm:px-4 md:px-6  py-2.5 sm:py-3 md:py-4 text-xs sm:text-sm md:text-base font-medium whitespace-nowrap  rounded-md sm:rounded-lg bg-secondary/80  text-secondary-foreground border border-border/50 shadow-sm transition-all duration-200 ease-in-out hover:bg-secondary hover:shadow-md hover:scale-[1.02] data-[state=active]:bg-primary  data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:border-primary/20 data-[state=active]:scale-[1.02] focus-visible:outline-none  focus-visible:ring-2  focus-visible:ring-ring  focus-visible:ring-offset-2 active:scale-[0.98] min-h-[44px] sm:min-h-[48px]";
-
-  const getFilteredData = (category: string) => {
-    if (category === "الكل") return MarketerOrBrokerRequestList;
-    return MarketerOrBrokerRequestList.filter(
-      (item) => item.category === category
+const MarketingRequests = ({
+  data,
+  isLoading,
+  isError,
+  pageNum,
+}: {
+  data: MarketingRealEstatesResponse | undefined;
+  isLoading: boolean;
+  isError: boolean;
+  pageNum: number;
+}) => {
+  if (isError) {
+    return (
+      <main className="Container pt-28 mb-16">
+        <DataNotFount
+          title="حدث خطأ ما"
+          description="يرجى تحديث الصفحة"
+          icon={<SearchX className="w-10 h-10" />}
+        />
+      </main>
     );
-  };
+  }
 
   return (
-    <Tabs defaultValue="الكل" className="w-full" dir="rtl">
-      <TabsList className="bg-transparent mb-16 lg:mb-8 mx-auto">
-        <div className="flex flex-wrap gap-2 sm:gap-3">
-          <SearchMapDialog>
-            <Button className={`md:!h-14 ${StyleTrigger}`}>عرض الخريطة</Button>
-          </SearchMapDialog>
-          {tabItems.map((category) => (
-            <TabsTrigger
-              key={category}
-              value={category}
-              className={StyleTrigger}
-            >
-              {category}
-            </TabsTrigger>
+    <div className="space-y-10">
+      {isLoading ? (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <GroupCardsSkeletons count={3} />
+        </div>
+      ) : data && data?.data?.length > 0 ? (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data?.data.map((item) => (
+            <MarketerOrBrokerCard key={item.id} data={item} />
           ))}
         </div>
-      </TabsList>
+      ) : (
+        <DataNotFount
+          title="لا يوجد مشاريع"
+          description="لا يوجد مشاريع حاليا"
+          icon={<SearchX className="w-10 h-10" />}
+        />
+      )}
 
-      {/* Tab Contents */}
-      {tabItems.map((category) => {
-        const filteredData = getFilteredData(category);
-
-        return (
-          <TabsContent
-            key={category}
-            value={category}
-            className="mt-0 focus-visible:outline-none"
-          >
-            {/* Responsive Grid */}
-            <div
-              className="
-                  grid 
-                  grid-cols-1 
-                  sm:grid-cols-2 
-                  gap-6
-                "
-            >
-              {filteredData.map((item) => (
-                <MarketerOrBrokerCard
-                  key={item.id}
-                  data={item}
-                  path={`developers/${item.id}`}
-                />
-              ))}
-            </div>
-
-            {/* Fixed Empty State Condition */}
-            {filteredData.length === 0 && (
-              <DataNotFount
-                title="لا يوجد مطورين"
-                description={`لم يتم العثور علي ${category}`}
-              />
-            )}
-
-            {/* Pagination moved inside TabsContent and made conditional */}
-            {filteredData.length > 5 && <PaginationList />}
-          </TabsContent>
-        );
-      })}
-    </Tabs>
+      {data?.meta && data?.meta?.last_page > 1 && (
+        <PaginationProducts
+          currentPage={pageNum}
+          totalPages={data?.meta?.last_page || 1}
+        />
+      )}
+    </div>
   );
 };
 

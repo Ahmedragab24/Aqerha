@@ -4,11 +4,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "../../ui/form";
 import React from "react";
 import CustomSelectField from "../selects/CustomSelectField";
-import { purposes } from "@/constants/forms/Order";
-import { Input } from "@/components/ui/input";
+import { Input } from "../../ui/input";
+import { purposesOfRealEstate } from "@/constants/selects";
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,7 +57,7 @@ const LandFields = ({ field }: Props) => {
             field={field}
             label="الغرض *"
             placeholder="اختر الغرض"
-            options={purposes}
+            options={purposesOfRealEstate}
             className="!h-11 border-border"
           />
         )}

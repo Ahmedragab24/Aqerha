@@ -1,41 +1,85 @@
-import MainTabTriggerBtn from "@/components/atoms/buttons/MainTriggerBtn";
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import InspectionRequestCard from "@/components/molecules/cards/InspectionRequestCard";
-import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
-import { EvaluationRequestsData } from "@/constants/cards/inspection-and-evaluation-requests";
+"use client";
+
+import {
+  useGetEvaluationByUserQuery,
+  useGetExaminationsByUserQuery,
+} from "@/store/services/GetRequests";
+import MainTabTriggerBtn from "../../../components/atoms/buttons/MainTriggerBtn";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import { Tabs, TabsContent, TabsList } from "../../../components/ui/tabs";
+import ExaminationRequestCard from "@/components/molecules/cards/ExaminationRequestCard";
+import EvaluationRequestCard from "../../../components/molecules/cards/EvaluationRequestCard";
+import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
+import DataNotFount from "@/components/Error&NotFound/DataNotFount";
+import { SearchX } from "lucide-react";
 
 const InspectionAndEvaluationRequestsPage = () => {
-  return (
-    <main className="Container pt-28 mb-16 space-y-10 md:space-y-4">
-      <SectionTitle Title="طلبات المسوق/الوسيط" className="text-center" />
+  const { data: examinations, isLoading: examinationsLoading } =
+    useGetExaminationsByUserQuery();
+  const { data: evaluations, isLoading: evaluationsLoading } =
+    useGetEvaluationByUserQuery();
 
-      <Tabs defaultValue="Inspection-requests" className="w-full" dir="rtl">
-        <TabsList className="mx-auto md:mx-0 mb-20">
-          <div className="flex flex-col border overflow-hidden rounded-sm w-[200px]">
-            <MainTabTriggerBtn
-              title="طلبات الفحص"
-              value="Inspection-requests"
-            />
-            <MainTabTriggerBtn
-              title="طلبات التقييم"
-              value="Evaluation-requests"
-            />
-          </div>
+  return (
+    <main className="Container pt-28 mb-20">
+      <SectionTitle Title="طلبات الفحص/التقييم" className="text-center" />
+
+      <Tabs defaultValue="Examinations-requests" className="w-full" dir="rtl">
+        <TabsList className="mx-auto md:mx-0 my-2 flex border rounded-sm h-full">
+          <MainTabTriggerBtn
+            title="طلبات الفحص"
+            value="Examinations-requests"
+          />
+          <MainTabTriggerBtn
+            title="طلبات التقييم"
+            value="Evaluation-requests"
+          />
         </TabsList>
 
-        <TabsContent value="Inspection-requests">
-          <div className="grid md:grid-cols-2 gap-6">
-            {EvaluationRequestsData.map((item) => (
-              <InspectionRequestCard key={item.id} EvaluationRequest={item} />
-            ))}
-          </div>
+        {/* Tab - فحص */}
+        <TabsContent value="Examinations-requests">
+          {examinationsLoading ? (
+            <div className="grid md:grid-cols-2 gap-6">
+              <GroupCardsSkeletons count={2} />
+            </div>
+          ) : examinations?.examination_requests &&
+            examinations.examination_requests.length > 0 ? (
+            <div className="grid md:grid-cols-2 gap-6">
+              {examinations.examination_requests.map((item) => (
+                <ExaminationRequestCard
+                  key={item.id}
+                  ExaminationRequest={item}
+                />
+              ))}
+            </div>
+          ) : (
+            <DataNotFount
+              title="لا يوجد طلبات"
+              description="لا يوجد طلبات حاليا"
+              icon={<SearchX className="w-10 h-10" />}
+            />
+          )}
         </TabsContent>
+
+        {/* Tab - تقييم */}
         <TabsContent value="Evaluation-requests">
-          <div className="grid md:grid-cols-2 gap-6">
-            {EvaluationRequestsData.map((item) => (
-              <InspectionRequestCard key={item.id} EvaluationRequest={item} />
-            ))}
-          </div>
+          {evaluationsLoading ? (
+            <div className="grid md:grid-cols-2 gap-6">
+              <GroupCardsSkeletons count={2} />
+            </div>
+          ) : evaluations?.evaluation_requests &&
+            evaluations.evaluation_requests.length > 0 ? (
+            <div className="grid md:grid-cols-2 gap-6">
+              {evaluations.evaluation_requests.map((item) => (
+                <EvaluationRequestCard key={item.id} EvaluationRequest={item} />
+              ))}
+            </div>
+          ) : (
+            <DataNotFount
+              title="لا يوجد طلبات"
+              description="لا يوجد طلبات حاليا"
+              icon={<SearchX className="w-10 h-10" />}
+            />
+          )}
         </TabsContent>
       </Tabs>
     </main>

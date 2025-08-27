@@ -1,29 +1,70 @@
+import { RealEstesType } from "@/types/Real-estates";
 import React from "react";
 
-const LegalInfoProperty = () => {
+const LegalInfoProperty = ({
+  realEstate,
+}: {
+  realEstate: RealEstesType | undefined;
+}) => {
   return (
-    <div className="space-y-8">
-      <h1 className="text-xl md:text-2xl font-semibold">معلومات عن الإعلان</h1>
+    <>
+      {realEstate?.ad?.instrument_number ||
+      realEstate?.ad?.created_at ||
+      realEstate?.ad?.license_number ? (
+        <div className="space-y-8">
+          <h1 className="text-xl md:text-2xl font-semibold">
+            معلومات عن الإعلان
+          </h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-        <div className="flex items-center gap-1">
-          <h4 className="text-md md:text-xl font-semibold">رقم الإعلان:</h4>
-          <span className="text-md md:text-xl text-gray-600">13142512</span>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {realEstate?.ad?.instrument_number && (
+              <div className="flex items-center justify-center gap-1 p-4 bg-gray-100 rounded-md shadow-sm">
+                <h4 className="text-md md:text-xl font-semibold text-primary">
+                  رقم الإعلان :
+                </h4>
+                <span className="text-md md:text-xl text-gray-600">
+                  {realEstate?.ad?.instrument_number}
+                </span>
+              </div>
+            )}
+            {realEstate?.ad?.created_at && (
+              <div className="flex items-center justify-center gap-1 p-4 bg-gray-100 rounded-md shadow-sm">
+                <h4 className="text-md md:text-xl font-semibold text-primary">
+                  تاريخ الإضافة :
+                </h4>
+                <span className="text-md md:text-xl text-gray-600">
+                  {new Date(
+                    realEstate?.ad?.created_at || ""
+                  ).toLocaleDateString()}
+                </span>
+              </div>
+            )}
+            {realEstate?.ad?.license_number && (
+              <div className="flex items-center justify-center gap-1 p-4 bg-gray-100 rounded-md shadow-sm">
+                <h4 className="text-md md:text-xl font-semibold text-primary">
+                  رقم الترخيص :
+                </h4>
+                <span className="text-md md:text-xl text-gray-600">
+                  {realEstate?.ad?.license_number}
+                </span>
+              </div>
+            )}
+            {realEstate?.ad?.created_at && (
+              <div className="flex items-center justify-center gap-1 p-4 bg-gray-100 rounded-md shadow-sm">
+                <h4 className="text-md md:text-xl font-semibold text-primary">
+                  آخر تحديث :
+                </h4>
+                <span className="text-md md:text-xl text-gray-600">
+                  {new Date(
+                    realEstate?.ad?.created_at || ""
+                  ).toLocaleDateString()}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          <h4 className="text-md md:text-xl font-semibold">تاريخ الإضافة:</h4>
-          <span className="text-md md:text-xl text-gray-600">23/6/2025</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <h4 className="text-md md:text-xl font-semibold">رقم الترخيص:</h4>
-          <span className="text-md md:text-xl text-gray-600">13213123</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <h4 className="text-md md:text-xl font-semibold">آخر تحديث:</h4>
-          <span className="text-md md:text-xl text-gray-600">27/6/2025</span>
-        </div>
-      </div>
-    </div>
+      ) : null}
+    </>
   );
 };
 

@@ -1,13 +1,13 @@
-import { NewsType } from "@/types/News";
+import { NewType } from "@/types/News";
 import Image from "next/image";
 import Link from "next/link";
 
 interface NewsCardProps {
-  News: NewsType;
+  News: NewType;
 }
 
 const NewsCard = ({ News }: NewsCardProps) => {
-  const { id, name, description, image } = News;
+  const { id, image, title, description } = News;
   return (
     <Link
       href={`/news/${id}`}
@@ -15,16 +15,16 @@ const NewsCard = ({ News }: NewsCardProps) => {
     >
       <div className="relative w-full h-[180px] overflow-hidden rounded-xl">
         <Image
-          src={image}
-          alt={name}
+          src={image || "/placeholder.svg"}
+          alt={title}
           fill
           className="duration-300 group-hover:scale-105"
         />
       </div>
 
       <div className="flex flex-col gap-4 px-4 py-4">
-        <h2>{name}</h2>
-        <p className="text-sm text-gray-500">{description}</p>
+        <h2>{title}</h2>
+        {description && <p className="text-sm text-gray-500">{description}</p>}
       </div>
     </Link>
   );

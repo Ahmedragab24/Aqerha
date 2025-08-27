@@ -1,6 +1,6 @@
 "use client";
 
-import LogoGreen from "@/components/atoms/images/LogoGreen";
+import LogoGreen from "../../atoms/images/LogoGreen";
 import {
   Dialog,
   DialogContent,
@@ -8,18 +8,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../ui/dialog";
 import { useState } from "react";
-import RegisterForm from "../forms/RegisterForm";
+import RegisterForm from "../forms/Auth/RegisterForm";
 import { RegisterType } from "@/types/Register";
-import { Button } from "@/components/ui/button";
-import LoginForm from "../forms/LoginForm";
+import { Button } from "../../ui/button";
+import LoginForm from "../forms/Auth/LoginForm";
+import OtpForm from "../forms/Auth/OtpForm";
+import ChangePhoneForm from "../forms/Auth/ChangePhoneForm";
 
 const RegisterDialog = () => {
+  const [open, setOpen] = useState(false);
   const [type, setType] = useState<RegisterType>("login");
+  const [phone, setPhone] = useState("");
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>تسجيل الدخول</Button>
       </DialogTrigger>
@@ -35,8 +39,14 @@ const RegisterDialog = () => {
         </DialogHeader>
 
         <div>
-          {type === "login" && <LoginForm setType={setType} />}
-          {type === "register" && <RegisterForm setType={setType} />}
+          {type === "login" && <LoginForm setType={setType} setOpen={setOpen}/>}
+          {type === "register" && (
+            <RegisterForm setType={setType} setPhone={setPhone} />
+          )}
+          {type === "Otp" && <OtpForm setType={setType} phone={phone} />}
+          {type === "ChangPhone" && (
+            <ChangePhoneForm setType={setType} setPhone={setPhone} />
+          )}
         </div>
       </DialogContent>
     </Dialog>

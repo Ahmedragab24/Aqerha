@@ -9,12 +9,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
+} from "../../../ui/form";
+import SubmitBtn from "../../../atoms/buttons/SubmitBtn";
 import { StepType } from "@/app/(pages)/broker-ad/page";
 import { StepThreeFormSchema } from "@/schemas/broker-ad";
-import ImageUpload from "@/components/molecules/uploads/ImageUpload";
-import MultiImageUpload from "@/components/molecules/uploads/MulitImageUpload";
+import ImageUpload from "../../../molecules/uploads/ImageUpload";
+import MultiImageUpload from "../../../molecules/uploads/MulitImageUpload";
 
 interface Props {
   setStep: (value: StepType) => void;
@@ -69,7 +69,7 @@ const StepThreeForm = ({ setStep }: Props) => {
               </FormItem>
             )}
           />
-          <SubmitBtn title="التالي" />
+          <SubmitBtn title="التالي" loading disabled />
         </form>
       </div>
     </Form>

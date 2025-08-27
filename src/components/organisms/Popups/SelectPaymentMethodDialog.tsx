@@ -1,11 +1,11 @@
-import SelectPayment from "@/components/molecules/selects/SelectPayment";
+import SelectPayment from "../../molecules/selects/SelectPayment";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../ui/dialog";
 
 interface Props {
   children?: React.ReactNode;

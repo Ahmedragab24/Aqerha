@@ -1,5 +1,4 @@
 import { Building } from "lucide-react";
-import Image from "next/image";
 
 interface DataNotFoundProps {
   title: string;
@@ -10,7 +9,7 @@ interface DataNotFoundProps {
 const DataNotFount = ({
   title,
   description,
-  icon = <Building />,
+  icon = <Building className="w-8 h-8 text-muted-foreground" />,
 }: DataNotFoundProps) => {
   return (
     <div
@@ -28,7 +27,7 @@ const DataNotFount = ({
         mb-4 sm:mb-6
       "
       >
-        <Image src={`${icon}`} alt={`${title}`} width={50} height={50} />
+        {icon}
       </div>
       <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
         {title}

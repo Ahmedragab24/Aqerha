@@ -1,4 +1,4 @@
-import SearchCity from "@/components/atoms/inputs/SearchCity";
+import SearchCity from "../../atoms/inputs/SearchCity";
 
 import AdditionalFiltersDialog from "../Popups/AdditionalFiltersDialog";
 import PropertiesBaseFilter from "./PropertiesBaseFilter";

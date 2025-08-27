@@ -1,29 +1,33 @@
-import { InspectionServiceType } from "@/types/InspectionServices";
 import Image from "next/image";
 import Link from "next/link";
 
-interface InspectionServiceCardProps {
-  InspectionService: InspectionServiceType;
+interface InspectionService {
+  id: number;
+  title: string;
+  image: string;
+  color: string;
 }
 
-const InspectionServiceCard = ({
-  InspectionService,
-}: InspectionServiceCardProps) => {
-  const { id, name, color, icon } = InspectionService;
+interface Props {
+  InspectionService: InspectionService;
+}
+
+const InspectionServiceCard = ({ InspectionService }: Props) => {
+  const { id, title, image, color } = InspectionService;
 
   return (
     <Link
-      href={`/examination&Evaluation#${id}`}
-      className={
-        "rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md"
-      }
-      style={{ backgroundColor: color }}
+      key={id}
+      href={`/Inspection-services#${id}`}
+      className={`rounded-md py-10 px-4 duration-300 group shadow-sm hover:shadow-md 
+       ${color}
+        `}
     >
       <div className="flex flex-col justify-center items-center gap-4">
-        <Image src={icon} alt={name} width={100} height={100} />
+        <Image src={image} alt={title} width={100} height={100} />
 
         <h2 className="text-xl font-semibold duration-300 group-hover:text-primary group-hover:drop-shadow-sm">
-          {name}
+          {title}
         </h2>
       </div>
     </Link>

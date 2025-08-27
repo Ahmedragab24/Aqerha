@@ -1,13 +1,50 @@
+import {
+  TypePropertyType,
+  TypeUsedRealEstateType,
+  TypeUserRealEstateRole,
+} from "../Real-estates";
+
 export type EvaluationRequestState =
-  | "under_examination"
-  | "in_contact"
-  | "report_ready";
+  | "full_evaluation"
+  | "partial_evaluation"
+  | "property_evaluation";
 
 export interface EvaluationRequestType {
-  id: number;
-  requestNumber: string;
-  requestDate: string;
+  name: string;
+  national_id: string;
+  user_status: TypeUserRealEstateRole;
   phone: string;
-  whatsapp: string;
-  status: EvaluationRequestState;
+  email: string;
+  real_estate_type: TypePropertyType;
+  real_estate_category: TypeUsedRealEstateType;
+  city: string;
+  district: string;
+  location: string;
+  examination_purpose: EvaluationRequestState;
+  image_from_agancy: string | File;
+  ownership_deed: string | File;
+  agency_number: string;
+  agency_date: string;
+}
+
+export type ExaminationRequestState =
+  | "with_report"
+  | "without_report"
+  | "visit_package";
+
+export interface examinationRequestType {
+  name: string;
+  national_id: string;
+  user_status: string;
+  phone: string;
+  email: string;
+  real_estate_type: TypePropertyType;
+  real_estate_category: TypeUsedRealEstateType;
+  city: string;
+  district: string;
+  location: string;
+  examination_purpose: string;
+  payment_method: string;
+  payment_status: string;
+  inspection_service_type: ExaminationRequestState;
 }

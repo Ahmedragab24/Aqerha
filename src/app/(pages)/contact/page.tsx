@@ -1,10 +1,17 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+"use client";
+
+import ContactUsForm from "@/components/organisms/forms/ContactUsForm";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent } from "../../../components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useGetFileAndInfoQuery } from "@/store/services/CompanyInfo";
 
 const ContactPage = () => {
+  const { data } = useGetFileAndInfoQuery();
+  const PhoneCompany = data?.data?.Whatapp;
+
   return (
     <main className="pt-28 mb-16">
       <div className="space-y-10">
@@ -14,44 +21,55 @@ const ContactPage = () => {
               اتصل بنا
             </h3>
 
-            <div className="flex flex-col justify-center items-center gap-4">
-              <h1 className="text-2xl md:text-4xl text-primary-dark font-bold">
-                نحن معكم حتى نجد أفضل بيت
-              </h1>
-              <h2 className="text-xl md:text-2xl text-gray-500">
-                تواصلوا معنا
-              </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col justify-center items-center gap-4">
+                <h1 className="text-2xl md:text-4xl text-primary-dark font-bold">
+                  نحن معكم حتى نجد أفضل بيت
+                </h1>
+                <h2 className="text-xl md:text-2xl text-gray-500">
+                  تواصلوا معنا
+                </h2>
 
-              <div className="flex items-center gap-2">
-                <Image
-                  src="/Icons/whatsapp.svg"
-                  alt="whatsapp"
-                  width={30}
-                  height={30}
-                />
-                <Image
-                  src="/Icons/instagram.svg"
-                  alt="whatsapp"
-                  width={30}
-                  height={30}
-                />
+                <div className="flex items-center gap-2">
+                  <Link href={`https://wa.me/${PhoneCompany}`} target="_blank">
+                    <Image
+                      src="/Icons/whatsapp.svg"
+                      alt="whatsapp"
+                      width={30}
+                      height={30}
+                    />
+                  </Link>
+                  <Link
+                    href={`https://www.instagram.com/${data?.data?.Whatapp}`}
+                    target="_blank"
+                  >
+                    <Image
+                      src="/Icons/instagram.svg"
+                      alt="whatsapp"
+                      width={30}
+                      height={30}
+                    />
+                  </Link>
+                </div>
+
+                <h4 className="text-sm md:text-lg text-gray-500">
+                  دعم على مدار ٢٤ ساعة
+                </h4>
+
+                <Link href={"tel:" + PhoneCompany}>
+                  <Button size={"lg"} className="h-14 !px-16">
+                    {PhoneCompany}
+                    <Image
+                      src="/Icons/call.svg"
+                      alt="whatsapp"
+                      width={30}
+                      height={30}
+                    />
+                  </Button>
+                </Link>
               </div>
 
-              <h4 className="text-sm md:text-lg text-gray-500">
-                دعم على مدار ٢٤ ساعة
-              </h4>
-
-              <Link href={"tel:٠٥٠-١٢٣٤٥٦٧"}>
-                <Button size={"lg"} className="h-14 !px-16">
-                  ٠٥٠-١٢٣٤٥٦٧
-                  <Image
-                    src="/Icons/call.svg"
-                    alt="whatsapp"
-                    width={30}
-                    height={30}
-                  />
-                </Button>
-              </Link>
+              <ContactUsForm />
             </div>
           </div>
         </div>

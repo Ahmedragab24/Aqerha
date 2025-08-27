@@ -1,31 +1,41 @@
+"use client";
+
 import React from "react";
 import SectionTitle from "../atoms/title/SectionTitle";
 import SeeMore from "../atoms/buttons/SeeMore";
 import RealEstateCard from "../molecules/cards/RealEstateCard";
-import { RealEstesData } from "@/constants/cards/RealEstate";
-import HeroFilter from "../organisms/filters/HeroFilter";
+import { useGetHomeDataQuery } from "@/store/services/Home";
+import GroupCardsSkeletons from "../molecules/Skeletons/GroupCardsSkeletons";
+import useIsLoggedIn from "@/hooks/use-IsLogIn";
 
 const PopularRealEstateSection = () => {
-  return (
-    <div>
-      <div className="md:hidden -mt-30 mb-10 relative z-10">
-        <HeroFilter />
-      </div>
+  const { data, isLoading } = useGetHomeDataQuery();
+  const RealEstesData = data?.data?.popular_real_estates || [];
+  const { isLoggedIn, isMounted } = useIsLoggedIn();
 
+  if (!isMounted) return null;
+
+  if (isLoggedIn)
+    return (
       <section className="Container space-y-10">
         <div className="flex justify-between">
           <SectionTitle Title="عقارات رائجة" />
-          <SeeMore path="/" />
+          <SeeMore path="/real-estate" />
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {RealEstesData.map((item) => (
-            <RealEstateCard key={item.id} product={item} />
-          ))}
+          {isLoading ? (
+            <GroupCardsSkeletons count={4} />
+          ) : (
+            <>
+              {RealEstesData.map((item) => (
+                <RealEstateCard key={item.id} product={item} />
+              ))}
+            </>
+          )}
         </div>
       </section>
-    </div>
-  );
+    );
 };
 
 export default PopularRealEstateSection;

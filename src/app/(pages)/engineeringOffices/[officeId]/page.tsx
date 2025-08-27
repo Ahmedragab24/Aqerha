@@ -1,5 +1,5 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import ActionsCardsForOfficePage from "@/components/molecules/cards/ActionsCardsForOfficePage";
+import SectionTitle from "../../../../components/atoms/title/SectionTitle";
+import ActionsCardsForOfficePage from "../../../../components/molecules/cards/ActionsCardsForOfficePage";
 import Image from "next/image";
 
 const OfficeDetailsPage = async ({

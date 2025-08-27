@@ -32,10 +32,19 @@ export const ServicesMenu: MenuType[] = [
 ];
 
 export const quakilyMenu: MenuType[] = [
+  { label: "استكشاف", path: "/Properties/explore" },
   { label: "المفضلة", path: "/favorites" },
   { label: "الأخبار", path: "/news" },
   { label: "تواصل معنا", path: "/contact" },
   { label: "من نحن", path: "/aboutUs" },
   { label: "الإشعارات", path: "/notifications" },
   { label: "المحادثات", path: "/conversations" },
+];
+
+export const FooterAboutList = [
+  { label: "عن الشركة", path: "/" },
+  { label: "العقارات", path: "/" },
+  { label: "الخدمات", path: "/" },
+  { label: "الأخبار", path: "/" },
+  { label: "اتصل بنا", path: "/" },
 ];

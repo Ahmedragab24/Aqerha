@@ -1,3 +1,4 @@
+import { ServicesProvidersType } from "@/types/Membership";
 import { z } from "zod";
 
 export const registerFormSchema = z
@@ -6,10 +7,23 @@ export const registerFormSchema = z
       .string()
       .min(2, { message: "الاسم يجب أن يحتوي على حرفين على الأقل." })
       .max(50, { message: "الاسم طويل جدًا." }),
-
+    phone: z
+      .string()
+      .min(10, { message: "رقم الجوال يجب أن يكون 10 أرقام على الأقل." })
+      .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
     email: z.string().email({ message: "يرجى إدخال بريد إلكتروني صحيح." }),
+    city: z.string().min(1, { message: "يرجى اختيار مدينة." }),
+    membershipType: z.string().min(1, { message: "يرجى اختيار العضوية." }),
 
-    password: z
+    // الحقول الشرطية
+    IdNumber: z.string().optional(),
+    ValLicenseNumber: z.string().optional(),
+    ServicesProviderType: z.string().optional(),
+    CommercialNumber: z.string().optional(),
+    unifiedCommercialRegisterNumber: z.string().optional(),
+    licence_number: z.string().optional(),
+
+    Password: z
       .string()
       .min(8, { message: "كلمة المرور يجب أن تكون 8 أحرف على الأقل." })
       .regex(/[a-z]/, { message: "يجب أن تحتوي على حرف صغير على الأقل." })
@@ -18,10 +32,87 @@ export const registerFormSchema = z
       .regex(/[\W_]/, {
         message: "يجب أن تحتوي على رمز خاص (!@#$...) واحد على الأقل.",
       }),
-
-    confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "كلمتا المرور غير متطابقتين.",
-    path: ["confirmPassword"],
+  .superRefine((values, ctx) => {
+    // Owner or agent → IdNumber مطلوب
+    if (values.membershipType === "Owner or agent") {
+      if (!values.IdNumber?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "يرجى إدخال رقم الهوية الوطنية.",
+          path: ["IdNumber"],
+        });
+      }
+    }
+
+    // Services Providers → تحقق إضافي
+    if (values.membershipType === "Services Providers") {
+      if (!values.ServicesProviderType?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "يرجى اختيار نوع مقدم الخدمات.",
+          path: ["ServicesProviderType"],
+        });
+      }
+
+      switch (values.ServicesProviderType as ServicesProvidersType) {
+        case "individual_agent":
+          if (!values.IdNumber?.trim()) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "يرجى إدخال رقم الهوية الوطنية.",
+              path: ["IdNumber"],
+            });
+          }
+          if (!values.ValLicenseNumber?.trim()) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "يرجى إدخال رقم رخصة فال.",
+              path: ["ValLicenseNumber"],
+            });
+          }
+          break;
+
+        case "company_agent":
+          if (!values.unifiedCommercialRegisterNumber?.trim()) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "يرجى إدخال الرقم الموحد للسجل التجاري.",
+              path: ["unifiedCommercialRegisterNumber"],
+            });
+          }
+          if (!values.ValLicenseNumber?.trim()) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "يرجى إدخال رقم رخصة فال.",
+              path: ["ValLicenseNumber"],
+            });
+          }
+          break;
+
+        case "contracting_company":
+        case "real_estate_developer":
+          if (!values.CommercialNumber?.trim()) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "يرجى إدخال رقم السجل التجاري.",
+              path: ["CommercialNumber"],
+            });
+          }
+          break;
+
+        case "evaluator":
+        case "inspector":
+        case "auction_companies":
+        case "engineering_offices":
+          if (!values.licence_number?.trim()) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "يرجى إدخال رقم الرخصة.",
+              path: ["licence_number"],
+            });
+          }
+          break;
+      }
+    }
   });

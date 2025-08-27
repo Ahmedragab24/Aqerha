@@ -1,55 +1,102 @@
 "use client";
 
+import { useStoreAppointmentRealEstateMutation } from "@/store/services/RealEstate";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import { useState } from "react";
+import { showSuccessToast } from "@/components/Successfully/DoneToast";
+import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import type { ErrorType } from "@/types/errors";
+import type {
+  AppointmentsType,
+  PlacesType,
+  TimesType,
+} from "@/types/appointments";
+import { Loader } from "lucide-react";
 
 interface Props {
   setIsSuccessfully: (value: boolean) => void;
+  realEstateId: number;
+  appointments: AppointmentsType[];
 }
 
-const CalendarForm = ({ setIsSuccessfully }: Props) => {
+const CalendarForm = ({
+  setIsSuccessfully,
+  realEstateId,
+  appointments,
+}: Props) => {
   const [selectedDate, setSelectedDate] = useState<string>("");
-  const [selectedTime, setSelectedTime] = useState<string>("");
-  const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [selectedTime, setSelectedTime] = useState<{
+    start_time: string;
+    end_time: string;
+  }>({
+    start_time: "",
+    end_time: "",
+  });
+  const [selectedLocation, setSelectedLocation] = useState<{
+    address: string;
+    latitude: number;
+    longitude: number;
+  }>({
+    address: "",
+    latitude: 0,
+    longitude: 0,
+  });
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [storeAppointment, { isLoading }] =
+    useStoreAppointmentRealEstateMutation();
 
-  const dates = [
-    { day: "الخميس", date: "11 يناير", value: "thursday" },
-    { day: "الجمعة", date: "12 يناير", value: "friday" },
-    { day: "السبت", date: "13 يناير", value: "saturday" },
-    { day: "الأحد", date: "14 يناير", value: "sunday" },
-    { day: "الاثنين", date: "15 يناير", value: "monday" },
-    { day: "الثلاثاء", date: "16 يناير", value: "tuesday" },
+  const availableDates = appointments?.map((item) => item.date);
+
+  const selectedAppointment = appointments?.find(
+    (item) => item.date === selectedDate
+  );
+  const Times = selectedAppointment?.times || [];
+  const Places = selectedAppointment?.places || [];
+
+  console.log("Available Dates", availableDates);
+  console.log("Times", Times);
+  console.log("Places", Places);
+
+  const daysOfWeek = [
+    "الأحد",
+    "الاثنين",
+    "الثلاثاء",
+    "الأربعاء",
+    "الخميس",
+    "الجمعة",
+    "السبت",
   ];
 
-  const times = [
-    { label: "من 9 صباحاً إلى 11 صباحاً", value: "9-11" },
-    { label: "من 11 صباحاً إلى 1 مساءً", value: "11-1" },
-    { label: "من 1 إلى 3 مساءً", value: "1-3" },
-    { label: "من 3 إلى 5 مساءً", value: "3-5" },
-    { label: "من 5 إلى 7 مساءً", value: "5-7" },
-    { label: "من 7 إلى 9 مساءً", value: "7-9" },
-  ];
-
-  const locations = [
-    { label: "الدمام", value: "dammam" },
-    { label: "الرياض", value: "riyadh" },
-    { label: "جدة", value: "jeddah" },
-  ];
-
-  const handleConfirm = () => {
-    console.log({
-      name,
-      phone,
-      selectedDate,
-      selectedTime,
-      selectedLocation,
+  const handleDateSelection = (dateStr: string) => {
+    setSelectedDate(dateStr);
+    setSelectedTime({
+      start_time: "",
+      end_time: "",
     });
+    setSelectedLocation({
+      address: "",
+      latitude: 0,
+      longitude: 0,
+    });
+  };
 
-    setIsSuccessfully(true);
+  const handleConfirm = async () => {
+    try {
+      await storeAppointment({
+        date: selectedDate,
+        times: [selectedTime],
+        places: [selectedLocation],
+        real_estate_id: realEstateId,
+      });
+      setIsSuccessfully(true);
+      showSuccessToast({ title: "تم حجز الموعد بنجاح" });
+    } catch (error) {
+      const err = error as ErrorType;
+      showFailedToast({ title: err.data.message || "حدث خطأ غير متوقع" });
+    }
   };
 
   return (
@@ -86,72 +133,100 @@ const CalendarForm = ({ setIsSuccessfully }: Props) => {
       <div>
         <h3 className="text-center font-medium mb-4">اختر التاريخ المتاح</h3>
         <div className="grid grid-cols-3 gap-3">
-          {dates.map((date) => (
-            <button
-              key={date.value}
-              onClick={() => setSelectedDate(date.value)}
-              className={`p-3 rounded-lg border text-center transition-colors cursor-pointer ${
-                selectedDate === date.value
-                  ? "bg-green-50 border-green-500 text-green-700"
-                  : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-              }`}
-            >
-              <div className="font-medium text-sm">{date.day}</div>
-              <div className="text-xs text-gray-500 mt-1">{date.date}</div>
-            </button>
-          ))}
+          {availableDates?.map((dateStr) => {
+            const d = new Date(dateStr);
+            const dayName = daysOfWeek[d.getDay()];
+            return (
+              <button
+                key={dateStr}
+                onClick={() => handleDateSelection(dateStr)}
+                className={`p-3 rounded-lg border text-center transition-colors cursor-pointer ${
+                  selectedDate === dateStr
+                    ? "bg-green-50 border-green-500 text-green-700"
+                    : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                }`}
+              >
+                <div className="font-medium text-sm">{dayName}</div>
+                <div className="text-xs text-gray-500 mt-1">{dateStr}</div>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Time Selection */}
       <div>
         <h3 className="text-center font-medium mb-4">اختر الوقت المتاح</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {times.map((time) => (
-            <button
-              key={time.value}
-              onClick={() => setSelectedTime(time.value)}
-              className={`p-3 rounded-lg border text-center text-sm transition-colors cursor-pointer ${
-                selectedTime === time.value
-                  ? "bg-green-50 border-green-500 text-green-700"
-                  : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-              }`}
-            >
-              {time.label}
-            </button>
-          ))}
-        </div>
+        {!selectedDate ? (
+          <div className="text-center text-gray-500 py-8">
+            يرجى اختيار التاريخ أولاً
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {Times?.map((time: TimesType) => (
+              <button
+                key={time.id}
+                onClick={() => setSelectedTime(time)}
+                className={`p-3 rounded-lg border text-center text-sm transition-colors cursor-pointer ${
+                  selectedTime === time
+                    ? "bg-green-50 border-green-500 text-green-700"
+                    : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                }`}
+              >
+                {time?.start_time} - {time?.end_time}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Location Selection */}
       <div>
         <h3 className="text-center font-medium mb-4">اختر مكان المقابلة</h3>
-        <div className="grid grid-cols-3 gap-3">
-          {locations.map((location) => (
-            <button
-              key={location.value}
-              onClick={() => setSelectedLocation(location.value)}
-              className={`p-3 rounded-lg border text-center transition-colors cursor-pointer ${
-                selectedLocation === location.value
-                  ? "bg-green-50 border-green-500 text-green-700"
-                  : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-              }`}
-            >
-              {location.label}
-            </button>
-          ))}
-        </div>
+        {!selectedDate ? (
+          <div className="text-center text-gray-500 py-8">
+            يرجى اختيار التاريخ أولاً
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-3">
+            {Places?.map((Place: PlacesType) => (
+              <button
+                key={Place.id}
+                onClick={() => setSelectedLocation(Place)}
+                className={`p-3 rounded-lg border text-center transition-colors cursor-pointer ${
+                  selectedLocation === Place
+                    ? "bg-green-50 border-green-500 text-green-700"
+                    : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                }`}
+              >
+                {Place.address}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Confirm Button */}
       <Button
         onClick={handleConfirm}
-        className="w-full "
+        className="w-full !h-12"
         disabled={
-          !selectedDate || !selectedTime || !selectedLocation || !name || !phone
+          isLoading ||
+          !selectedDate ||
+          !selectedTime ||
+          !selectedLocation ||
+          !name ||
+          !phone
         }
       >
-        تأكيد
+        {isLoading ? (
+          <div className="flex items-center gap-1">
+            <h5>جاري التحميل...</h5>
+            <Loader className="animate-spin" />
+          </div>
+        ) : (
+          "تأكيد"
+        )}
       </Button>
     </div>
   );

@@ -9,7 +9,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "../../ui/carousel";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 

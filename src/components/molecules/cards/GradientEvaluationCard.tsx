@@ -1,5 +1,5 @@
-import Riyal from "@/components/atoms/Icons/Riyal";
-import { Card, CardContent } from "@/components/ui/card";
+import Riyal from "../../atoms/Icons/Riyal";
+import { Card, CardContent } from "../../ui/card";
 import Image from "next/image";
 
 interface Props {

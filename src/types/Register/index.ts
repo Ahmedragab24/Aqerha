@@ -1,1 +1,6 @@
-export type RegisterType = "login" | "register";
+export type RegisterType =
+  | "login"
+  | "register"
+  | "Otp"
+  | "ChangPhone"
+  | "ForgetPassword";

@@ -8,15 +8,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
 import Image from "next/image";
+import { ProjectType } from "@/types/projects";
 
 interface ProjectPlanDialogProps {
   children: React.ReactNode;
+  project: ProjectType | undefined;
 }
 
-const ProjectPlanDialog = ({ children }: ProjectPlanDialogProps) => {
+const ProjectPlanDialog = ({ children, project }: ProjectPlanDialogProps) => {
+  console.log(project);
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>

@@ -1,7 +1,6 @@
 "use client";
 
-import LogoUpload from "@/components/molecules/uploads/UploadLogo";
-import type { StepsType } from "../../Popups/RegisterDeveloperDialog";
+import LogoUpload from "../../../molecules/uploads/UploadLogo";
 import {
   Form,
   FormControl,
@@ -9,12 +8,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
+} from "../../../ui/form";
+import SubmitBtn from "../../../atoms/buttons/SubmitBtn";
+import CustomFormItem from "../../../molecules/formItems/CustomFormItem";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { StepsType } from "@/app/(pages)/register-developer/page";
 
 export const StepOneFormSchema = z.object({
   logo: z.any().optional(),
@@ -55,7 +55,7 @@ const StepTwoForm = ({ setSteps }: RegisterFormProps) => {
                 <FormItem>
                   <FormLabel>أرفق الشعار الخاص بالمطور العقاري</FormLabel>
                   <FormControl>
-                    <LogoUpload value={field.value} onChange={field.onChange} />
+                    <LogoUpload image={field.value} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -73,12 +73,12 @@ const StepTwoForm = ({ setSteps }: RegisterFormProps) => {
                 label="نبذة عن المطور"
                 placeholder="يرجي إدخال نبذة حول المطور العقاري"
                 type="text"
-                typeInput="textAria"
+                typeInput="textarea"
               />
             )}
           />
 
-          <SubmitBtn title="التالي" />
+          <SubmitBtn title="التالي" loading disabled />
         </form>
       </div>
     </Form>

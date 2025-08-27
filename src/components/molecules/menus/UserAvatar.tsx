@@ -1,227 +1,71 @@
 "use client";
 
 import Link from "next/link";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "../../ui/avatar";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../ui/dropdown-menu";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ChevronLeft, User, Mail, Settings, LogOut } from "lucide-react";
+} from "../../ui/accordion";
+import { ChevronLeft, User, Mail } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import { UserMenuType } from "@/types/Auth/UserNavMenu";
+import { MenuItemsList } from "@/constants/navMenu/user/UserNavMenu";
+import { useGetFileAndInfoQuery } from "@/store/services/CompanyInfo";
+import { useGetProfileQuery } from "@/store/services/Profile";
+import { ProfileType } from "@/types/Profile";
+import { MembershipType, ServicesProvidersType } from "@/types/Membership";
 
-export interface UserMenuType {
-  id: number;
-  name: string;
-  icon: string;
-  path?: string;
-  subMenu?: UserMenuType[];
-  popup?: React.ReactNode;
-  popupType?: "RegisterDeveloperDialog" | "ChangePassword";
-}
-
-export interface UserMenuListType {
-  orders: UserMenuType[];
-  advertisements: UserMenuType[];
-  more: UserMenuType[];
-}
-
-const MenuItemsList: UserMenuListType = {
-  orders: [
-    {
-      id: 1,
-      name: "أطلب عقارك",
-      icon: "/Icons/solar_document-add-outline.svg",
-      path: "/order-property",
-    },
-    {
-      id: 2,
-      name: "طلبات الفحص والتقييم",
-      icon: "/Icons/BoxIcons.svg",
-      path: "/inspection-and-evaluation-requests",
-    },
-    {
-      id: 3,
-      name: "طلب تسويق عقار",
-      icon: "/Icons/uit_house-user.svg",
-      path: "/real-estate-marketing-request",
-    },
-    {
-      id: 4,
-      name: "طلبات المسوق/الوسيط",
-      icon: "/Icons/material-symbols_map-search-outline-rounded.svg",
-      path: "/MarketerOrBrokerRequests",
-    },
-  ],
-  advertisements: [
-    {
-      id: 1,
-      name: "إعلان عن عقار من المالك/الوكيل",
-      icon: "/Icons/fluent_building-32-regular.svg",
-      path: "/owner-ad",
-    },
-    {
-      id: 2,
-      name: "إعلان عن عقار من وسيط",
-      icon: "/Icons/bi_house-add.svg",
-      path: "/broker-ad",
-    },
-    {
-      id: 3,
-      name: "إعلاناتي",
-      icon: "/Icons/streamline_annoncement-megaphone.svg",
-      path: "/my-ads",
-    },
-  ],
-  more: [
-    {
-      id: 1,
-      name: "المحادثات",
-      icon: "/Icons/proicons_chat-gray.svg",
-      path: "/conversations",
-    },
-    {
-      id: 2,
-      name: "خدمات الترويج",
-      icon: "/Icons/carbon_text-link-analysis.svg",
-      path: "/promotion-services",
-    },
-    {
-      id: 3,
-      name: "حملات التمييز",
-      icon: "/Icons/carbon_text-link-analysis.svg",
-      path: "/discrimination-campaigns",
-    },
-    {
-      id: 4,
-      name: "الاشتراكات",
-      icon: "/Icons/fluent_person-money-20-regular.svg",
-      path: "/subscriptions",
-    },
-    {
-      id: 5,
-      name: "التسجيل كفاحص ومقيم",
-      icon: "/Icons/system-uicons_home-check.svg",
-      path: "/register-examination-and-evaluation",
-    },
-    {
-      id: 6,
-      name: "التسجيل كمكتب هندسي",
-      icon: "/Icons/formkit_add.svg",
-      path: "/register-engineering-office",
-    },
-    {
-      id: 7,
-      name: "التسجيل كمطور عقاري",
-      icon: "/Icons/formkit_add.svg",
-      path: "/register-developer",
-    },
-    {
-      id: 8,
-      name: "التسجيل كشركة مزادات",
-      icon: "/Icons/formkit_add.svg",
-      path: "/register-auction-company",
-    },
-    {
-      id: 9,
-      name: "التسجيل كشركة مقاولات",
-      icon: "/Icons/formkit_add.svg",
-      path: "/register-contractor-company",
-    },
-    {
-      id: 10,
-      name: "خدمة العملاء",
-      icon: "/Icons/MessagesCircle.svg",
-      path: "/customer-service",
-    },
-    {
-      id: 11,
-      name: "مشاركة التطبيق",
-      icon: "/Icons/solar_share-outline.svg",
-      path: "/share-app",
-    },
-    {
-      id: 12,
-      name: "مستندات قانونية",
-      icon: "/Icons/solar_document-linear.svg",
-      subMenu: [
-        {
-          id: 1,
-          name: "الشروط والأحكام",
-          icon: "/Icons/T&C.svg",
-          path: "/terms-and-conditions",
-        },
-        {
-          id: 2,
-          name: "رخصة فال",
-          icon: "/Icons/Fal License.svg",
-          path: "/edit-company",
-        },
-        {
-          id: 3,
-          name: "شهادة ضريبة القيمة المضافة",
-          icon: "/Icons/VAT.svg",
-          path: "/change-password",
-        },
-      ],
-    },
-    {
-      id: 13,
-      name: "عن تطبيق عقرها",
-      icon: "/Icons/mdi_about-circle-outline.svg",
-      path: "/about-the-site",
-    },
-    {
-      id: 14,
-      name: "الإعدادات",
-      icon: "/Icons/Setting.svg",
-      subMenu: [
-        { id: 1, name: "العربية", icon: "/Icons/globe.svg", path: "/language" },
-        {
-          id: 2,
-          name: "تعديل تفاصيل شركة المقاولات",
-          icon: "/Icons/solar_document-add-outline.svg",
-          path: "/edit-company",
-        },
-        {
-          id: 3,
-          name: "تغيير كلمة المرور",
-          icon: "/Icons/Lock.svg",
-          path: "/change-password",
-        },
-        {
-          id: 4,
-          name: "تغيير رقم الجوال",
-          icon: "/Icons/ph_phone-light.svg",
-          path: "/change-phone",
-        },
-        {
-          id: 5,
-          name: "تسجيل الخروج",
-          icon: "/Icons/Logout.svg",
-          path: "/logout",
-        },
-      ],
-    },
-  ],
-};
+import LogOutBtn from "@/components/atoms/buttons/LogOutBtn";
 
 interface MenuItemProps {
   item: UserMenuType;
   onItemClick?: () => void;
+  userType?: MembershipType | ServicesProvidersType;
 }
 
-const MenuItem = ({ item, onItemClick }: MenuItemProps) => {
+const MenuItem = ({ item, onItemClick, userType }: MenuItemProps) => {
+  const { data } = useGetFileAndInfoQuery();
+  const FileData = data?.data;
   const [showSubMenu, setShowSubMenu] = useState(false);
+
+  // فلترة العناصر حسب العضوية
+  if (
+    userType &&
+    item.membershipType &&
+    !item.membershipType.includes(userType)
+  ) {
+    return null;
+  }
+
+  const handlerDownloadFile = (name: string) => {
+    let fileUrl = "";
+
+    if (name === "رخصة فال") {
+      fileUrl = FileData?.about || "";
+    } else if (name === "شهادة ضريبة القيمة المضافة") {
+      fileUrl = FileData?.privacy || "";
+    }
+
+    if (fileUrl) {
+      const link = document.createElement("a");
+      link.href = fileUrl;
+      link.download = name + ".pdf";
+      link.target = "_blank";
+      link.click();
+    } else {
+      console.warn("الرابط غير متوفر");
+    }
+  };
 
   if (item.subMenu) {
     return (
@@ -251,35 +95,78 @@ const MenuItem = ({ item, onItemClick }: MenuItemProps) => {
 
         {showSubMenu && (
           <div className="mt-1 mr-6 space-y-1">
-            {item.subMenu.map((subItem, index) => (
-              <Link
-                key={index}
-                href={subItem.path || "#"}
-                onClick={onItemClick}
-                className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 group"
-              >
-                <Image
-                  src={subItem.icon || "/placeholder.svg"}
-                  alt={subItem.name}
-                  width={16}
-                  height={16}
-                  className="flex-shrink-0 opacity-70 group-hover:opacity-100"
-                />
-                <span className="font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200">
-                  {subItem.name}
-                </span>
-              </Link>
-            ))}
+            {item.subMenu.map((subItem, index) => {
+              if (
+                userType &&
+                subItem.membershipType &&
+                !subItem.membershipType.includes(userType)
+              ) {
+                return null;
+              }
+
+              if (subItem.onClick) {
+                return (
+                  <div
+                    key={index}
+                    onClick={() => handlerDownloadFile(subItem.name)}
+                    className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 group"
+                  >
+                    <Image
+                      src={subItem.icon || "/placeholder.svg"}
+                      alt={subItem.name}
+                      width={18}
+                      height={18}
+                      className="flex-shrink-0 opacity-80 group-hover:opacity-100"
+                    />
+                    <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
+                      {subItem.name}
+                    </span>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={index}
+                  href={subItem.path || "#"}
+                  onClick={onItemClick}
+                  className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 group"
+                >
+                  <Image
+                    src={subItem.icon || "/placeholder.svg"}
+                    alt={subItem.name}
+                    width={16}
+                    height={16}
+                    className="flex-shrink-0 opacity-70 group-hover:opacity-100"
+                  />
+                  <span className="font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200">
+                    {subItem.name}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>
     );
   }
 
-  if (item.popup) {
+  if (item.onClick) {
     return (
-      <div className="w-full">
-        <div onClick={() => onItemClick && onItemClick}>{item.popup}</div>
+      <div
+        onClick={() => handlerDownloadFile(item.name)}
+        className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 group"
+      >
+        <Image
+          src={item.icon || "/placeholder.svg"}
+          alt={item.name}
+          width={18}
+          height={18}
+          className="flex-shrink-0 opacity-80 group-hover:opacity-100"
+        />
+        <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
+          {item.name}
+        </span>
       </div>
     );
   }
@@ -307,13 +194,19 @@ const MenuItem = ({ item, onItemClick }: MenuItemProps) => {
 interface MenuSectionProps {
   items: UserMenuType[];
   onItemClick?: () => void;
+  userType?: MembershipType | ServicesProvidersType;
 }
 
-const MenuSection = ({ items, onItemClick }: MenuSectionProps) => {
+const MenuSection = ({ items, onItemClick, userType }: MenuSectionProps) => {
   return (
     <div className="space-y-1">
       {items.map((item, index) => (
-        <MenuItem key={index} item={item} onItemClick={onItemClick} />
+        <MenuItem
+          key={index}
+          item={item}
+          onItemClick={onItemClick}
+          userType={userType}
+        />
       ))}
     </div>
   );
@@ -321,6 +214,11 @@ const MenuSection = ({ items, onItemClick }: MenuSectionProps) => {
 
 const UserAvatar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data } = useGetProfileQuery();
+  const userData = data?.data as ProfileType;
+  const UserMemberType = userData?.membership_type as
+    | MembershipType
+    | ServicesProvidersType;
 
   const handleItemClick = () => {
     setIsOpen(false);
@@ -336,8 +234,8 @@ const UserAvatar = () => {
         >
           <Avatar className="h-8 w-8">
             <AvatarImage
-              src="/Images/UserProfile.jpg"
-              alt="صورة المستخدم"
+              src={`${userData?.profile?.image}`}
+              alt="user"
               className="object-cover"
             />
             <AvatarFallback className="bg-primary/10 text-primary font-semibold">
@@ -353,11 +251,11 @@ const UserAvatar = () => {
         align="end"
       >
         {/* User Profile Header */}
-        <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg mb-2">
+        <div className="flex items-center gap-3 p-4 bg-primary/10 rounded-lg mb-2">
           <Avatar className="h-12 w-12 ring-2 ring-primary/20">
             <AvatarImage
-              src="/Images/UserProfile.jpg"
-              alt="صورة المستخدم"
+              src={`${userData?.profile?.image}`}
+              alt="user"
               className="object-cover"
             />
             <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
@@ -366,11 +264,11 @@ const UserAvatar = () => {
           </Avatar>
           <div className="flex flex-col items-start min-w-0 flex-1">
             <span className="font-semibold text-gray-900 dark:text-white truncate">
-              اسم المستخدم
+              {userData?.profile?.name}
             </span>
             <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
               <Mail className="h-3 w-3" />
-              <span className="truncate">test@test.com</span>
+              <span className="truncate"> {userData?.email}</span>
             </div>
           </div>
         </div>
@@ -378,41 +276,79 @@ const UserAvatar = () => {
         <DropdownMenuSeparator className="my-2" />
 
         <Accordion type="single" collapsible className="w-full space-y-1">
-          <AccordionItem value="orders" className="border-none">
-            <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-              <h3 className="text-primary font-semibold text-sm">الطلبات</h3>
-            </AccordionTrigger>
-            <AccordionContent className="pb-2 pt-1">
-              <MenuSection
-                items={MenuItemsList.orders}
-                onItemClick={handleItemClick}
-              />
-            </AccordionContent>
-          </AccordionItem>
+          {[
+            "company_agent",
+            "individual_agent",
+            "Owner or agent",
+            "owner",
+            "agent",
+            "property_seeker",
+            "contracting_company",
+          ].includes(UserMemberType) && (
+            <AccordionItem value="orders" className="border-none">
+              <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                <h3 className="text-primary font-semibold text-sm">الطلبات</h3>
+              </AccordionTrigger>
+              <AccordionContent className="pb-2 pt-1">
+                <MenuSection
+                  items={MenuItemsList.orders}
+                  onItemClick={handleItemClick}
+                  userType={UserMemberType}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          )}
 
-          <AccordionItem value="advertisements" className="border-none">
-            <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-              <h3 className="text-primary font-semibold text-sm">الإعلانات</h3>
-            </AccordionTrigger>
-            <AccordionContent className="pb-2 pt-1">
-              <MenuSection
-                items={MenuItemsList.advertisements}
-                onItemClick={handleItemClick}
-              />
-            </AccordionContent>
-          </AccordionItem>
+          {[
+            "company_agent",
+            "individual_agent",
+            "Owner or agent",
+            "property_seeker",
+            "contracting_company",
+          ].includes(UserMemberType) && (
+            <AccordionItem value="advertisements" className="border-none">
+              <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                <h3 className="text-primary font-semibold text-sm">
+                  الإعلانات
+                </h3>
+              </AccordionTrigger>
+              <AccordionContent className="pb-2 pt-1">
+                <MenuSection
+                  items={MenuItemsList.advertisements}
+                  onItemClick={handleItemClick}
+                  userType={UserMemberType}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          )}
 
-          <AccordionItem value="more" className="border-none">
-            <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-              <h3 className="text-primary font-semibold text-sm">المزيد</h3>
-            </AccordionTrigger>
-            <AccordionContent className="pb-2 pt-1">
-              <MenuSection
-                items={MenuItemsList.more}
-                onItemClick={handleItemClick}
-              />
-            </AccordionContent>
-          </AccordionItem>
+          {[
+            "company_agent",
+            "individual_agent",
+            "owner",
+            "agent",
+            "property_seeker",
+            "contracting_company",
+          ].includes(UserMemberType) ? (
+            <AccordionItem value="more" className="border-none">
+              <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+                <h3 className="text-primary font-semibold text-sm">المزيد</h3>
+              </AccordionTrigger>
+              <AccordionContent className="pb-2 pt-1">
+                <MenuSection
+                  items={MenuItemsList.more}
+                  onItemClick={handleItemClick}
+                  userType={UserMemberType}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          ) : (
+            <MenuSection
+              items={MenuItemsList.more}
+              onItemClick={handleItemClick}
+              userType={UserMemberType}
+            />
+          )}
         </Accordion>
 
         <DropdownMenuSeparator className="my-2" />
@@ -425,18 +361,10 @@ const UserAvatar = () => {
             className="flex-1 text-xs bg-transparent"
             onClick={handleItemClick}
           >
-            <Settings className="h-3 w-3 ml-1" />
-            الإعدادات
+            <User className="h-3 w-3 ml-1" />
+            الملف الشخصي
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent"
-            onClick={handleItemClick}
-          >
-            <LogOut className="h-3 w-3 ml-1" />
-            خروج
-          </Button>
+          <LogOutBtn setIsOpen={setIsOpen} />
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

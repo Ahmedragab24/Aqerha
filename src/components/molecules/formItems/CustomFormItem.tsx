@@ -1,12 +1,10 @@
-import {
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { HTMLInputTypeAttribute } from "react";
+"use client";
+
+import { useState, type HTMLInputTypeAttribute } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { FormControl, FormItem, FormLabel, FormMessage } from "../../ui/form";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
 
 interface CustomFormItemProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,8 +13,8 @@ interface CustomFormItemProps {
   label?: string;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
-  typeInput?: "text" | "textAria";
-  // icon?: React.ReactNode;
+  typeInput?: "text" | "textarea";
+  icon?: React.ReactNode;
 }
 
 const CustomFormItem = ({
@@ -26,19 +24,50 @@ const CustomFormItem = ({
   placeholder,
   type,
   typeInput = "text",
-}: // icon,
-CustomFormItemProps) => {
+  icon,
+}: CustomFormItemProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const isPasswordType = type === "password";
+
   return (
     <FormItem>
       {label && <FormLabel>{label}</FormLabel>}
       <FormControl>
         {typeInput === "text" ? (
-          <Input
-            type={type}
-            placeholder={placeholder}
-            {...field}
-            className={`${className}`}
-          />
+          <div className="relative">
+            <Input
+              type={isPasswordType && showPassword ? "text" : type}
+              placeholder={placeholder}
+              {...field}
+              className={`${className} ${icon ? "pr-10" : ""}`}
+            />
+            {isPasswordType && (
+              <div
+                className="absolute left-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Eye className="h-4 w-4" aria-hidden="true" />
+                )}
+                <span className="sr-only">
+                  {showPassword ? "Hide password" : "Show password"}
+                </span>
+              </div>
+            )}
+
+            {icon && (
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400">
+                {icon}
+              </div>
+            )}
+          </div>
         ) : (
           <Textarea
             placeholder={placeholder}

@@ -1,5 +1,5 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import ChangePasswordForm from "@/components/organisms/forms/ChangePasswordForm";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import ChangePasswordForm from "../../../components/organisms/forms/Auth/ChangePasswordForm";
 import React from "react";
 
 const ChangePasswordPage = () => {

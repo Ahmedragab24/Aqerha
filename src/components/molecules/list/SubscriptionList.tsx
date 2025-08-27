@@ -2,23 +2,29 @@ import Image from "next/image";
 import React from "react";
 
 export interface featureListType {
-  id: number;
-  title: string;
+  key: string;
+  value: string;
 }
 
 interface Props {
-  list: featureListType[];
+  packageFeatures: featureListType[];
 }
 
-const SubscriptionList = ({ list }: Props) => {
+const SubscriptionList = ({ packageFeatures }: Props) => {
   return (
     <ul className="flex flex-col gap-2 md:gap-4">
-      {list.map((item) => (
-        <li key={item.id} className="flex items-center gap-4">
+      {packageFeatures.map((item) => (
+        <li key={item.key} className="flex items-center gap-4">
           <div className="bg-secondary p-1 rounded-full shadow-sm">
-            <Image src="/Icons/check.svg" alt="check" width={25} height={25} />
+            <Image
+              src="/Icons/check.svg"
+              alt="check"
+              width={25}
+              height={25}
+              className="md:w-6 md:h-6 w-4 h-4"
+            />
           </div>
-          <h3 className="md:text-xl">{item.title}</h3>
+          <h3 className="md:text-xl text-sm">{item.value}</h3>
         </li>
       ))}
     </ul>

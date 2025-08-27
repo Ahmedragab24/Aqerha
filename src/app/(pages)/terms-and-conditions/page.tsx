@@ -1,53 +1,59 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import CustomAccordion, {
-  AccordionType,
-} from "@/components/molecules/accordions/CustomAccordion";
+"use client";
+
+import {
+  useGetPrivacyPolicyQuery,
+  useGetTermsAndConditionsQuery,
+} from "@/store/services/CompanyInfo";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
 import Image from "next/image";
 import React from "react";
 
-const TermsList: AccordionType[] = [
-  {
-    trigger: "اتفاقية شروط و أحكام الاستخدام العامة",
-    value: "item-1",
-    content:
-      "نرحب بك في منصتنا. باستخدامك لهذا الموقع أو التطبيق، فإنك توافق على الالتزام بشروط وأحكام الاستخدام العامة التالية. تشمل هذه الشروط استخدام المحتوى، والقيود المفروضة على المستخدمين، والمسؤوليات القانونية. نحتفظ بالحق في تعديل هذه الشروط في أي وقت دون إشعار مسبق. يُرجى قراءة هذه الاتفاقية بعناية قبل استخدام المنصة.",
-  },
-  {
-    trigger: "اتفاقية شروط و أحكام خدمة الحجوزات",
-    value: "item-2",
-    content:
-      "تتيح لك هذه الخدمة حجز الخدمات أو المواعيد المقدمة عبر منصتنا. باستخدامك لخدمة الحجوزات، فإنك توافق على تقديم معلومات دقيقة، والالتزام بالمواعيد المحجوزة، وتتحمل المسؤولية في حال الإلغاء المتأخر أو عدم الحضور. قد يتم فرض رسوم أو عقوبات وفقًا لسياسة الإلغاء.",
-  },
-  {
-    trigger: "اتفاقية شروط و أحكام خدمة البيع السريع",
-    value: "item-3",
-    content:
-      "تُنظم هذه الاتفاقية عملية عرض وبيع المنتجات أو الخدمات بشكل سريع عبر المنصة. يتحمل المستخدم مسؤولية دقة المعلومات المقدمة عند إدراج أي منتج، وتلتزم المنصة بدور الوسيط فقط دون تحمل أي التزامات قانونية مباشرة ناتجة عن المعاملة. تحتفظ المنصة بحقها في إزالة أو تعديل أي عرض يخالف الشروط.",
-  },
-  {
-    trigger: "سياسة خصوصية البيانات",
-    value: "item-4",
-    content:
-      "نحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. يتم جمع المعلومات فقط للأغراض المتعلقة بتقديم خدماتنا وتحسينها. لا نقوم ببيع أو مشاركة بياناتك مع أطراف خارجية إلا وفقًا لما ينص عليه القانون أو بموافقتك. يُرجى مراجعة سياسة الخصوصية الكاملة لفهم كيفية جمع واستخدام وحماية بياناتك.",
-  },
-  {
-    trigger: "سياسة حقوق الملكية الفكرية",
-    value: "item-5",
-    content:
-      "تحترم منصتنا حقوق الملكية الفكرية للأفراد والشركات. يُحظر نشر أو استخدام أي محتوى دون الحصول على التصاريح القانونية اللازمة. إذا كنت تعتقد أن هناك انتهاكًا لحقوقك، يُرجى التواصل معنا فورًا لتقديم الشكوى مع الوثائق الداعمة.",
-  },
-  {
-    trigger: "Privacy Policy",
-    value: "item-6",
-    content:
-      "We value your privacy and are committed to protecting your personal data. This policy outlines how we collect, use, and safeguard your information when you interact with our platform. By using our services, you agree to the terms of this Privacy Policy. Please read it carefully to understand your rights and our responsibilities.",
-  },
-];
+// 🔹 دالة لتنسيق النصوص القادمة من الـ API
+const formatText = (text: string) => {
+  if (!text) return null;
+
+  // تقسيم النص على أساس الأسطر
+  const lines = text.split("\n").filter((line) => line.trim() !== "");
+
+  return lines.map((line, index) => {
+    // إذا السطر يبدأ بـ "•" أو رقم => نعرضه كـ <li>
+    if (line.trim().startsWith("•") || /^\d+[\.\-)]/.test(line.trim())) {
+      return (
+        <li
+          key={index}
+          className="list-disc ms-6 text-gray-700 leading-relaxed"
+        >
+          {line.replace(/^•|\d+[\.\-)]/, "").trim()}
+        </li>
+      );
+    }
+
+    // إذا السطر يحتوي على "المادة" أو "المقدمة" => نخليه عنوان فرعي
+    if (line.includes("المادة") || line.includes("المقدمة")) {
+      return (
+        <h3 key={index} className="text-lg font-bold mt-6 mb-2 text-primary">
+          {line}
+        </h3>
+      );
+    }
+
+    // الباقي فقرة عادية
+    return (
+      <p key={index} className="text-gray-600 leading-relaxed">
+        {line}
+      </p>
+    );
+  });
+};
 
 const TermsAndConditionsPage = () => {
+  const { data: termsAndConditions } = useGetTermsAndConditionsQuery();
+  const { data: privacyPolicy } = useGetPrivacyPolicyQuery();
+
   return (
     <main className="pt-28 mb-16">
       <div className="Container space-y-16">
+        {/* العنوان الرئيسي */}
         <div className="flex items-center justify-center gap-4">
           <SectionTitle Title="الحصول على مساعدة" />
           <Image
@@ -58,7 +64,8 @@ const TermsAndConditionsPage = () => {
           />
         </div>
 
-        <div className="space-y-4">
+        {/* الشروط والأحكام */}
+        <div className="space-y-4 overflow-hidden" id="termsAndConditions">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Image
@@ -68,16 +75,38 @@ const TermsAndConditionsPage = () => {
                 height={20}
               />
               <h2 className="text-xl md:text-2xl font-semibold">
-                الإتفاقيات و السياسات
+                الشروط والأحكام
               </h2>
             </div>
             <p className="text-gray-500">
-              الاتفاقيات و السياسات التي تحكم العلاقة بين عقار و المستخدمين (8
-              مقالات)
+              الاتفاقيات و الشروط التي تحكم العلاقة بين عقار و المستخدمين
             </p>
           </div>
-          <div className="border p-8 bg-secondary shadow-md rounded-sm">
-            <CustomAccordion accordionList={TermsList} />
+          <div className="border p-8 bg-secondary shadow-md rounded-sm space-y-3">
+            {formatText(termsAndConditions?.data || "")}
+          </div>
+        </div>
+
+        {/* سياسة الخصوصية */}
+        <div className="space-y-4 overflow-hidden" id="privacyPolicy">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Image
+                src="/Icons/Policy.svg"
+                alt="Policy"
+                width={20}
+                height={20}
+              />
+              <h2 className="text-xl md:text-2xl font-semibold">
+                سياسة الخصوصية
+              </h2>
+            </div>
+            <p className="text-gray-500">
+              سياسة الخصوصية التي تحكم العلاقة بين عقار و المستخدمين
+            </p>
+          </div>
+          <div className="border p-8 bg-secondary shadow-md rounded-sm space-y-3">
+            {formatText(privacyPolicy?.data || "")}
           </div>
         </div>
       </div>

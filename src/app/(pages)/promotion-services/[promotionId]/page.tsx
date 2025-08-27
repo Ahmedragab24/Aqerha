@@ -1,23 +1,23 @@
+"use client";
+
 import React from "react";
-import { PromotionServicesList } from "../page";
-import PromotionServiceDetails from "@/components/templates/PromotionServiceDetails";
+import PromotionServiceDetails from "../../../../components/templates/PromotionServiceDetails";
+import { useParams } from "next/navigation";
+import { useGetPromotionsServicesQuery } from "@/store/services/Promotions";
 
-const PromotionDetailsPage = async ({
-  params,
-}: {
-  params: Promise<{ promotionId: string }>;
-}) => {
-  const { promotionId } = await params;
+const PromotionDetailsPage = () => {
+  const { promotionId } = useParams();
+  const PromotionId = promotionId ? +promotionId : null;
+  const { data } = useGetPromotionsServicesQuery();
+  const PromotionServicesList = data?.data || [];
 
-  const PromotionProduct =
-    PromotionServicesList.find((item) => item.id === +promotionId) || null;
+  const Promotion = PromotionServicesList.find(
+    (item) => item.id === PromotionId
+  );
 
   return (
     <main className="Container pt-28 mb-16">
-      <PromotionServiceDetails
-        PromotionProduct={PromotionProduct}
-        PromotionServicesList={PromotionServicesList}
-      />
+      <PromotionServiceDetails PromotionService={Promotion} />
     </main>
   );
 };

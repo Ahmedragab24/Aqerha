@@ -4,8 +4,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import CustomerServicesForm from "../forms/CustomerServicesForm";
+} from "../../ui/dialog";
+import ContactUsForm from "../forms/ContactUsForm";
 interface Props {
   children?: React.ReactNode;
 }
@@ -20,7 +20,7 @@ const CustomerServicesDialog = ({ children }: Props) => {
         </DialogHeader>
 
         <div>
-          <CustomerServicesForm />
+          <ContactUsForm />
         </div>
       </DialogContent>
     </Dialog>

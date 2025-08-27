@@ -3,7 +3,7 @@
 import type React from "react";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, X, Camera, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -184,17 +184,18 @@ export default function MultiImageUpload({
                       variant="secondary"
                       size="sm"
                       onClick={() => handleReplaceImage(index)}
-                      className="bg-white hover:bg-gray-100"
+                      className="bg-white hover:bg-gray-100 !h-6 !w-6"
                     >
-                      <Camera className="h-4 w-4" />
+                      <Camera className="!h-3 !w-3" />
                     </Button>
                     <Button
                       type="button"
                       variant="destructive"
                       size="sm"
                       onClick={() => handleRemove(index)}
+                      className=" !h-6 !w-6"
                     >
-                      <X className="h-4 w-4" />
+                      <X className="!h-3 !w-3" />
                     </Button>
                   </div>
                 </div>

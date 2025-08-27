@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { CreditCard } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import Riyal from "@/components/atoms/Icons/Riyal";
-import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
+import { Label } from "../../ui/label";
+import Riyal from "../../atoms/Icons/Riyal";
+import { Button } from "../../ui/button";
 
 // Payment methods data array
 const paymentMethods = [
@@ -73,7 +73,7 @@ const SelectPayment = ({ price }: Props) => {
       {/* Amount section */}
       <div className="flex items-center justify-between mb-8 p-4 bg-gray-50 rounded-lg">
         <span className="text-gray-600 font-medium" dir="rtl">
-          مبلغ العربون
+          المبلغ الإجمالي
         </span>
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold text-gray-800">{price}</span>

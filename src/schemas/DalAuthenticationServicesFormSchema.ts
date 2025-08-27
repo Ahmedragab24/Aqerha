@@ -4,10 +4,7 @@ export const DalAuthenticationServicesFormSchema = z.object({
   username: z
     .string()
     .min(2, { message: "الاسم يجب أن يحتوي على حرفين على الأقل." })
-    .max(50, { message: "الاسم طويل جدًا." })
-    .regex(/^[\u0600-\u06FF\s]+$/, {
-      message: "الاسم يجب أن يحتوي على أحرف عربية فقط.",
-    }),
+    .max(50, { message: "الاسم طويل جدًا." }),
 
   ServiceType: z.string().min(1, { message: "يرجى اختيار نوع الخدمة." }),
 

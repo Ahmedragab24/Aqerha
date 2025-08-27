@@ -1,9 +1,9 @@
-import type { DiscriminationCampaignType } from "@/types/products";
+import type { DiscriminationCampaignType } from "@/types/Real-estates";
 import Image from "next/image";
-import GradientOverlay from "@/components/atoms/sliders/GradientOverlay";
-import Riyal from "@/components/atoms/Icons/Riyal";
-import FavoriteBtn from "@/components/atoms/buttons/FavoriteBtn";
-import ShareBtn from "@/components/atoms/buttons/ShareBtn";
+import GradientOverlay from "../../atoms/sliders/GradientOverlay";
+import Riyal from "../../atoms/Icons/Riyal";
+import FavoriteBtn from "../../atoms/buttons/FavoriteBtn";
+import ShareBtn from "../../atoms/buttons/ShareBtn";
 import Link from "next/link";
 
 interface Props {
@@ -32,7 +32,7 @@ const DiscriminationCampaignCard = ({ DiscriminationCampaign }: Props) => {
 
         {/* Overlay Icons */}
         <div className="absolute top-4 left-4 flex gap-2">
-          <FavoriteBtn />
+          <FavoriteBtn RealStateId={id} type="page" />
           <ShareBtn />
         </div>
       </div>

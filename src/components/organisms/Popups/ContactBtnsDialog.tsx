@@ -1,11 +1,11 @@
-import CallUserBtns from "@/components/molecules/btnsGroup/CallUserBtns";
+import CallUserBtns from "../../molecules/btnsGroup/CallUserBtns";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
 
 interface Props {

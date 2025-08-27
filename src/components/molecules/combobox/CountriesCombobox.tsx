@@ -1,8 +1,9 @@
 "use client";
+
 import * as React from "react";
 import { Check, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import {
   Command,
   CommandEmpty,
@@ -10,15 +11,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+} from "../../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { cities } from "@/constants/cities";
+import { useAppDispatch } from "@/store/hooks";
+import { setCity } from "@/store/features/filter/FilterRealEstate";
 
 const CountriesCombobox = () => {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   return (
@@ -49,6 +49,7 @@ const CountriesCombobox = () => {
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
+                    dispatch(setCity(city.value));
                   }}
                 >
                   {city.label}

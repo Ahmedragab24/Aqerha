@@ -1,5 +1,5 @@
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import RegisterContractorCompanyForm from "@/components/organisms/forms/RegisterContractorCompanyForm";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import RegisterContractorCompanyForm from "../../../components/organisms/forms/RegisterContractorCompanyForm";
 import React from "react";
 
 const RegisterContractorCompanyPage = () => {

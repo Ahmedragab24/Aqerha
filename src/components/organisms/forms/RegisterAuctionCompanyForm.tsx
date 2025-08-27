@@ -3,22 +3,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormField } from "@/components/ui/form";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
-import { loginFormSchema } from "@/schemas/login";
+import { Form, FormField } from "../../ui/form";
+import CustomFormItem from "../../molecules/formItems/CustomFormItem";
+import SubmitBtn from "../../atoms/buttons/SubmitBtn";
+
+import { RegisterAuctionCompanyFormSchema } from "@/schemas/RegisterAuctionCompanyFormSchema";
 
 const RegisterAuctionCompanyForm = () => {
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<z.infer<typeof RegisterAuctionCompanyFormSchema>>({
+    resolver: zodResolver(RegisterAuctionCompanyFormSchema),
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
+      name: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof loginFormSchema>) {
+  function onSubmit(values: z.infer<typeof RegisterAuctionCompanyFormSchema>) {
     console.log(values);
   }
 
@@ -28,7 +27,7 @@ const RegisterAuctionCompanyForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <CustomFormItem
                 field={field}
@@ -38,31 +37,8 @@ const RegisterAuctionCompanyForm = () => {
               />
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <CustomFormItem
-                field={field}
-                label="عنوان البريد الالكتروني"
-                placeholder="ahmed.adel@gmail.com"
-                type="email"
-              />
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <CustomFormItem
-                field={field}
-                label="كلمة المرور"
-                placeholder="أدخل كلمة المرور"
-                type="password"
-              />
-            )}
-          />
-          <SubmitBtn title="إنشاء حساب" />
+
+          <SubmitBtn title="إنشاء حساب" loading disabled />
         </form>
       </div>
     </Form>

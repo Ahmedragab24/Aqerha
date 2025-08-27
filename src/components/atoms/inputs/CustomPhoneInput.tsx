@@ -3,20 +3,15 @@
 import type React from "react";
 import { useState } from "react";
 import { ChevronDown, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+} from "../../ui/dropdown-menu";
+import { Input } from "../../ui/input";
+import { FormControl, FormItem, FormLabel, FormMessage } from "../../ui/form";
 import { cn } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
 import { arabCountries } from "@/constants/phoneCode";
@@ -54,13 +49,15 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
 
   const handleCountrySelect = (country: (typeof arabCountries)[0]) => {
     setSelectedCountry(country);
-    field.onChange(`${country.code}${phoneNumber}`);
+    // field.onChange(`${country.code}${phoneNumber}`);
+    field.onChange(`${phoneNumber}`);
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^\d]/g, ""); // Only allow digits
     setPhoneNumber(value);
-    field.onChange(`${selectedCountry.code}${value}`);
+    // field.onChange(`${selectedCountry.code}${value}`);
+    field.onChange(`${value}`);
   };
 
   // Determine border styling based on state

@@ -3,45 +3,80 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormField, FormLabel } from "@/components/ui/form";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
-import CustomSelectField from "@/components/molecules/selects/CustomSelectField";
-import {
-  DalAuthenticationServicesList,
-  DalServicesType,
-} from "@/constants/DalAuthenticationServices";
-import { userTypeList } from "@/constants/forms/ad";
-import CustomPhoneInput from "@/components/atoms/inputs/CustomPhoneInput";
+import { Form, FormField, FormLabel } from "../../ui/form";
+import CustomFormItem from "../../molecules/formItems/CustomFormItem";
+import SubmitBtn from "../../atoms/buttons/SubmitBtn";
+import CustomSelectField from "../../molecules/selects/CustomSelectField";
+import CustomPhoneInput from "../../atoms/inputs/CustomPhoneInput";
 import { cities } from "@/constants/cities";
 import { DalAuthenticationServicesFormSchema } from "@/schemas/DalAuthenticationServicesFormSchema";
-import { TypeUserType } from "@/types/ad";
-import ImageUpload from "@/components/molecules/uploads/ImageUpload";
+import ImageUpload from "../../molecules/uploads/ImageUpload";
+import { TypeUserType } from "@/types/Auth";
+import { userTypeList } from "@/constants/selects";
+import { toast } from "sonner";
+import {
+  AuthenticationServiceType,
+  DalServiceRequestType,
+} from "@/types/AuthenticationService";
+import {
+  useDalRequestMutation,
+  useGetServicesQuery,
+} from "@/store/services/AuthenticationServices";
+import { ErrorType } from "@/types/errors";
 
 interface Props {
-  typeService: DalServicesType;
+  Service: AuthenticationServiceType;
 }
 
-const DalAuthenticationServicesForm = ({ typeService }: Props) => {
+const DalAuthenticationServicesForm = ({ Service }: Props) => {
+  const { data } = useGetServicesQuery();
+  const ServicesData =
+    data?.data.map((item) => ({
+      value: String(item.id),
+      label: item.name,
+    })) || [];
+  const [CreateRequest, { isLoading }] = useDalRequestMutation();
   const form = useForm<z.infer<typeof DalAuthenticationServicesFormSchema>>({
     resolver: zodResolver(DalAuthenticationServicesFormSchema),
     defaultValues: {
       username: "",
-      ServiceType: typeService,
+      ServiceType: String(Service.id),
       ServiceApplicantType: "",
       NationalIDNumber: "",
       phone: "",
       email: "",
       city: "",
       TheNeighborhood: "",
+      AgencyNumber: "",
+      AgencyImage: undefined,
     },
     mode: "onChange",
   });
 
-  function onSubmit(
+  async function onSubmit(
     values: z.infer<typeof DalAuthenticationServicesFormSchema>
   ) {
-    console.log(values);
+    const data: DalServiceRequestType = {
+      full_name: values.username,
+      dal_service_id: Service.id,
+      requester_type: values.ServiceApplicantType,
+      national_id: values.NationalIDNumber,
+      phone: values.phone,
+      email: values.email,
+      city: values.city,
+      agency_number: values.AgencyNumber,
+      agency_document: values.AgencyImage,
+      district: values.TheNeighborhood,
+    };
+
+    try {
+      const res = await CreateRequest(data).unwrap();
+      toast.success(`${res.message}`);
+      form.reset();
+    } catch (error) {
+      const err = error as ErrorType;
+      toast.error(`${err?.data?.message || "حدث خطأ غير متوقع"}`);
+    }
   }
 
   const ServiceApplicantType = form.watch(
@@ -66,13 +101,25 @@ const DalAuthenticationServicesForm = ({ typeService }: Props) => {
           />
           <FormField
             control={form.control}
+            name="email"
+            render={({ field }) => (
+              <CustomFormItem
+                field={field}
+                label="البريد الإلكتروني"
+                placeholder="الرجاء إدخال البريد الإلكتروني"
+                type="email"
+              />
+            )}
+          />
+          <FormField
+            control={form.control}
             name="ServiceType"
             render={({ field }) => (
               <CustomSelectField
                 field={field}
                 label="إختر الخدمة"
                 placeholder="الرجاء اختيار الخدمة"
-                options={DalAuthenticationServicesList}
+                options={ServicesData}
               />
             )}
           />
@@ -100,7 +147,7 @@ const DalAuthenticationServicesForm = ({ typeService }: Props) => {
               />
             )}
           />
-          {ServiceApplicantType === "agent" && (
+          {ServiceApplicantType === "multi_owners" && (
             <>
               <FormField
                 control={form.control}
@@ -139,18 +186,7 @@ const DalAuthenticationServicesForm = ({ typeService }: Props) => {
               <CustomPhoneInput field={field} label="الرجاء إدخال رقم جوالك" />
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <CustomFormItem
-                field={field}
-                label="البريد الإلكتروني"
-                placeholder="الرجاء إدخال البريد الإلكتروني"
-                type="email"
-              />
-            )}
-          />
+
           <FormField
             control={form.control}
             name="city"
@@ -175,7 +211,11 @@ const DalAuthenticationServicesForm = ({ typeService }: Props) => {
               />
             )}
           />
-          <SubmitBtn title="إرسال الطلب" />
+          <SubmitBtn
+            title="إرسال الطلب"
+            loading={isLoading}
+            disabled={isLoading}
+          />
         </form>
       </div>
     </Form>

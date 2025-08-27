@@ -2,8 +2,8 @@
 
 import type React from "react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -26,14 +26,10 @@ const EmailInput = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="relative w-full md:w-[320px]"
-      dir="rtl"
-    >
+    <form onSubmit={handleSubmit} className="relative w-full" dir="rtl">
       <Input
         type="email"
-        placeholder="أدخل البريد الإلكتروني الخاص بك"
+        placeholder="البريد الإلكتروني"
         className="h-12"
         value={email}
         onChange={(e) => setEmail(e.target.value)}

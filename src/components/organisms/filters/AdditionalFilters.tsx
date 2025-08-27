@@ -1,18 +1,31 @@
-import CustomToggleGroup from "@/components/molecules/btnsGroup/CustomToggleGroup";
+"use client";
+
+import CustomToggleGroupMultiple from "@/components/molecules/btnsGroup/CustomToggleGroupMultiple";
+import CustomToggleGroup from "../../molecules/btnsGroup/CustomToggleGroup";
+import { bathroomList, bedroomList } from "@/constants/selects";
 import {
-  bathroomList,
-  bedroomList,
-  coolingSystemList,
-  elevatorList,
-  floorList,
-  floorTypeList,
-  heatingSystemList,
-  parkingList,
-  storeList,
-  typeOfBathroomList,
-} from "@/constants/selects";
+  setApartments,
+  setBathrooms,
+  setFeatures,
+  setRooms,
+  setSalons,
+} from "@/store/features/filter/FilterRealEstate";
+import { useAppDispatch } from "@/store/hooks";
+import { useAppSelector } from "@/store/hooks";
+import { useGetFeaturesByTypeQuery } from "@/store/services/Features";
 
 export function AdditionalFilters() {
+  const dispatch = useAppDispatch();
+  const { FilterParams } = useAppSelector((state) => state.FilterRealEstate);
+  const { data: FeaturesData } = useGetFeaturesByTypeQuery(
+    FilterParams.real_estate_type || "apartment"
+  );
+
+  const FeaturesList = FeaturesData?.features?.map((item) => ({
+    value: String(item.id),
+    label: item.name,
+  }));
+
   return (
     <div className="w-full h-full flex flex-col">
       {/* Header - optional */}
@@ -26,16 +39,77 @@ export function AdditionalFilters() {
       <div className="flex-1 overflow-hidden">
         <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
           <div className="space-y-4 sm:space-y-6 pr-2 pb-4">
-            <CustomToggleGroup title="غرفة النوم" Items={bedroomList} />
-            <CustomToggleGroup title="موقف سيارات" Items={parkingList} />
-            <CustomToggleGroup title="مخزن" Items={storeList} />
-            <CustomToggleGroup title="حمام" Items={bathroomList} />
-            <CustomToggleGroup title="نوع الحمام" Items={typeOfBathroomList} />
-            <CustomToggleGroup title="مصعد" Items={elevatorList} />
-            <CustomToggleGroup title="طابق" Items={floorList} />
-            <CustomToggleGroup title="نظام التبريد" Items={coolingSystemList} />
-            <CustomToggleGroup title="نظام التدفئة" Items={heatingSystemList} />
-            <CustomToggleGroup title="نوع الأرضية" Items={floorTypeList} />
+            <CustomToggleGroupMultiple
+              title="الخصائص"
+              Items={FeaturesList || []}
+              type="multiple"
+              value={FilterParams.features?.map(String) || []}
+              dispatch={(value: string[]) =>
+                dispatch(setFeatures(value.map(Number)))
+              }
+            />
+
+            <CustomToggleGroup
+              title="عدد الشقق"
+              Items={bathroomList}
+              dispatch={(value: string) => dispatch(setApartments(+value))}
+            />
+
+            <CustomToggleGroup
+              title="عدد الغرف"
+              Items={bedroomList}
+              dispatch={(value: string) => dispatch(setRooms(+value))}
+            />
+
+            <CustomToggleGroup
+              title="عدد الصالونات"
+              Items={bedroomList}
+              dispatch={(value: string) => dispatch(setSalons(+value))}
+            />
+
+            <CustomToggleGroup
+              title="عدد الحمامات"
+              Items={bathroomList}
+              dispatch={(value: string) => dispatch(setBathrooms(+value))}
+            />
+            {/* <CustomToggleGroup
+              title="نوع الحمام"
+              Items={typeOfBathroomList}
+              dispatch={(value) =>
+                dispatch(setAdditionalFilter({ typeOfBathroom: value }))
+              }
+            /> */}
+            {/* <CustomToggleGroup
+              title="عدد المصاعد"
+              Items={elevatorList}
+              dispatch={(value) => dispatch(setElevator({ elevator: value }))}
+            />
+            <CustomToggleGroup
+              title="عدد الطوابق"
+              Items={floorList}
+              dispatch={(value: number) => dispatch(setFloor(value))}
+            /> */}
+            {/* <CustomToggleGroup
+              title="نظام التبريد"
+              Items={coolingSystemList}
+              dispatch={(value) =>
+                dispatch(setAdditionalFilter({ coolingSystem: value }))
+              }
+            />
+            <CustomToggleGroup
+              title="نظام التدفئة"
+              Items={heatingSystemList}
+              dispatch={(value) =>
+                dispatch(setAdditionalFilter({ heatingSystem: value }))
+              }
+            />
+            <CustomToggleGroup
+              title="نوع الأرضية"
+              Items={floorTypeList}
+              dispatch={(value) =>
+                dispatch(setAdditionalFilter({ floorType: value }))
+              }
+            /> */}
           </div>
         </div>
       </div>

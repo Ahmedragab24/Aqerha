@@ -1,38 +1,64 @@
 "use client";
 
-import { stepType } from "@/app/(pages)/owner-ad/page";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
-import CustomPhoneInput from "@/components/atoms/inputs/CustomPhoneInput";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import { Form, FormField } from "@/components/ui/form";
-import { AddAdMultipleAngelsFormSchema } from "@/schemas/AddAdMultipleAngelsFormSchema";
+import { stepType } from "@/app/(pages)/add-advertisement/page";
+import SubmitBtn from "../../../atoms/buttons/SubmitBtn";
+import CustomPhoneInput from "../../../atoms/inputs/CustomPhoneInput";
+import CustomFormItem from "../../../molecules/formItems/CustomFormItem";
+import { Form, FormField } from "../../../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { AddAdStepOneFormSchema } from "@/schemas/AddAdStepOneFormSchema";
+import { TypeUserRoleType, TypeUserType } from "@/types/Auth";
+import { useStoreAdRealEstateMutation } from "@/store/services/RealEstate";
+import { showSuccessToast } from "@/components/Successfully/DoneToast";
+import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import { ErrorType } from "@/types/errors";
+import { TypeUserRealEstateType } from "@/types/Real-estates";
 
 interface Props {
   setStep: (value: stepType) => void;
 }
 
 const AddAdMultipleAngelsForm = ({ setStep }: Props) => {
-  const form = useForm<z.infer<typeof AddAdMultipleAngelsFormSchema>>({
-    resolver: zodResolver(AddAdMultipleAngelsFormSchema),
+  const [StoreAd, { isLoading }] = useStoreAdRealEstateMutation();
+  const form = useForm<z.infer<typeof AddAdStepOneFormSchema>>({
+    resolver: zodResolver(AddAdStepOneFormSchema),
     defaultValues: {
-      DeedRegisterNumber: "",
-      DeedRegisterDate: "",
-      idNumberOwner: "",
-      idNumberAgent: "",
-      agencyNumber: "",
-      birthDate: "",
+      userType: "multiple_angels" as TypeUserType,
+      user_role: "agent" as TypeUserRoleType,
+      one_owner_id_number: "",
+      agent_nation_id: "",
       phone: "",
       whatsapp: "",
+      birth_date: "",
+      instrument_number: "",
+      instrument_date: "",
+      agency_number: "",
+      agency_date: "",
+      licence_number: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof AddAdMultipleAngelsFormSchema>) {
-    console.log(values);
-    setStep("stepTwo");
+  async function onSubmit(values: z.infer<typeof AddAdStepOneFormSchema>) {
+    try {
+      const cleanedValues = {
+        ...values,
+        user_type: values.userType as TypeUserRealEstateType,
+        user_role: values.user_role as TypeUserRoleType,
+        userType: undefined,
+      };
+      delete cleanedValues.userType;
+
+      const res = await StoreAd(cleanedValues).unwrap();
+      showSuccessToast({ title: res.message });
+
+      setStep("stepTwo");
+    } catch (error) {
+      const err = error as ErrorType;
+      showFailedToast({ title: err.data.message || "حدث خطأ غير متوقع" });
+    }
   }
 
   return (
@@ -43,37 +69,10 @@ const AddAdMultipleAngelsForm = ({ setStep }: Props) => {
           className="space-y-4"
           dir="rtl"
         >
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name="DeedRegisterNumber"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="رقم الصك/السجل العيني"
-                  placeholder="أدخل رقم الصك أو السجل العيني"
-                  type="text"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="DeedRegisterDate"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="تاريخ الصك"
-                  placeholder="أدخل تاريخ الصك"
-                  type="date"
-                />
-              )}
-            />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <FormField
-              control={form.control}
-              name="idNumberOwner"
+              name="one_owner_id_number"
               render={({ field }) => (
                 <CustomFormItem
                   field={field}
@@ -85,7 +84,7 @@ const AddAdMultipleAngelsForm = ({ setStep }: Props) => {
             />
             <FormField
               control={form.control}
-              name="idNumberAgent"
+              name="agent_nation_id"
               render={({ field }) => (
                 <CustomFormItem
                   field={field}
@@ -95,24 +94,9 @@ const AddAdMultipleAngelsForm = ({ setStep }: Props) => {
                 />
               )}
             />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
             <FormField
               control={form.control}
-              name="agencyNumber"
-              render={({ field }) => (
-                <CustomFormItem
-                  field={field}
-                  label="رقم الوكالة"
-                  placeholder="أدخل رقم الوكالة"
-                  type="number"
-                />
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="birthDate"
+              name="birth_date"
               render={({ field }) => (
                 <CustomFormItem
                   field={field}
@@ -129,7 +113,7 @@ const AddAdMultipleAngelsForm = ({ setStep }: Props) => {
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <CustomPhoneInput field={field} label="رقم الجوال" />
+                <CustomPhoneInput field={field} label="رقم جوال الوكيل" />
               )}
             />
             <FormField
@@ -141,8 +125,78 @@ const AddAdMultipleAngelsForm = ({ setStep }: Props) => {
             />
           </div>
 
+          <div className="grid md:grid-cols-3 gap-8">
+            <FormField
+              control={form.control}
+              name="licence_number"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="رقم الترخيص"
+                  placeholder="أدخل رقم الترخيص"
+                  type="number"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instrument_number"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="رقم الصك/السجل العيني"
+                  placeholder="أدخل رقم الصك أو السجل العيني"
+                  type="text"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instrument_date"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="تاريخ الصك"
+                  placeholder="أدخل تاريخ الصك"
+                  type="date"
+                />
+              )}
+            />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <FormField
+              control={form.control}
+              name="agency_number"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="رقم الوكالة"
+                  placeholder="أدخل رقم الوكالة"
+                  type="number"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="agency_date"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  label="تاريخ الوكالة"
+                  placeholder="أدخل تاريخ الوكالة"
+                  type="date"
+                />
+              )}
+            />
+          </div>
+
           <div className="md:w-[30%] mx-auto">
-            <SubmitBtn title="التالي" />
+            <SubmitBtn
+              title="التالي"
+              loading={isLoading}
+              disabled={isLoading}
+            />
           </div>
         </form>
       </div>

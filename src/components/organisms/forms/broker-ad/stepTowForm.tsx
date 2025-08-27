@@ -3,21 +3,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormField } from "@/components/ui/form";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
+import { Form, FormField } from "../../../ui/form";
+import CustomFormItem from "../../../molecules/formItems/CustomFormItem";
+import SubmitBtn from "../../../atoms/buttons/SubmitBtn";
 import { StepType } from "@/app/(pages)/broker-ad/page";
 import { StepTowFormSchema } from "@/schemas/broker-ad";
-import CustomSelectField from "@/components/molecules/selects/CustomSelectField";
+import CustomSelectField from "../../../molecules/selects/CustomSelectField";
 import {
   AdvertisingChannelsList,
   FoundOrNoFound,
   numberOptions,
   propertyAges,
   PropertyServicesList,
-  purposes,
-  SalesPropertyTypeList,
-} from "@/constants/forms/Order";
+  PropertyTypeList,
+  purposesOfRealEstate,
+} from "@/constants/selects";
 
 interface Props {
   setStep: (value: StepType) => void;
@@ -172,7 +172,7 @@ const StepTowForm = ({ setStep }: Props) => {
                 label="نوع العقار"
                 placeholder="اختر نوع العقار"
                 field={field}
-                options={SalesPropertyTypeList}
+                options={PropertyTypeList}
               />
             )}
           />
@@ -196,7 +196,7 @@ const StepTowForm = ({ setStep }: Props) => {
                 label="غرض الإعلان"
                 placeholder="اختر غرض الإعلان"
                 field={field}
-                options={purposes}
+                options={purposesOfRealEstate}
               />
             )}
           />
@@ -381,7 +381,7 @@ const StepTowForm = ({ setStep }: Props) => {
             )}
           />
           <div className="md:col-span-2">
-            <SubmitBtn title="التالي" />
+            <SubmitBtn title="التالي" loading={false} disabled={false} />
           </div>
         </form>
       </div>

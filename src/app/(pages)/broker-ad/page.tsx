@@ -1,10 +1,10 @@
 "use client";
 
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import StepFourForm from "@/components/organisms/forms/broker-ad/StepFourForm";
-import StepOneForm from "@/components/organisms/forms/broker-ad/stepOneForm";
-import StepThreeForm from "@/components/organisms/forms/broker-ad/StepThreeForm";
-import StepTowForm from "@/components/organisms/forms/broker-ad/stepTowForm";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import StepFourForm from "../../../components/organisms/forms/broker-ad/StepFourForm";
+import StepOneForm from "../../../components/organisms/forms/broker-ad/stepOneForm";
+import StepThreeForm from "../../../components/organisms/forms/broker-ad/StepThreeForm";
+import StepTowForm from "../../../components/organisms/forms/broker-ad/stepTowForm";
 import React, { useState } from "react";
 
 export type StepType = "stepOne" | "stepTow" | "stepThree" | "stepFour";

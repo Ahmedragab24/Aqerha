@@ -1,20 +1,21 @@
 "use client";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "../../ui/toggle-group";
+import { Label } from "../../ui/label";
 import type { OptionType } from "@/types/selects";
-import { Label } from "@/components/ui/label";
 
 interface CustomToggleGroupProps {
   title?: string;
   Items: OptionType[];
   value?: string;
-  onValueChange?: (value: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatch: (value: any) => void;
 }
 
 const CustomToggleGroup = ({
   title,
   Items,
   value,
-  onValueChange,
+  dispatch,
 }: CustomToggleGroupProps) => {
   return (
     <div className="space-y-2 sm:space-y-3">
@@ -25,8 +26,9 @@ const CustomToggleGroup = ({
       )}
       <ToggleGroup
         type="single"
+        defaultValue={Items[0].value}
         value={value}
-        onValueChange={onValueChange}
+        onValueChange={(val) => val && val !== "any" && dispatch(val)}
         className="flex flex-wrap gap-0 justify-start"
       >
         {Items.map((item) => (
@@ -34,8 +36,7 @@ const CustomToggleGroup = ({
             key={item.value}
             value={item.value}
             aria-label={`Toggle ${item.value}`}
-            className="
-              min-w-[105px] w-auto text-gray-500 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground cursor-pointer border border-gray-200 text-xs sm:text-sm font-medium"
+            className="min-w-[105px] w-auto text-gray-500 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground cursor-pointer border border-gray-200 text-xs sm:text-sm font-medium"
           >
             <span className="whitespace-nowrap">{item.label}</span>
           </ToggleGroupItem>

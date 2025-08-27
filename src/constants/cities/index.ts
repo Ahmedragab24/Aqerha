@@ -79,3 +79,14 @@ export const cities: OptionType[] = [
   { label: "ميسان", value: "ميسان" },
   { label: "الرين", value: "الرين" },
 ];
+
+export const CitiesTabItems = [
+  { value: "", label: "الكل" },
+  { value: "الطائف", label: "الطائف" },
+  { value: "الخبر", label: "الخبر" },
+  { value: "الدمام", label: "الدمام" },
+  { value: "المدينة المنورة", label: "المدينة المنورة" },
+  { value: "مكة", label: "مكة" },
+  { value: "جدة", label: "جدة" },
+  { value: "الرياض", label: "الرياض" },
+];

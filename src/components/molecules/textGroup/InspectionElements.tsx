@@ -18,15 +18,20 @@ const InspectionElements = ({ InspectionElementsList }: Props) => {
     >
       {InspectionElementsList.map((item) => (
         <div key={item.id} className="flex items-center gap-4">
-          <div className="relative w-10 h-10">
-            {item.active ? (
-              <Image src="/Icons/Check Circle.svg" alt="Check" fill />
-            ) : (
-              <Image src="/Icons/Close Circle.svg" alt="Check" fill />
-            )}
+          <div className="w-8 h-8 min-w-[32px] min-h-[32px] relative">
+            <Image
+              src={
+                item.active
+                  ? "/Icons/Check Circle.svg"
+                  : "/Icons/Close Circle.svg"
+              }
+              alt="Check"
+              width={40}
+              height={40}
+            />
           </div>
 
-          <p className="text-lg font-medium">{item.description}</p>
+          <p className="text-sm md:text-lg font-normal">{item.description}</p>
         </div>
       ))}
     </div>

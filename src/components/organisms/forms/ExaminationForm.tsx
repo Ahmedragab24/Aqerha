@@ -3,48 +3,96 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { Form, FormField } from "@/components/ui/form";
-import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
-import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
-import CustomPhoneInput from "@/components/atoms/inputs/CustomPhoneInput";
+import { Form, FormField } from "../../ui/form";
+import CustomFormItem from "../../molecules/formItems/CustomFormItem";
+import SubmitBtn from "../../atoms/buttons/SubmitBtn";
+import CustomPhoneInput from "../../atoms/inputs/CustomPhoneInput";
 import { ExaminationFormSchema } from "@/schemas/examination";
-import CustomSelectField from "@/components/molecules/selects/CustomSelectField";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CustomSelectField from "../../molecules/selects/CustomSelectField";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { examinationDescriptionList } from "@/constants/Membership";
+import { cities } from "@/constants/cities";
+import {
+  inspectionServiceList,
+  paymentMethodsList,
+  PropertyCategory,
+  PropertyTypeList,
+  purposesOfExamination,
+} from "@/constants/selects";
+import { useExaminationRequestMutation } from "@/store/services/Examination&Evaluation";
+import { ErrorType } from "@/types/errors";
+import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import { showSuccessToast } from "@/components/Successfully/DoneToast";
+import {
+  ExaminationRequestState,
+  examinationRequestType,
+} from "@/types/inspection-and-evaluation-requests";
+import { TypePropertyType, TypeUsedRealEstateType } from "@/types/Real-estates";
 
 interface Props {
-  type: "inspection" | "evaluation";
+  setOpen: (open: boolean) => void;
+  ExaminationType: ExaminationRequestState;
 }
 
-const ExaminationForm = ({ type }: Props) => {
+const ExaminationForm = ({ setOpen, ExaminationType }: Props) => {
+  const [examinationRequest, { isLoading }] = useExaminationRequestMutation();
   const form = useForm<z.infer<typeof ExaminationFormSchema>>({
     resolver: zodResolver(ExaminationFormSchema),
     defaultValues: {
-      username: "",
-      nationalIdentity: "",
-      examinationDescription: "",
+      name: "",
+      national_id: "",
+      user_type: "",
       phone: "",
       email: "",
-      propertyType: "",
-      propertyCategory: "",
+      real_estate_type: "",
+      real_estate_category: "",
       city: "",
-      neighborhood: "",
-      propertyLocation: "",
-      purpose: "",
+      district: "",
+      location: "",
+      examination_purpose: "",
+      payment_method: "",
+      inspection_service_type: ExaminationType || "",
     },
+    mode: "onChange",
   });
 
-  function onSubmit(values: z.infer<typeof ExaminationFormSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof ExaminationFormSchema>) {
+    const data: examinationRequestType = {
+      name: values.name,
+      national_id: values.national_id,
+      user_status: values.user_type,
+      phone: values.phone,
+      email: values.email,
+      real_estate_type: values.real_estate_type as TypePropertyType,
+      real_estate_category:
+        values.real_estate_category as TypeUsedRealEstateType,
+      city: values.city,
+      district: values.district,
+      location: values.location,
+      examination_purpose:
+        values.examination_purpose as ExaminationRequestState,
+      payment_method: values.payment_method,
+      payment_status: "pending",
+      inspection_service_type:
+        ExaminationType ||
+        (values.inspection_service_type as ExaminationRequestState),
+    };
+
+    try {
+      const res = await examinationRequest(data).unwrap();
+      showSuccessToast({ title: res?.data?.message || "تم إرسال الطلب بنجاح" });
+      setOpen(false);
+    } catch (error) {
+      const err = error as ErrorType;
+      showFailedToast({ title: err?.data?.message || "حدث خطأ" });
+    }
   }
 
-  const textTypeName = type === "inspection" ? "الفحص" : "التقييم";
-  const textTypeVerb = type === "inspection" ? "فحصه" : "تقييمه";
-
   return (
-    <Card className="h-[70vh] overflow-hidden overflow-y-scroll">
+    <Card className="">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center text-primary">
-          {type === "inspection" ? "طلب فحص" : "طلب تقييم"}
+          طلب فحص
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -53,11 +101,25 @@ const ExaminationForm = ({ type }: Props) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="username"
+                name="inspection_service_type"
+                render={({ field }) => (
+                  <CustomSelectField
+                    field={field}
+                    label="نوع الخدمة"
+                    placeholder="إختر نوع الخدمة"
+                    className="!h-11 border-border"
+                    options={inspectionServiceList}
+                  />
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="name"
                 render={({ field }) => (
                   <CustomFormItem
                     field={field}
-                    label="الاسم"
+                    label="أسم طالب الفحص"
                     placeholder="أدخل الاسم بالكامل"
                     type="text"
                   />
@@ -66,7 +128,7 @@ const ExaminationForm = ({ type }: Props) => {
 
               <FormField
                 control={form.control}
-                name="nationalIdentity"
+                name="national_id"
                 render={({ field }) => (
                   <CustomFormItem
                     field={field}
@@ -79,19 +141,14 @@ const ExaminationForm = ({ type }: Props) => {
 
               <FormField
                 control={form.control}
-                name="examinationDescription"
+                name="user_type"
                 render={({ field }) => (
                   <CustomSelectField
                     field={field}
-                    label={`صفة طالب ${textTypeName}`}
-                    placeholder={`اختر صفة طالب ${textTypeName}`}
+                    label="صفة طالب الفحص"
+                    placeholder="اختر صفة طالب الفحص"
                     className="!h-11 border-border"
-                    options={[
-                      { label: "مهندس", value: "engineer" },
-                      { label: "مالك العقار", value: "owner" },
-                      { label: "وكيل عقاري", value: "agent" },
-                      { label: "مقاول", value: "contractor" },
-                    ]}
+                    options={examinationDescriptionList}
                   />
                 )}
               />
@@ -119,39 +176,28 @@ const ExaminationForm = ({ type }: Props) => {
 
               <FormField
                 control={form.control}
-                name="propertyType"
+                name="real_estate_type"
                 render={({ field }) => (
                   <CustomSelectField
                     field={field}
-                    label={`نوع العقار المُراد ${textTypeVerb}`}
-                    placeholder={`إختر نوع العقار المراد ${textTypeVerb}`}
+                    label="نوع العقار المُراد فحصه"
+                    placeholder="إختر نوع العقار المراد فحصه"
                     className="!h-11 border-border"
-                    options={[
-                      { label: "شقة سكنية", value: "apartment" },
-                      { label: "فيلا", value: "villa" },
-                      { label: "مكتب تجاري", value: "office" },
-                      { label: "محل تجاري", value: "shop" },
-                      { label: "مستودع", value: "warehouse" },
-                    ]}
+                    options={PropertyTypeList}
                   />
                 )}
               />
 
               <FormField
                 control={form.control}
-                name="propertyCategory"
+                name="real_estate_category"
                 render={({ field }) => (
                   <CustomSelectField
                     field={field}
-                    label={`فئة العقار المراد ${textTypeVerb}`}
-                    placeholder={`إختر فئة العقار المراد ${textTypeVerb}`}
+                    label="فئة العقار المراد فحصه"
+                    placeholder="إختر فئة العقار المراد فحصه"
                     className="!h-11 border-border"
-                    options={[
-                      { label: "جديد", value: "new" },
-                      { label: "مستعمل", value: "used" },
-                      { label: "تحت الإنشاء", value: "under_construction" },
-                      { label: "يحتاج ترميم", value: "needs_renovation" },
-                    ]}
+                    options={PropertyCategory}
                   />
                 )}
               />
@@ -160,18 +206,18 @@ const ExaminationForm = ({ type }: Props) => {
                 control={form.control}
                 name="city"
                 render={({ field }) => (
-                  <CustomFormItem
+                  <CustomSelectField
                     field={field}
                     label="المدينة"
                     placeholder="أدخل المدينة"
-                    type="text"
+                    options={cities}
                   />
                 )}
               />
 
               <FormField
                 control={form.control}
-                name="neighborhood"
+                name="district"
                 render={({ field }) => (
                   <CustomFormItem
                     field={field}
@@ -184,7 +230,7 @@ const ExaminationForm = ({ type }: Props) => {
 
               <FormField
                 control={form.control}
-                name="propertyLocation"
+                name="location"
                 render={({ field }) => (
                   <CustomFormItem
                     field={field}
@@ -197,25 +243,37 @@ const ExaminationForm = ({ type }: Props) => {
 
               <FormField
                 control={form.control}
-                name="purpose"
+                name="examination_purpose"
                 render={({ field }) => (
                   <CustomSelectField
                     field={field}
-                    label={`الغرض من ${textTypeName}`}
-                    placeholder={`إختر الغرض من ${textTypeName}`}
+                    label="الغرض من الفحص"
+                    placeholder="إختر الغرض من الفحص"
                     className="!h-11 border-border"
-                    options={[
-                      { label: "شراء العقار", value: "purchase" },
-                      { label: "بيع العقار", value: "sale" },
-                      { label: "تأجير العقار", value: "rent" },
-                      { label: "تقييم العقار", value: "evaluation" },
-                      { label: "صيانة دورية", value: "maintenance" },
-                    ]}
+                    options={purposesOfExamination}
                   />
                 )}
               />
 
-              <SubmitBtn title="إرسال الطلب" />
+              <FormField
+                control={form.control}
+                name="payment_method"
+                render={({ field }) => (
+                  <CustomSelectField
+                    field={field}
+                    label="طريقة الدفع"
+                    placeholder="إختر طريقة الدفع"
+                    className="!h-11 border-border"
+                    options={paymentMethodsList}
+                  />
+                )}
+              />
+
+              <SubmitBtn
+                title="إرسال الطلب"
+                loading={isLoading}
+                disabled={isLoading}
+              />
             </form>
           </div>
         </Form>

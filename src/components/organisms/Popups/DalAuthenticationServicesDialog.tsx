@@ -1,19 +1,19 @@
+import { AuthenticationServiceType } from "@/types/AuthenticationService";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { DalServicesType } from "@/constants/DalAuthenticationServices";
+} from "../../ui/dialog";
 import DalAuthenticationServicesForm from "../forms/DalAuthenticationServicesForm";
 
 interface Props {
   children?: React.ReactNode;
-  typeService: DalServicesType;
+  Service: AuthenticationServiceType;
 }
 
-const DalAuthenticationServicesDialog = ({ children, typeService }: Props) => {
+const DalAuthenticationServicesDialog = ({ children, Service }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -22,9 +22,7 @@ const DalAuthenticationServicesDialog = ({ children, typeService }: Props) => {
           <DialogTitle>خدمات توثيق دال</DialogTitle>
         </DialogHeader>
 
-        <div>
-          <DalAuthenticationServicesForm typeService={typeService} />
-        </div>
+        <DalAuthenticationServicesForm Service={Service} />
       </DialogContent>
     </Dialog>
   );

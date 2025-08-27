@@ -1,7 +1,6 @@
-import {
-  NavigationMenu,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+"use client";
+
+import { NavigationMenu, NavigationMenuList } from "../../ui/navigation-menu";
 import NavMenuItem from "./NavMenuItem";
 import {
   LoyerMenu,
@@ -14,9 +13,10 @@ import CustomMenubar from "./CustomMenubar";
 interface NavMenuProps {
   isScrolled: boolean;
   navbarBg: boolean;
+  setOpen?: (value: boolean) => void;
 }
 
-const NavMenu = ({ isScrolled, navbarBg }: NavMenuProps) => {
+const NavMenu = ({ isScrolled, navbarBg, setOpen }: NavMenuProps) => {
   const ToggleNavStyle = isScrolled || navbarBg;
 
   return (
@@ -30,17 +30,33 @@ const NavMenu = ({ isScrolled, navbarBg }: NavMenuProps) => {
         >
           <NavMenuItem Trigger="تصفح سريع" Items={quakilyMenu} />
           <NavMenuItem Trigger="الخدمات" Items={ServicesMenu} />
-          <NavMenuItem Trigger="إيجار" Items={LoyerMenu} />
-          <NavMenuItem Trigger="بيع" Items={SellingMenu} />
+          <NavMenuItem Trigger="إيجار" Items={LoyerMenu} seeMore />
+          <NavMenuItem Trigger="بيع" Items={SellingMenu} seeMore />
         </NavigationMenuList>
       </NavigationMenu>
 
       {/* Fot Small Screen */}
-      <div className="md:hidden flex justify-between gap-4">
-        <CustomMenubar Trigger="بيع" Items={SellingMenu} />
-        <CustomMenubar Trigger="إيجار" Items={LoyerMenu} />
-        <CustomMenubar Trigger="الخدمات" Items={ServicesMenu} />
-        <CustomMenubar Trigger="تصفح سريع" Items={quakilyMenu} />
+      <div className="md:hidden grid grid-cols-2 gap-4">
+        <CustomMenubar
+          Trigger="بيع"
+          Items={SellingMenu}
+          setOpen={setOpen || (() => {})}
+        />
+        <CustomMenubar
+          Trigger="إيجار"
+          Items={LoyerMenu}
+          setOpen={setOpen || (() => {})}
+        />
+        <CustomMenubar
+          Trigger="الخدمات"
+          Items={ServicesMenu}
+          setOpen={setOpen || (() => {})}
+        />
+        <CustomMenubar
+          Trigger="تصفح سريع"
+          Items={quakilyMenu}
+          setOpen={setOpen || (() => {})}
+        />
       </div>
     </div>
   );

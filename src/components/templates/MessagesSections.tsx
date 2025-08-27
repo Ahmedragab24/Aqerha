@@ -1,70 +1,140 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type React from "react";
 import { useState } from "react";
-import PropertyForChatCard from "../molecules/cards/PropertyForChatCard";
 import ChatMessages from "../organisms/chats/ChatMessages";
 import ContactsUsersMessage from "../organisms/chats/ContactsUsersMessage";
+import {
+  useGetChatByIdQuery,
+  useSendMessageMutation,
+  useGetAllChatsQuery,
+} from "@/store/services/Chats";
+import { MessageType } from "@/types/chat";
+import { skipToken } from "@reduxjs/toolkit/query/react";
 
 interface Props {
-  mockMessages: any;
-  mockPeople: any;
-  mockProperty: any;
+  selectedChatId?: number;
+  setSelectedChatId?: (chatId: number) => void;
+  currentUserId?: number;
+  setCurrentUserId?: (userId: number) => void;
 }
 
 export default function PropertyChatApp({
-  mockMessages,
-  mockPeople,
-  mockProperty,
+  selectedChatId,
+  setSelectedChatId,
+  currentUserId,
+  setCurrentUserId,
 }: Props) {
-  const [selectedPerson, setSelectedPerson] = useState<string>("1");
-  const [newMessage, setNewMessage] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [newMessage, setNewMessage] = useState<string | File>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [typeMessage, setTypeMessage] = useState<MessageType>("text");
 
-  const currentMessages = mockMessages[selectedPerson] || [];
-  const selectedPersonData = mockPeople.find(
-    (p: any) => p.id === selectedPerson
+  const { data: allChatsData } = useGetAllChatsQuery();
+  const chats = allChatsData?.chats || [];
+
+  const { data: chatData, refetch } = useGetChatByIdQuery(
+    selectedChatId ? { chatId: selectedChatId } : skipToken
   );
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      // In a real app, this would send the message to the backend
-      console.log("Sending message:", newMessage);
+  const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
+
+  const currentMessages = chatData?.messages?.data || [];
+
+  const selectedPersonData = chats.find(
+    (chat) => chat.id === selectedChatId
+  )?.peer_user;
+
+  const safeSetSelectedChatId = (id: number) => setSelectedChatId?.(id);
+  const safeSetCurrentUserId = (id: number) => setCurrentUserId?.(id);
+
+  /** إرسال الرسائل */
+  const handleSendMessage = async (
+    type: MessageType = "text",
+    payload?: File | string
+  ) => {
+    if (!selectedChatId || !currentUserId) return;
+
+    try {
+      if (type === "text") {
+        const messageText = (payload as string) || (newMessage as string);
+        if (!messageText.trim()) return;
+
+        await sendMessage({
+          user_id: currentUserId,
+          chat_id: selectedChatId,
+          message: messageText,
+          type,
+        }).unwrap();
+      } else if (type === "file" || type === "image") {
+        if (!payload) return;
+        const formData = new FormData();
+        formData.append("user_id", String(currentUserId));
+        formData.append("chat_id", String(selectedChatId));
+        formData.append("type", type);
+        formData.append("message", payload as File);
+
+        await sendMessage(formData).unwrap();
+      } else if (type === "location") {
+        const locationPayload =
+          typeof payload === "string" ? payload : JSON.stringify(payload);
+        await sendMessage({
+          user_id: currentUserId,
+          chat_id: selectedChatId,
+          message: locationPayload,
+          type,
+        }).unwrap();
+      }
+
       setNewMessage("");
+      refetch?.();
+    } catch (error) {
+      console.error("Failed to send message:", error);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage();
+      handleSendMessage("text");
     }
   };
 
   return (
-    <div className="flex flex-col md:flex-row justify-between">
-      {/* Contacts Section */}
+    <div className="flex flex-col md:flex-row justify-between gap-6 lg:gap-0">
       <ContactsUsersMessage
-        selectedPerson={selectedPerson}
-        setSelectedPerson={setSelectedPerson}
+        selectedChatId={selectedChatId ?? null}
+        setSelectedChatId={safeSetSelectedChatId}
+        setCurrentUserId={safeSetCurrentUserId}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        mockPeople={mockPeople}
+        chats={chats}
       />
 
-      {/* Chat Section */}
-      <ChatMessages
-        currentMessages={currentMessages}
-        selectedPersonData={selectedPersonData}
-        handleKeyPress={handleKeyPress}
-        newMessage={newMessage}
-        setNewMessage={setNewMessage}
-        handleSendMessage={handleSendMessage}
-      />
-
-      {/* Property Card Section */}
-      <PropertyForChatCard mockProperty={mockProperty} />
+      {selectedChatId ? (
+        <ChatMessages
+          currentMessages={currentMessages}
+          selectedPersonData={selectedPersonData}
+          handleKeyPress={handleKeyPress}
+          newMessage={newMessage}
+          setNewMessage={setNewMessage}
+          handleSendMessage={handleSendMessage}
+          isLoading={isSending}
+          currentUserId={currentUserId}
+          typeMessage={typeMessage}
+          setTypeMessage={setTypeMessage}
+        />
+      ) : (
+        <div className="flex-1 flex items-center justify-center bg-[#F6FEF9]">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-600 mb-2">
+              اختر محادثة للبدء
+            </h3>
+            <p className="text-gray-500">
+              اختر محادثة من القائمة لبدء المراسلة
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

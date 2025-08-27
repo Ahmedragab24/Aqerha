@@ -1,8 +1,8 @@
 "use client";
 
-import SectionTitle from "@/components/atoms/title/SectionTitle";
-import StepOneForm from "@/components/organisms/forms/RegisterDeveloper/StepOneForm";
-import StepTwoForm from "@/components/organisms/forms/RegisterDeveloper/StepTwoForm";
+import SectionTitle from "../../../components/atoms/title/SectionTitle";
+import StepOneForm from "../../../components/organisms/forms/RegisterDeveloper/StepOneForm";
+import StepTwoForm from "../../../components/organisms/forms/RegisterDeveloper/StepTwoForm";
 import React, { useState } from "react";
 
 export type StepsType = "step1" | "step2" | "step3";
