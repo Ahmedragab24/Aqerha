@@ -107,8 +107,9 @@ const QuickChatDialog = ({
             alt="Chat"
             width={25}
             height={25}
+            className="w-3 h-3 md:w-5 md:h-5"
           />
-          {isText && <h4>محادثة</h4>}
+          {isText && <h4 className="text-[10px] md:text-sm">محادثة</h4>}
         </div>
       </DialogTrigger>
       <DialogContent>

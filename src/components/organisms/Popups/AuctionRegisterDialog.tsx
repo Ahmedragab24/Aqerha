@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "../../ui/dialog";
 import { Button } from "../../ui/button";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, SaudiRiyal } from "lucide-react";
 import Riyal from "../../atoms/Icons/Riyal";
 import { useState, useEffect } from "react";
 // import SelectPayment from "../../molecules/selects/SelectPayment";
@@ -145,6 +145,9 @@ export function AuctionDetails({
                   2 * Math.PI * 50
                 }`}
                 strokeLinecap="round"
+                style={{
+                  transition: "stroke-dasharray 1s ease-in-out", // ⬅️ انيميشن تدريجي
+                }}
               />
             </svg>
 
@@ -152,13 +155,15 @@ export function AuctionDetails({
               <div className="text-yellow-500 text-xl mb-1">👑</div>
               <div className="text-center">
                 <p className="text-xs text-gray-600">أعلى مزايدة</p>
-                <p className="font-bold text-lg flex items-center ">
+                <p className="font-medium text-md flex items-center justify-center">
                   {AssetsDetails?.highest_offer}
                   <Riyal />
                 </p>
-                <p className="text-xs text-gray-500">
-                  نسبة الإنجاز {Math.round(progress)}%
-                </p>
+                <div className="flex item-center text-[10px] text-gray-500">
+                  <span>{AssetsDetails?.meter_price}</span>
+                  <SaudiRiyal className="w-4 h-4" />
+                  <span>/ متر مربع</span>
+                </div>
               </div>
             </div>
           </div>
@@ -179,12 +184,13 @@ export function AuctionDetails({
 
       {/* Bid Input Section */}
       <div className="mb-6">
+        <h1 className="text-center text-sm mb-1">أدخل المبلغ</h1>
         <div className="flex items-center justify-center gap-3 mb-4">
           <Button
             variant="outline"
             size="icon"
             className="h-10 w-10"
-            onClick={() => setCounter(Counter + 1)}
+            onClick={() => setCounter(Counter + 500)}
           >
             <Plus className="h-4 w-4" />
           </Button>
@@ -198,13 +204,12 @@ export function AuctionDetails({
               value={Counter}
               onChange={(e) => setCounter(Math.max(0, Number(e.target.value)))}
             />
-            <Riyal className="absolute left-6 top-1/2 -translate-y-1/2" />
           </div>
           <Button
             variant="outline"
             size="icon"
             className="h-10 w-10"
-            onClick={() => setCounter((prev) => Math.max(0, prev - 1))}
+            onClick={() => setCounter((prev) => Math.max(0, prev - 500))}
           >
             <Minus className="h-4 w-4" />
           </Button>
@@ -217,6 +222,12 @@ export function AuctionDetails({
 
       {/* Final Summary */}
       <div className="space-y-3 pt-4 border-t border-gray-200">
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-gray-600">سعر المتر مربع</span>
+          <span className="text-sm flex items-center">
+            {AssetsDetails?.meter_price} <Riyal />
+          </span>
+        </div>
         <div className="flex justify-between items-center text-sm">
           <span className="text-gray-600">عمولة المنصة</span>
           <span className="text-sm flex items-center">
@@ -246,7 +257,7 @@ interface DialogProps {
 const AuctionRegisterDialog = ({ children, AssetsDetails }: DialogProps) => {
   // const [step, setStep] = useState<step>("stepOne");
   const [open, changeOpen] = useState(false);
-  const [Counter, setCounter] = useState(AssetsDetails?.highest_offer || 0);
+  const [Counter, setCounter] = useState(AssetsDetails?.deposit || 0);
 
   return (
     <Dialog open={open} onOpenChange={changeOpen}>

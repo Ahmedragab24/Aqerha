@@ -85,6 +85,7 @@ const AuctionPropertyPage = () => {
                   phone={AssetData?.owner?.phone}
                   whatsapp={AssetData?.owner?.phone}
                   email={AssetData?.owner?.email}
+                  userId={AssetData?.owner?.id}
                 />
               </div>
             </div>

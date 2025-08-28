@@ -1,4 +1,5 @@
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
+import { SocialLinkType } from "@/types/CompanyInfo";
 import { MessageType, StatusCodeType } from "@/types/Response";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -25,6 +26,14 @@ interface TermsAndConditionsResponse {
   status_code: StatusCodeType;
 }
 
+interface SocialLinksResponse {
+  data: {
+    items: SocialLinkType[];
+  };
+  message: MessageType;
+  status_code: StatusCodeType;
+}
+
 export const CompanyInfoApi = createApi({
   reducerPath: "CompanyInfoApi",
   baseQuery: fetchBaseQuery({
@@ -38,7 +47,7 @@ export const CompanyInfoApi = createApi({
     },
   }),
 
-  tagTypes: ["CompanyInfo"],
+  tagTypes: ["CompanyInfo", "social"],
   endpoints: (builder) => ({
     getFileAndInfo: builder.query<StaticFilesResponse, void>({
       query: () => `/static-files`,
@@ -53,6 +62,11 @@ export const CompanyInfoApi = createApi({
     getPrivacyPolicy: builder.query<TermsAndConditionsResponse, void>({
       query: () => `/privacy`,
       providesTags: ["CompanyInfo"],
+    }),
+
+    getSocialLinks: builder.query<SocialLinksResponse, void>({
+      query: () => `/social-links`,
+      providesTags: ["social"],
     }),
 
     ContactUs: builder.mutation<ProfileResponse, FormData>({
@@ -70,4 +84,5 @@ export const {
   useContactUsMutation,
   useGetTermsAndConditionsQuery,
   useGetPrivacyPolicyQuery,
+  useGetSocialLinksQuery,
 } = CompanyInfoApi;

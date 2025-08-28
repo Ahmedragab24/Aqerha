@@ -39,9 +39,7 @@ const Header = () => {
         <NavLargeScreen isScrolled={isScrolled} navbarBg={navbarBg} />
 
         {/* Small Screen */}
-        <nav className="Container md:hidden">
-          <NavSmallScreen isScrolled={isScrolled} navbarBg={navbarBg} />
-        </nav>
+        <NavSmallScreen isScrolled={isScrolled} navbarBg={navbarBg} />
       </div>
     </header>
   );

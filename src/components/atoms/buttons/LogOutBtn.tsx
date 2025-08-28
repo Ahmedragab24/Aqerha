@@ -56,9 +56,9 @@ const LogOutBtn = ({ setIsOpen }: Props) => {
         <Button
           variant="outline"
           size="sm"
-          className="flex-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent"
+          className="flex-1 !text-[10px] md:text-sm text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent"
         >
-          <LogOutIcon className="h-3 w-3 ml-1" />
+          <LogOutIcon className="!h-2.5 !w-2.5 md:!h-3 md:!w-3" />
           تسجيل الخروج
         </Button>
       </AlertDialogTrigger>
@@ -74,7 +74,7 @@ const LogOutBtn = ({ setIsOpen }: Props) => {
             هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="flex flex-row items-center gap-4">
           <AlertDialogCancel>إلغاء</AlertDialogCancel>
           <AlertDialogAction
             className="bg-red-600 hover:bg-red-700 text-white"

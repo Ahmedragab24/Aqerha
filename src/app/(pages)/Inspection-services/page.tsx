@@ -3,6 +3,9 @@ import GradientEvaluationCard from "../../../components/molecules/cards/Gradient
 import InspectionElements from "../../../components/molecules/textGroup/InspectionElements";
 import RequestExaminationDialog from "../../../components/organisms/Popups/RequestExaminationOrEvaluationDialog";
 import React from "react";
+import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
+import { Button } from "@/components/ui/button";
+import { getAuthTokenServer } from "@/lib/auth/auth-server";
 
 const PackagesInspectionElements = {
   InspectionElementsList1: [
@@ -73,7 +76,9 @@ const PackagesInspectionElements = {
   ],
 };
 
-const InspectionServicesPage = () => {
+const InspectionServicesPage = async () => {
+  const token = await getAuthTokenServer();
+
   return (
     <main className="Container pt-28 mb-16">
       <div className="text-center mb-10">
@@ -103,10 +108,18 @@ const InspectionServicesPage = () => {
               PackagesInspectionElements.InspectionElementsList1
             }
           />
-          <RequestExaminationDialog
-            type="examination"
-            ExaminationType="with_report"
-          />
+          {token ? (
+            <RequestExaminationDialog
+              type="examination"
+              ExaminationType="with_report"
+            />
+          ) : (
+            <RegisterDialog>
+              <Button size="lg" className={`w-full h-12 md:w-[30%]`}>
+                طلب الخدمة
+              </Button>
+            </RegisterDialog>
+          )}
         </div>
 
         <div className="space-y-6" id="2">
@@ -131,10 +144,19 @@ const InspectionServicesPage = () => {
               PackagesInspectionElements.InspectionElementsList2
             }
           />
-          <RequestExaminationDialog
-            type="examination"
-            ExaminationType="without_report"
-          />
+
+          {token ? (
+            <RequestExaminationDialog
+              type="examination"
+              ExaminationType="without_report"
+            />
+          ) : (
+            <RegisterDialog>
+              <Button size="lg" className={`w-full h-12 md:w-[30%]`}>
+                طلب الخدمة
+              </Button>
+            </RegisterDialog>
+          )}
         </div>
 
         <div className="space-y-6" id="3">
@@ -159,10 +181,19 @@ const InspectionServicesPage = () => {
               PackagesInspectionElements.InspectionElementsList3
             }
           />
-          <RequestExaminationDialog
-            type="examination"
-            ExaminationType="visit_package"
-          />
+
+          {token ? (
+            <RequestExaminationDialog
+              type="examination"
+              ExaminationType="visit_package"
+            />
+          ) : (
+            <RegisterDialog>
+              <Button size="lg" className={`w-full h-12 md:w-[30%]`}>
+                طلب الخدمة
+              </Button>
+            </RegisterDialog>
+          )}
         </div>
       </div>
     </main>

@@ -92,7 +92,6 @@ const ProjectsPage = () => {
                   sm:grid-cols-2 
                   lg:grid-cols-3 
                   xl:grid-cols-4 
-                  2xl:grid-cols-5
                   gap-3 sm:gap-4 md:gap-5 lg:gap-6
                   mb-8 sm:mb-10 md:mb-12
                 "

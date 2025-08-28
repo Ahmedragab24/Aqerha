@@ -15,7 +15,7 @@ interface AdvertiserCardProps {
 }
 
 const AdvertiserCard = ({ data, productId }: AdvertiserCardProps) => {
-  const { id, name, image, reviews, ads, phone } = data!;
+  const { id, name, profile, reviews, ads } = data!;
   const dispatch = useAppDispatch();
 
   const Router = useRouter();
@@ -45,31 +45,33 @@ const AdvertiserCard = ({ data, productId }: AdvertiserCardProps) => {
       <div className="flex items-center gap-4">
         <Avatar className="w-16 h-16">
           <AvatarImage
-            src={image || "/placeholder.svg"}
+            src={profile?.image || "/placeholder.svg"}
             alt="advertiser"
             loading="lazy"
           />
-          <AvatarFallback>{name}</AvatarFallback>
+          <AvatarFallback>{profile?.name}</AvatarFallback>
         </Avatar>
 
         <div className="space-y-2">
-          <h2>{name}</h2>
-          <h5 className="text-sm text-gray-400">تقييم {reviews.length} من ٥</h5>
-          <h5 className="text-sm text-gray-400">{ads.length} إعلان نشط</h5>
+          <h2>{profile?.name}</h2>
+          <h5 className="text-sm text-gray-400">
+            عدد التقيمات {reviews.length}
+          </h5>
+          <h5 className="text-sm text-gray-400">إعلان نشط {ads.length}</h5>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-end items-center gap-2">
+      <div className="flex justify-between items-center gap-2">
         <CallUserBtns
-          isText={false}
-          phone={phone}
+          isText
+          phone={profile?.phone || ""}
+          whatsapp={profile?.whatsapp || ""}
           userId={id || 0}
           productId={productId || 0}
         />
 
         <Button
-          size={"lg"}
-          className="px-16"
+          className="px-4 md:px-16 md:py-5.5 text-xs md:text-sm"
           onClick={() => handleAdvertiser()}
         >
           الدخول

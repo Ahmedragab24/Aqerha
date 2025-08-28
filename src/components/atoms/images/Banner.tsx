@@ -28,16 +28,16 @@ export default function BannersCarousel() {
   React.useEffect(() => {
     if (!api) return;
 
-    setCount(api.scrollSnapList().length);
+    setCount(banners.length);
     setCurrent(api.selectedScrollSnap() + 1);
 
     const onSelect = () => setCurrent(api.selectedScrollSnap() + 1);
     api.on("select", onSelect);
 
     return () => {
-      api.off("select", onSelect); // تنظيف الحدث
+      api.off("select", onSelect);
     };
-  }, [api]);
+  }, [api, banners.length]);
 
   return (
     <div className="relative w-full mx-auto" dir="rtl">

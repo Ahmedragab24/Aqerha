@@ -43,11 +43,11 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="Container pt-24 mb-10 ">
+    <div className="Container pt-16 md:pt-24 mb-10 ">
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 py-10">
         {/* Sidebar - 1/4 width on desktop */}
-        <div className="lg:col-span-3 sticky top-24 h-fit">
+        <div className="lg:col-span-3 lg:sticky lg:top-24 h-fit">
           <TabsAccountCard
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -57,7 +57,7 @@ const ProfilePage = () => {
 
         {/* Main Content Area - 3/4 width on desktop */}
         <div className="lg:col-span-9">
-          <Card className="bg-white shadow-2xl rounded-3xl px-8">
+          <Card className="bg-white shadow-2xl rounded-3xl px-5 md:px-8 ">
             <Tabs
               defaultValue="accountInfo"
               value={activeTab}

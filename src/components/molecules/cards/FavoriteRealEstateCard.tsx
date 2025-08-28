@@ -7,13 +7,15 @@ import Riyal from "../../atoms/Icons/Riyal";
 
 import { useRouter } from "next/navigation";
 import { FavoriteType } from "@/types/Favorites";
+import { formatName } from "@/lib/utils";
+import { TypePropertyType } from "@/types/Real-estates";
 
 interface FavoriteRealEstateCardProps {
   product: FavoriteType;
 }
 
 const FavoriteRealEstateCard = ({ product }: FavoriteRealEstateCardProps) => {
-  const { id, main_image, price, area, bathrooms, rooms, user } = product;
+  const { id, main_image, price, area, bathrooms, title, rooms } = product;
 
   const Router = useRouter();
 
@@ -24,24 +26,38 @@ const FavoriteRealEstateCard = ({ product }: FavoriteRealEstateCardProps) => {
     >
       {/* Image Container */}
       <div className="relative w-full">
-        <div className="h-48 sm:h-60 overflow-hidden rounded-t-2xl">
-          <Image
-            src={main_image || "/placeholder.svg"}
-            alt={user.name || "Property"}
-            width={600}
-            height={400}
-            loading="lazy"
-            className="w-full h-full object-cover duration-300 group-hover:scale-105"
-          />
-        </div>
+        {main_image ? (
+          <div className="h-36 sm:h-60 overflow-hidden rounded-t-2xl">
+            <Image
+              src={main_image}
+              alt={title || "Property"}
+              width={600}
+              height={400}
+              quality={100}
+              loading="lazy"
+              className="w-full h-full object-cover duration-300 group-hover:scale-105"
+            />
+          </div>
+        ) : (
+          <div className="h-36 sm:h-60 overflow-hidden rounded-t-2xl">
+            <Image
+              src="/Images/PlaceHolder.png"
+              alt={title || "Property"}
+              width={600}
+              height={400}
+              loading="lazy"
+              className="w-[250px] h-full m-auto object-contain duration-300 group-hover:scale-105"
+            />
+          </div>
+        )}
       </div>
 
       {/* Content */}
       <div className="flex flex-col flex-1 px-4 sm:px-5 py-4 sm:py-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between">
           {/* Property Name */}
-          <h3 className="text-base sm:text-lg font-semibold line-clamp-1 text-gray-900 mb-1 text-right">
-            {user.name}
+          <h3 className="text-sm md:text-lg font-semibold line-clamp-1 text-gray-900 mb-1 text-right">
+            {formatName(title as TypePropertyType)}
           </h3>
 
           {/* Heart Icon */}
@@ -49,16 +65,15 @@ const FavoriteRealEstateCard = ({ product }: FavoriteRealEstateCardProps) => {
         </div>
 
         {/* Price */}
-        <div className="flex items-center gap-1 mb-4">
-          <span className="text-xl sm:text-2xl font-bold text-primary">
+        <div className="flex items-center gap-1 mb-2">
+          <span className="text-xs sm:text-sm lg:text-2xl font-semibold text-primary">
             {price}
           </span>
           <Riyal className="text-primary" />
-          <span className="text-gray-500 text-xs sm:text-sm">/ الشهر</span>
         </div>
 
         {/* Property Features */}
-        <div className="flex items-center justify-between text-gray-600 border-t border-gray-200 pt-3 mt-auto">
+        <div className="flex items-center justify-between text-gray-600 border-t border-gray-200 pt-3 ">
           {/* Area */}
           <div className="flex items-center gap-1 sm:gap-2">
             <Image
@@ -66,8 +81,11 @@ const FavoriteRealEstateCard = ({ product }: FavoriteRealEstateCardProps) => {
               alt="مساحة"
               width={20}
               height={20}
+              className="w-2.5 h-2.5 md:w-5 md:h-5"
             />
-            <span className="text-xs sm:text-sm text-gray-400">{area} م²</span>
+            <span className="text-[9px] sm:text-sm text-gray-400">
+              {area} م²
+            </span>
           </div>
 
           {/* Bathrooms */}
@@ -77,16 +95,23 @@ const FavoriteRealEstateCard = ({ product }: FavoriteRealEstateCardProps) => {
               alt="حمام"
               width={20}
               height={20}
+              className="w-2.5 h-2.5 md:w-5 md:h-5"
             />
-            <span className="text-xs sm:text-sm text-gray-400">
+            <span className="text-[9px] sm:text-sm text-gray-400">
               {bathrooms} حمام
             </span>
           </div>
 
           {/* Bedrooms */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <Image src="/Icons/Bed.svg" alt="غرف" width={20} height={20} />
-            <span className="text-xs sm:text-sm text-gray-400">
+            <Image
+              src="/Icons/Bed.svg"
+              alt="غرف"
+              width={20}
+              height={20}
+              className="w-2.5 h-2.5 md:w-5 md:h-5"
+            />
+            <span className="text-[9px] sm:text-sm text-gray-400">
               {rooms} غرف
             </span>
           </div>

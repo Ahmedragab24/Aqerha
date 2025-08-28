@@ -11,19 +11,16 @@ import {
 } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { useState } from "react";
+import { ProjectType } from "@/types/projects";
 
 interface PaymentPlansDialogProps {
   children: React.ReactNode;
+  project: ProjectType | undefined;
 }
 
-const paymentPlansList = [
-  { id: 1, title: "10% مقدم  8 سنوات" },
-  { id: 2, title: "5% مقدم  7 سنوات" },
-  { id: 3, title: "8% مقدم  5 سنوات" },
-];
-
-const PaymentPlansDialog = ({ children }: PaymentPlansDialogProps) => {
+const PaymentPlansDialog = ({ children, project }: PaymentPlansDialogProps) => {
   const [open, changeOpen] = useState(false);
+  const paymentPlansList = project?.payment_plan || [];
 
   return (
     <Dialog open={open} onOpenChange={changeOpen}>
@@ -37,13 +34,7 @@ const PaymentPlansDialog = ({ children }: PaymentPlansDialogProps) => {
         </DialogHeader>
 
         <div className="flex flex-col justify-center items-center gap-8">
-          <ul className="space-y-4 list-disc">
-            {paymentPlansList.map((item) => (
-              <li key={item.id} className="text-lg font-medium">
-                {item.title}
-              </li>
-            ))}
-          </ul>
+          <h2 className="text-lg font-medium">{paymentPlansList}</h2>
 
           <Button className="w-full h-11" onClick={() => changeOpen(false)}>
             تم

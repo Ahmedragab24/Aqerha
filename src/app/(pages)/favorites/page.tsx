@@ -20,7 +20,7 @@ const FavoritesPage = () => {
 
       <div className="space-y-10">
         {isLoading && (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
             <GroupCardsSkeletons count={4} />
           </div>
         )}
@@ -40,7 +40,7 @@ const FavoritesPage = () => {
         )}
 
         {!isLoading && favoritesList.length > 0 && (
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
             {favoritesList.map((item) => (
               <FavoriteRealEstateCard key={item.id} product={item} />
             ))}

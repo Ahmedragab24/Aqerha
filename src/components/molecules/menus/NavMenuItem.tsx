@@ -39,7 +39,7 @@ const NavMenuItem = ({
         ))}
         {seeMore && (
           <div className="flex justify-end px-4">
-            <SeeMore path="/Properties/explore" />
+            <SeeMore path="/real-estate" />
           </div>
         )}
       </NavigationMenuContent>

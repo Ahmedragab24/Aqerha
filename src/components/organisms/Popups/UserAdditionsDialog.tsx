@@ -27,7 +27,10 @@ const UserAdditionsDialog = ({ children }: Props) => {
   const handlerTitle = () => {
     if (MemberType === "auction_companies") {
       return "إضافة مزاد";
-    } else if (MemberType === "real_estate_developer") {
+    } else if (
+      MemberType === "real_estate_developer" ||
+      MemberType === "contracting_company"
+    ) {
       return "إضافة مشروع";
     } else {
       return "إضافة عقار";
@@ -43,7 +46,8 @@ const UserAdditionsDialog = ({ children }: Props) => {
           {MemberType === "auction_companies" && (
             <StoreAuctionForm changeOpen={changeOpen} />
           )}
-          {MemberType === "real_estate_developer" && (
+          {(MemberType === "real_estate_developer" ||
+            MemberType === "contracting_company") && (
             <StoreProjectForm changeOpen={changeOpen} />
           )}
         </DialogHeader>

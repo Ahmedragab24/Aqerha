@@ -16,6 +16,7 @@ export const ProfileSchema = z.object({
   license_number: z.string().min(1, "رقم الترخيص مطلوب"),
   commercial_registration_number: z.string().min(1, "رقم السجل التجاري مطلوب"),
   service: z.string().optional(),
+  services: z.array(z.string()).optional(),
   protfolio_link: z.string().optional(),
 
   brochure: z.any().optional(),

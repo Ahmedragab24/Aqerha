@@ -16,13 +16,13 @@ const AuthenticationServicesSection = () => {
   return (
     <>
       {AuthenticationData && (
-        <section className="Container space-y-10">
+        <section className="Container space-y-4 md:space-y-6">
           <div className="flex justify-between">
             <SectionTitle Title="خدمات توثيق الدال" />
             <SeeMore path="/dal-authentication-services" />
           </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-6">
             {AuthenticationData.map((item) => (
               <AuthenticationServicesCard
                 key={item.id}

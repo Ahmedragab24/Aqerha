@@ -7,7 +7,7 @@ const PropertiesForRentFilter = () => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-4 lg:gap-44 rounded-lg border border-gray-200 px-2 py-4">
       {/* Filter Dropdowns */}
-      <div className="flex flex-wrap lg:flex-nowrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-4">
         <PropertiesBaseFilter />
 
         {/* Additional Filters */}

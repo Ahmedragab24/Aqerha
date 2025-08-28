@@ -33,11 +33,11 @@ const PropertyDetailsPage = async ({
 
   return (
     <main className="Container pt-28 pb-10">
-      <div className="space-y-16">
+      <div className="md:space-y-16 space-y-8">
         <div className="space-y-4">
           <div className="space-y-4">
             <RealEstatePurposeBadge purpose={RealEstate?.purpose} />
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex lex-row md:items-center justify-between gap-4">
               <SectionTitle
                 Title={
                   formatName(RealEstate?.real_estate_type || "apartment") +
@@ -45,11 +45,11 @@ const PropertyDetailsPage = async ({
                   formatPurpose(RealEstate?.purpose || "rent")
                 }
               />
-              <h1 className="text-2xl md:text-4xl font-bold flex items-center gap-1">
+              <h1 className="text-lg md:text-2xl lg:text-4xl font-bold flex items-center gap-1">
                 {RealEstate?.main_price}
                 <SaudiRiyal className="md:!w-9 md:!h-9" />
                 {RealEstate?.purpose === "rent" && (
-                  <span className="text-xl md:text-3xl">
+                  <span className="text-sm md:text-3xl">
                     /{" "}
                     {RealEstate?.rental_period === "daily"
                       ? "يوم"
@@ -68,15 +68,16 @@ const PropertyDetailsPage = async ({
 
           <div className="grid grid-cols-1 lg:grid-cols-12 justify-between gap-4 lg:gap-20">
             <div className="col-span-6 space-y-4">
-              <div className="flex flex-col md:flex-row justify-between gap-4">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-row justify-between gap-4">
+                <div className="flex items-center gap-1">
                   <Image
                     src="/Icons/Location.svg"
                     alt="location"
                     width={15}
                     height={15}
+                    className="w-3 h-3 md:!w-6 md:!h-6"
                   />
-                  <h4 className="text-gray-600 text-sm md:text-md">
+                  <h4 className="text-gray-600 text-xs md:text-md">
                     {RealEstate?.city} , {RealEstate?.user?.profile?.address}
                   </h4>
                 </div>
@@ -137,18 +138,14 @@ const PropertyDetailsPage = async ({
 
               <PropertyFeatures
                 realEstate={RealEstate}
-                className="hidden lg:grid grid-cols-1 gap-8 mt-8"
+                className="hidden lg:grid grid-cols-1 gap-8"
               />
             </div>
           </div>
         </div>
         <div>
           {/* Property Details Mobile */}
-          <div className="lg:hidden mb-8">
-            <h1 className="text-2xl font-bold text-right mb-6">
-              تفاصيل العقار
-            </h1>
-
+          <div className="lg:hidden ">
             {/* Property Features Grid */}
             <PropertyFeatures
               realEstate={RealEstate}
@@ -161,7 +158,7 @@ const PropertyDetailsPage = async ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Description Section */}
             <div>
-              <h2 className="text-xl font-bold text-gray-900 text-right mb-4">
+              <h2 className="text-lg font-bold text-gray-900 text-right mb-4">
                 الوصف
               </h2>
               <DescriptionProperty
@@ -171,7 +168,7 @@ const PropertyDetailsPage = async ({
 
             {/* Location Section */}
             <div>
-              <h1 className="text-2xl font-bold text-right mb-6">الموقع</h1>
+              <h1 className="text-lg font-bold text-right mb-6">الموقع</h1>
               <LocationProperty
                 location={{
                   latitude: Number(RealEstate?.latitude || 0),

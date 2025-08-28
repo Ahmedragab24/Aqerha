@@ -171,12 +171,12 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
               }}
               onFocus={() => setIsFocused(true)}
               className={cn(
-                "h-11 border-0 bg-transparent text-right text-base font-medium",
+                "h-11 border-0 bg-transparent text-right text-sm",
                 "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
-                "pr-4 pl-12", // Space for icon
+                "pr-2 pl-4", // Space for icon
                 hasError
                   ? "placeholder:text-red-400/60 text-foreground"
-                  : "placeholder:text-muted-foreground/60"
+                  : "placeholder:text-gray-500"
               )}
               dir="rtl"
               maxLength={15}

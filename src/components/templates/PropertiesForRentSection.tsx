@@ -68,6 +68,7 @@ const PropertiesForRentSection = () => {
         <div className="flex flex-wrap gap-4 justify-between items-center">
           <SectionTitle Title="البحث عن وحدات للإيجار/للشراء" />
           <div className="flex items-center gap-4">
+            <SearchMapDialog properties={AllRealEstate} />
             <div
               onClick={() => {
                 dispatch(setFilterRealEstate({ FilterParams: {} }));
@@ -78,7 +79,6 @@ const PropertiesForRentSection = () => {
               <Trash2 className="w-4 h-4" />
               <h3>حذف جميع الفلاتر</h3>
             </div>
-            <SearchMapDialog properties={AllRealEstate} />
           </div>
         </div>
         <PropertiesForRentFilter />
@@ -86,13 +86,13 @@ const PropertiesForRentSection = () => {
 
       {/* Loading State */}
       {isLoading ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <GroupCardsSkeletons count={8} mainClassSkeleton="!h-[350px]" />
         </div>
       ) : properties.length > 0 ? (
         <div className="space-y-12">
           {/* Properties List */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {properties.map((item) => (
               <RealEstateCard key={item.id} product={item} />
             ))}

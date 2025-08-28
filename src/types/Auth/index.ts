@@ -1,5 +1,5 @@
 import { MembershipType, ServicesProvidersType } from "../Membership";
-import { ProfileType } from "../Profile";
+import { ProfileType } from "../Real-estates";
 
 export type TypeUserType = "individual" | "company" | "multi_owners";
 export type TypeUserRoleType = "owner" | "agent";
@@ -19,6 +19,7 @@ export interface UserData {
   email: string;
   phone: string;
   city: string;
+  image: string;
   membership_type: MembershipType | ServicesProvidersType;
   nation_id: number | null;
   user_package: string;

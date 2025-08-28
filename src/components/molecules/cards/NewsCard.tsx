@@ -13,7 +13,7 @@ const NewsCard = ({ News }: NewsCardProps) => {
       href={`/news/${id}`}
       className="bg-secondary rounded-2xl p-2 group duration-300 shadow-sm hover:shadow-md"
     >
-      <div className="relative w-full h-[180px] overflow-hidden rounded-xl">
+      <div className="relative w-full h-[110px] md:h-[180px] overflow-hidden rounded-xl">
         <Image
           src={image || "/placeholder.svg"}
           alt={title}
@@ -22,9 +22,11 @@ const NewsCard = ({ News }: NewsCardProps) => {
         />
       </div>
 
-      <div className="flex flex-col gap-4 px-4 py-4">
-        <h2>{title}</h2>
-        {description && <p className="text-sm text-gray-500">{description}</p>}
+      <div className="flex flex-col gap-4 px-4 py-4 md:px-4">
+        <h2 className="text-xs md:text-base line-clamp-2">{title}</h2>
+        {description && (
+          <p className="text-xs md:text-sm line-clamp-2">{description}</p>
+        )}
       </div>
     </Link>
   );

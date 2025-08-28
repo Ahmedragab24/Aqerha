@@ -10,7 +10,7 @@ export interface ProjectType {
   city: string;
   cover_image: string;
   project_diagram: string;
-  proshor: string | File;
+  proshor: string | URL | undefined;
   real_estates_number: number;
   description: string;
   longitudes: string;

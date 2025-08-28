@@ -4,6 +4,10 @@ import InspectionServiceCard from "../molecules/cards/InspectionServiceCard";
 import Image from "next/image";
 import RequestExaminationDialog from "../organisms/Popups/RequestExaminationOrEvaluationDialog";
 import GroupCardsSkeletons from "../molecules/Skeletons/GroupCardsSkeletons";
+import SeeMore from "../atoms/buttons/SeeMore";
+import RegisterDialog from "../organisms/Popups/RegisterDialog";
+import { Button } from "../ui/button";
+import { getAuthTokenServer } from "@/lib/auth/auth-server";
 
 const InspectionServices = [
   {
@@ -26,14 +30,17 @@ const InspectionServices = [
   },
 ];
 
-const InspectionServicesSection = () => {
+const InspectionServicesSection = async () => {
+  const token = await getAuthTokenServer();
+
   return (
-    <section className="Container space-y-10">
+    <section className="Container space-y-4 md:space-y-6">
       <div className="flex justify-between">
         <SectionTitle Title="خدمات الفحص" />
+        <SeeMore path="/Inspection-services" />
       </div>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6">
         <Suspense
           fallback={
             <GroupCardsSkeletons
@@ -58,19 +65,33 @@ const InspectionServicesSection = () => {
               alt="done-circle"
               width={30}
               height={30}
+              className="w-5 h-5 md:w-10 md:h-10"
             />
           </div>
 
-          <h1 className="text-2xl md:text-4xl font-bold">خدمات التقييم</h1>
-          <p className="text-sm md:text-lg font-medium text-center">
+          <h1 className="text-xl md:text-2xl lg:text-4xl font-bold">
+            خدمات التقييم
+          </h1>
+          <p className="text-xs md:text-sm lg:text-lg font-medium text-center">
             ابدأ الآن واحصل على تقييم احترافي لعقارك في أقل من ٢٤ ساعة.
           </p>
 
-          <RequestExaminationDialog
-            type="evaluation"
-            title="طلب تقييم"
-            styleTrigger="bg-secondary text-primary !w-fit hover:bg-secondary/80 rounded-sm px-16 py-6"
-          />
+          {token ? (
+            <RequestExaminationDialog
+              type="evaluation"
+              title="طلب تقييم"
+              styleTrigger="bg-secondary text-primary !w-fit hover:bg-secondary/80 rounded-sm px-8 md:px-16 py-6"
+            />
+          ) : (
+            <RegisterDialog>
+              <Button
+                size="lg"
+                className={`h-12 !w-fit bg-secondary text-primary hover:bg-secondary/80 rounded-sm px-8 md:px-16 py-6`}
+              >
+                طلب تقييم
+              </Button>
+            </RegisterDialog>
+          )}
         </div>
       </div>
     </section>

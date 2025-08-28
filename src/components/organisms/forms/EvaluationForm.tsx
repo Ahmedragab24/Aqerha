@@ -93,7 +93,7 @@ const EvaluationForm = ({ setOpen }: Props) => {
   ) as examinationDescriptionType;
 
   return (
-    <Card>
+    <Card className="px-0">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center text-primary">
           طلب تقييم
@@ -101,7 +101,7 @@ const EvaluationForm = ({ setOpen }: Props) => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <div className="space-y-4 bg-secondary p-4 md:p-6 rounded-xl shadow-md">
+          <div className="space-y-4 bg-secondary p-2 md:p-6 rounded-xl shadow-md">
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}

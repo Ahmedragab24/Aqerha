@@ -1,38 +1,68 @@
 import { cookies } from "next/headers";
-import { NAME_TOKEN_KEY } from "./auth-client";
 
-// Server-side cookie operations
-export async function setAuthTokenCookie(token: string): Promise<void> {
+export const NAME_TOKEN_KEY = "aqerha_auth_token";
+
+// ===== Helper: Decode JWT Payload =====
+function base64UrlDecode(str: string): string {
+  return decodeURIComponent(
+    Buffer.from(str.replace(/-/g, "+").replace(/_/g, "/"), "base64")
+      .toString("binary")
+      .split("")
+      .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+      .join("")
+  );
+}
+
+function decodeJwtPayload(token: string): { exp?: number } | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const decodedPayload = base64UrlDecode(parts[1]);
+    return JSON.parse(decodedPayload);
+  } catch (error) {
+    console.error("Failed to decode JWT payload:", error);
+    return null;
+  }
+}
+
+// ====== Set Cookie ======
+export async function setAuthTokenServer(token: string): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set(NAME_TOKEN_KEY, token, {
+  cookieStore.set({
+    name: NAME_TOKEN_KEY,
+    value: token,
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 4 * 24 * 60 * 60, // 4 days in seconds
+    secure: true,
     path: "/",
+    maxAge: 60 * 60 * 24 * 4, // 4 days
   });
 }
 
-export async function getAuthTokenCookie(): Promise<string | null> {
+// ====== Get Cookie ======
+export async function getAuthTokenServer(): Promise<string | null> {
   const cookieStore = await cookies();
-  const token = cookieStore.get(NAME_TOKEN_KEY);
-  return token?.value || null;
+  const token = cookieStore.get(NAME_TOKEN_KEY)?.value;
+  if (!token) return null;
+
+  const payload = decodeJwtPayload(token);
+  if (payload?.exp) {
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (payload.exp < currentTime) {
+      await removeAuthTokenServer();
+      return null;
+    }
+  }
+
+  return token;
 }
 
-export async function removeAuthTokenCookie(): Promise<void> {
+// ====== Remove Cookie ======
+export async function removeAuthTokenServer(): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.delete(NAME_TOKEN_KEY);
 }
 
-// Main auth functions that use the cookie helpers
-export async function getAuthToken(): Promise<string | null> {
-  return await getAuthTokenCookie();
-}
-
-export async function setAuthToken(token: string): Promise<void> {
-  await setAuthTokenCookie(token);
-}
-
-export async function removeAuthToken(): Promise<void> {
-  await removeAuthTokenCookie();
+// ====== Check Auth Status ======
+export async function checkAuthStatusServer(): Promise<boolean> {
+  return !!(await getAuthTokenServer());
 }

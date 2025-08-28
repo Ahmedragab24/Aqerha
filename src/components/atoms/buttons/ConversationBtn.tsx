@@ -7,7 +7,7 @@ import Link from "next/link";
 import React from "react";
 import NumberCountBadge from "../badges/NumberCountBadge";
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
-import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
 
 interface Props {
   isScrolled: boolean;
@@ -34,23 +34,17 @@ const ConversationBtn = ({ isScrolled, navbarBg }: Props) => {
           </Link>
         </Button>
       ) : (
-        <Button
-          variant={"noneBg"}
-          className="relative !p-0 !m-0"
-          onClick={() => {
-            showFailedToast({
-              title: "يرجى تسجيل الدخول أولاً",
-            });
-          }}
-        >
-          <MessageSquareText
-            className={`fill-primary text-primary !w-6 !h-6 ${
-              isScrolled || navbarBg
-                ? "text-foreground fill-primary"
-                : "text-primary-light fill-primary-light"
-            }`}
-          />
-        </Button>
+        <RegisterDialog>
+          <Button variant={"noneBg"} className="relative !p-0 !m-0">
+            <MessageSquareText
+              className={`fill-primary text-primary !w-6 !h-6 ${
+                isScrolled || navbarBg
+                  ? "text-foreground fill-primary"
+                  : "text-primary-light fill-primary-light"
+              }`}
+            />
+          </Button>
+        </RegisterDialog>
       )}
 
       <NumberCountBadge count={unreadCount || 0} />

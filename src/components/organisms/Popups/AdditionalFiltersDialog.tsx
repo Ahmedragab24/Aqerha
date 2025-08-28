@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 
 const AdditionalFiltersDialog = () => {
   const [containerHeight, setContainerHeight] = useState("60vh");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const updateHeight = () => {
@@ -30,9 +31,9 @@ const AdditionalFiltersDialog = () => {
   }, []);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="SelectBtn">
+        <Button variant={"outline"} className="SelectBtn text-xs font-normal">
           <FunnelPlus />
           فلاتر إضافية
         </Button>
@@ -56,8 +57,7 @@ const AdditionalFiltersDialog = () => {
         </div>
 
         <DialogFooter>
-          <Button variant={"outline"}>إزالة الفلاتر</Button>
-          <Button>بحث</Button>
+          <Button onClick={() => setOpen(false)}>بحث</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

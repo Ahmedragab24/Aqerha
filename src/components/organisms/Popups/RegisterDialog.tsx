@@ -17,7 +17,11 @@ import LoginForm from "../forms/Auth/LoginForm";
 import OtpForm from "../forms/Auth/OtpForm";
 import ChangePhoneForm from "../forms/Auth/ChangePhoneForm";
 
-const RegisterDialog = () => {
+interface Props {
+  children?: React.ReactNode;
+}
+
+const RegisterDialog = ({ children }: Props) => {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState<RegisterType>("login");
   const [phone, setPhone] = useState("");
@@ -25,9 +29,13 @@ const RegisterDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>تسجيل الدخول</Button>
+        {children ? (
+          children
+        ) : (
+          <Button className="text-[10px] md:text-sm">تسجيل الدخول</Button>
+        )}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="px-3 md:px-6 max-h-[80vh] overflow-y-scroll">
         <DialogHeader className="flex flex-col justify-center items-center">
           <DialogTitle>
             <LogoGreen />
@@ -39,7 +47,9 @@ const RegisterDialog = () => {
         </DialogHeader>
 
         <div>
-          {type === "login" && <LoginForm setType={setType} setOpen={setOpen}/>}
+          {type === "login" && (
+            <LoginForm setType={setType} setOpen={setOpen} />
+          )}
           {type === "register" && (
             <RegisterForm setType={setType} setPhone={setPhone} />
           )}

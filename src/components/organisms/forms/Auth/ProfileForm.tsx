@@ -1,8 +1,8 @@
 "use client";
 
-import { Form, FormField } from "@/components/ui/form";
+import { Form, FormField, FormLabel } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import type { z } from "zod";
 import { toast } from "sonner";
 import { useEffect } from "react";
@@ -14,6 +14,10 @@ import CustomFormItem from "@/components/molecules/formItems/CustomFormItem";
 import SubmitBtn from "@/components/atoms/buttons/SubmitBtn";
 import { ProfileSchema } from "@/schemas/ProfileSchema";
 import { ProfileType } from "@/types/Profile";
+import { UserData } from "@/types/Auth";
+import { Button } from "@/components/ui/button";
+import { ClipboardMinus } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Props {
   userData: ProfileType | undefined;
@@ -38,9 +42,15 @@ const ProfileForm = ({ userData }: Props) => {
       commercial_registration_number:
         userData?.profile?.commercial_registration_number || "",
       service: userData?.profile?.service || "",
+      services: userData?.profile?.services || [""],
       protfolio_link: userData?.profile?.protfolio_link || "",
       brochure: undefined,
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "services",
   });
 
   useEffect(() => {
@@ -55,6 +65,7 @@ const ProfileForm = ({ userData }: Props) => {
         commercial_registration_number:
           userData.profile?.commercial_registration_number || "",
         service: userData.profile?.service || "",
+        services: userData.profile?.services || [""],
         protfolio_link: userData.profile?.protfolio_link || "",
         brochure: undefined,
       });
@@ -76,10 +87,15 @@ const ProfileForm = ({ userData }: Props) => {
       data.commercial_registration_number
     );
     if (data.service) formData.append("service", data.service);
+    if (data.services && data.services.length > 0) {
+      data.services.forEach((service) => {
+        if (service) formData.append("services[]", service);
+      });
+    }
     if (data.protfolio_link)
       formData.append("protfolio_link", data.protfolio_link);
 
-    if (imageFile) {
+    if (imageFile && imageFile instanceof File) {
       formData.append("image", imageFile);
     }
 
@@ -94,7 +110,7 @@ const ProfileForm = ({ userData }: Props) => {
     try {
       const res = await updateUserData(formData).unwrap();
       toast.success("تم تحديث المعلومات بنجاح");
-      dispatch(setUserData(res?.data));
+      dispatch(setUserData(res?.data as unknown as UserData));
     } catch (error) {
       const err = error as ErrorType;
       toast.error(err?.data?.message || "حدث خطأ أثناء التحديث");
@@ -205,22 +221,21 @@ const ProfileForm = ({ userData }: Props) => {
               )}
             />
           </div>
-
           {/* الوصف */}
           <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
-              <CustomFormItem
-                field={field}
-                type="textarea"
-                label="الوصف"
-                placeholder="ادخل الوصف"
-                className="!h-[150px]"
-              />
+              <div className="space-y-2">
+                <FormLabel>الوصف</FormLabel>
+                <Textarea
+                  placeholder="ادخل الوصف"
+                  {...field}
+                  className="!h-[130px]"
+                />
+              </div>
             )}
           />
-
           {/* الخدمات */}
           <FormField
             control={form.control}
@@ -229,12 +244,61 @@ const ProfileForm = ({ userData }: Props) => {
               <CustomFormItem
                 field={field}
                 type="text"
-                label="الخدمة"
+                label="ماذا تقدم"
                 placeholder="ادخل الخدمة"
                 className="!h-12"
               />
             )}
           />
+
+          {/* الخدمات المتعددة */}
+          <div className="space-y-4">
+            <FormLabel>الخدمات المقدمة</FormLabel>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+              {fields.map((field, index) => (
+                <div
+                  key={field.id}
+                  className="flex items-center justify-center gap-3  border rounded-xl shadow-sm p-3"
+                >
+                  <div className="w-full">
+                    <FormField
+                      control={form.control}
+                      name={`services.${index}`}
+                      render={({ field }) => (
+                        <CustomFormItem
+                          field={field}
+                          type="text"
+                          placeholder={`ادخل الخدمة ${index + 1}`}
+                          className="!h-11 !flex-1 rounded-lg"
+                        />
+                      )}
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    className="rounded-lg"
+                    onClick={() => remove(index)}
+                  >
+                    ✕
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full rounded-xl bg-transparent border-dashed h-12 text-primary font-medium hover:border-primary"
+                onClick={() => append("")}
+              >
+                + إضافة خدمة أخرى
+              </Button>
+            </div>
+          </div>
 
           {/* رابط البورتفوليو */}
           <FormField
@@ -250,21 +314,58 @@ const ProfileForm = ({ userData }: Props) => {
               />
             )}
           />
-
           {/* البروشور */}
-          <FormField
-            control={form.control}
-            name="brochure"
-            render={({ field }) => (
-              <CustomFormItem
-                field={field}
-                type="file"
-                label="البروشور"
-                placeholder="ارفع البروشور"
-                className="!h-12"
-              />
-            )}
-          />
+          {userData?.profile?.brochure ? (
+            <div className="space-y-4">
+              <div className="flex flex-col md:flex-row justify-between md:items-center gap-6 p-4 border rounded-xl shadow-sm">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-lg bg-primary-light/20 text-primary-dark">
+                    <ClipboardMinus />
+                  </div>
+
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-500">البروشور الحالي</p>
+                    <a
+                      href={`${userData.profile.brochure}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary font-semibold hover:text-primary/80"
+                    >
+                      عرض البروشور
+                    </a>
+                  </div>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="brochure"
+                  render={({ field }) => (
+                    <CustomFormItem
+                      field={field}
+                      type="file"
+                      label="تغيير البروشور"
+                      placeholder="ارفع بروشور جديد"
+                      className="!h-12"
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          ) : (
+            <FormField
+              control={form.control}
+              name="brochure"
+              render={({ field }) => (
+                <CustomFormItem
+                  field={field}
+                  type="file"
+                  label="البروشور"
+                  placeholder="ارفع البروشور"
+                  className="!h-12"
+                />
+              )}
+            />
+          )}
 
           <div className="flex justify-center pt-6">
             <SubmitBtn

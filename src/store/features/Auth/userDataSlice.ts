@@ -1,9 +1,9 @@
 // store/slices/countrySlice.ts
+import { UserData } from "@/types/Auth";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProfileType } from "@/types/Profile";
 
 interface UserDataState {
-  userData: ProfileType;
+  userData: UserData;
   imageFile: File | null;
 }
 
@@ -14,22 +14,12 @@ const initialState: UserDataState = {
     email: "",
     phone: "",
     city: "",
-    membership_type: "",
+    membership_type: "property_seeker",
     nation_id: null,
     image: "",
-    user_package_status: "",
-    type: "",
-    longitude: "",
-    latitude: "",
-    identity_id: "",
-    email_verified_at: "",
-    status: true,
-    location: "",
-    address: "",
-    description: "",
-    reviews: [],
-    projects: [],
-    ads: [],
+    profile_photo_url: "",
+    profile_photo_path: "",
+    user_package: "",
     profile: {
       id: 0,
       user_id: 0,
@@ -64,7 +54,7 @@ const UserDataSlice = createSlice({
     setUserLogoImage: (state, action: PayloadAction<string>) => {
       state.userData.image = action.payload;
     },
-    setUserData: (state, action: PayloadAction<ProfileType>) => {
+    setUserData: (state, action: PayloadAction<UserData>) => {
       state.userData = action.payload;
     },
     removeData: (state) => {

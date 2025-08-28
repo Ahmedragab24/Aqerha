@@ -52,8 +52,8 @@ interface Props {
 
 const TabsAccountCard = ({ activeTab, setActiveTab, userData }: Props) => {
   return (
-    <Card className="bg-white shadow-2xl rounded-3xl py-6">
-      <div className="flex flex-col gap-4">
+    <Card className="bg-white shadow-2xl rounded-3xl py-3 md:py-6">
+      <div className="flex flex-col gap-2 md:gap-4">
         <LogoUpload image={userData?.profile?.image || ""} />
         <div className="text-center">
           <h3 className="text-xl font-semibold">{userData?.name}</h3>

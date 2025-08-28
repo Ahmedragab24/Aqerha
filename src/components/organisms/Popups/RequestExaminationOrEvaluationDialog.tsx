@@ -45,7 +45,7 @@ const RequestExaminationOrEvaluationDialog = ({
         </DialogTrigger>
       )}
 
-      <DialogContent className="h-[90vh] overflow-y-scroll">
+      <DialogContent className="h-[90vh] overflow-y-scroll px-3 md:px-6">
         <DialogHeader>
           <DialogTitle></DialogTitle>
         </DialogHeader>

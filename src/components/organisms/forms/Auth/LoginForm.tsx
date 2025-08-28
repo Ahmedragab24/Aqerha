@@ -12,14 +12,13 @@ import { loginFormSchema } from "@/schemas/login";
 import CustomPhoneInput from "../../../atoms/inputs/CustomPhoneInput";
 import OrBadge from "../../../atoms/badges/OrBadge";
 import { useUserLoginMutation } from "@/store/services/Auth";
-import { LoginType } from "@/types/Auth";
+import { LoginType, UserData } from "@/types/Auth";
 import { showSuccessToast } from "@/components/Successfully/DoneToast";
 import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
 import { ErrorType } from "@/types/errors";
 import { useAppDispatch } from "@/store/hooks";
 import { setUserData } from "@/store/features/Auth/userDataSlice";
 import { AUTH_CHANGE_EVENT, setAuthTokenClient } from "@/lib/auth/auth-client";
-import { ProfileType } from "@/types/Profile";
 import { useRouter } from "next/navigation";
 
 interface RegisterFormProps {
@@ -55,12 +54,16 @@ const LoginForm = ({ setType, setOpen }: RegisterFormProps) => {
       showSuccessToast({ title: "تم ارسال رمز التحقق" });
       console.log(res.user);
       setAuthTokenClient(res.token);
-      dispatch(setUserData(res.user as unknown as ProfileType));
+      dispatch(setUserData(res.user as unknown as UserData));
       setOpen(false);
       // await SendCode({ phone: values.phone }).unwrap();
       // setType("Otp");
 
-      if (res.user.membership_type !== "property_seeker") {
+      if (
+        res.user.membership_type !== "property_seeker" &&
+        !res.user?.profile?.image &&
+        !res.user?.profile?.phone
+      ) {
         router.push("/profile");
       } else {
         setTimeout(() => {
@@ -79,7 +82,7 @@ const LoginForm = ({ setType, setOpen }: RegisterFormProps) => {
 
   return (
     <Form {...form}>
-      <div className="space-y-4 bg-secondary p-4 md:p-6 rounded-xl shadow-md">
+      <div className="space-y-4 bg-secondary px-2 py-4 md:p-6 rounded-xl shadow-md">
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <FormField

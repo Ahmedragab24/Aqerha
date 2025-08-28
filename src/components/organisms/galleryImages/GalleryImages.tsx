@@ -102,6 +102,7 @@ const GalleryImages = ({
             opts={{
               align: "start",
               dragFree: true,
+              direction: "rtl",
             }}
             className="w-full"
           >

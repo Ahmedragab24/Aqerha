@@ -3,7 +3,7 @@ import HeroFilter from "../organisms/filters/HeroFilter";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full h-[40vh] md:h-screen">
+    <section className="relative w-full h-[40vh] md:h-screen mb-8 md:mb-14">
       <Image
         src="/Images/Hero.jpg"
         alt="Hero"

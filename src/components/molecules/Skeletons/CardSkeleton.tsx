@@ -26,10 +26,10 @@ const CardSkeleton = ({
 
       <div className="space-y-2">
         {showTwoSkeletons ?? (
-          <Skeleton className={`h-4 w-[250px] ${twoClassSkeleton}`} />
+          <Skeleton className={`h-4 w-full ${twoClassSkeleton}`} />
         )}
         {showThreeSkeletons ?? (
-          <Skeleton className={`h-4 w-[200px] ${threeClassSkeleton}`} />
+          <Skeleton className={`h-4 w-1/2 ${threeClassSkeleton}`} />
         )}
       </div>
     </div>

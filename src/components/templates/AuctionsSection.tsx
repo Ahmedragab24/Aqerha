@@ -12,13 +12,13 @@ const AuctionsSection = () => {
   const AuctionsList = data?.data?.auctions || [];
 
   return (
-    <section className="Container space-y-10">
+    <section className="Container space-y-4 md:space-y-6">
       <div className="flex justify-between">
         <SectionTitle Title="المزادات" />
         <SeeMore path="/auctions" />
       </div>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {isLoading ? (
           <GroupCardsSkeletons
             count={4}

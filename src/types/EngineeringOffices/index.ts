@@ -1,4 +1,4 @@
-import { ProfileType } from "../Profile";
+import { ProfileType } from "../Real-estates";
 
 export interface EngineeringOfficeType {
   id: number;

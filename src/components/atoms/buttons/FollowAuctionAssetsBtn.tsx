@@ -1,8 +1,10 @@
 "use client";
 
 import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
+import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
 import { showSuccessToast } from "@/components/Successfully/DoneToast";
 import { Button } from "@/components/ui/button";
+import { getAuthTokenClient } from "@/lib/auth/auth-client";
 import { useToggleFollowAssetMutation } from "@/store/services/Auctions";
 import { ErrorType } from "@/types/errors";
 import { BellRing } from "lucide-react";
@@ -15,6 +17,7 @@ interface Props {
 const FollowAuctionAssetsBtn = ({ AssetsId }: Props) => {
   const [ToggleAssets, { isLoading }] = useToggleFollowAssetMutation();
   const [IsFollowed, setIsFollowed] = useState<boolean>(false);
+  const token = getAuthTokenClient();
 
   useEffect(() => {
     const followedAssets = JSON.parse(
@@ -63,17 +66,33 @@ const FollowAuctionAssetsBtn = ({ AssetsId }: Props) => {
   };
 
   return (
-    <Button
-      onClick={handlerFollow}
-      disabled={isLoading}
-      variant={IsFollowed ? "default" : "secondary"}
-      className={` ${isLoading ? "cursor-not-allowed" : ""} ${
-        IsFollowed ? "" : ""
-      }`}
-    >
-      <BellRing />
-      {IsFollowed ? "إلغاء المتابعة" : "متابعة"}
-    </Button>
+    <>
+      {token ? (
+        <Button
+          onClick={handlerFollow}
+          disabled={isLoading}
+          variant={IsFollowed ? "default" : "secondary"}
+          className={` ${isLoading ? "cursor-not-allowed" : ""} ${
+            IsFollowed ? "" : ""
+          }`}
+        >
+          <BellRing />
+          {IsFollowed ? "إلغاء المتابعة" : "متابعة"}
+        </Button>
+      ) : (
+        <RegisterDialog>
+          <Button
+            variant={IsFollowed ? "default" : "secondary"}
+            className={` ${isLoading ? "cursor-not-allowed" : ""} ${
+              IsFollowed ? "" : ""
+            }`}
+          >
+            <BellRing />
+            متابعة
+          </Button>
+        </RegisterDialog>
+      )}
+    </>
   );
 };
 

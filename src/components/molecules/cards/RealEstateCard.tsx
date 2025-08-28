@@ -7,6 +7,7 @@ import Riyal from "../../atoms/Icons/Riyal";
 import PurposeBadge from "@/components/atoms/badges/PurposeBadge";
 import { useRouter } from "next/navigation";
 import { formatName, formatPurpose } from "@/lib/utils";
+import { MapPin } from "lucide-react";
 
 interface RealEstateCardProps {
   product: RealEstesType;
@@ -38,7 +39,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
       {/* Image Container */}
       <div className="relative w-full">
         {main_image ? (
-          <div className="h-48 sm:h-60 overflow-hidden rounded-t-2xl">
+          <div className="h-36 sm:h-60 overflow-hidden rounded-t-2xl">
             <Image
               src={main_image}
               alt={description || "Property"}
@@ -50,7 +51,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
             />
           </div>
         ) : (
-          <div className="h-full overflow-hidden rounded-t-2xl">
+          <div className="h-36 sm:h-60 overflow-hidden rounded-t-2xl">
             <Image
               src="/Images/PlaceHolder.png"
               alt={description || "Property"}
@@ -64,52 +65,54 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
 
         {/* Popular Badge */}
         {ad?.promotion && (
-          <div className="absolute -top-14 md:top-0 right-0 z-10">
+          <div className="absolute -top-[107px] md:top-0 right-0 z-10">
             <PurposeBadge />
           </div>
         )}
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 px-4 sm:px-5 py-4 sm:py-6">
-        <div className="flex items-center justify-between mb-3">
-          {/* Price */}
-          <div className="flex items-center gap-1">
-            <span className="text-xl sm:text-2xl font-bold text-primary">
-              {main_price}
-            </span>
-            <Riyal className="text-primary" />
-            {purpose === "rent" && (
-              <span className="text-gray-500 text-xs sm:text-sm">
-                /{" "}
-                {rental_period === "daily"
-                  ? "يوم"
-                  : rental_period === "weekly"
-                  ? "اسبوع"
-                  : rental_period === "monthly"
-                  ? "شهر"
-                  : rental_period === "yearly"
-                  ? "سنة"
-                  : ""}
-              </span>
-            )}
-          </div>
+      <div className="flex flex-col flex-1 gap-1 px-4 sm:px-5 py-4 sm:py-6">
+        <div className="flex items-center justify-between">
+          {/* Property Name */}
+          <h3 className="text-sm md:text-lg font-semibold line-clamp-1 text-gray-900 mb-1 text-right">
+            {formatName(real_estate_type) + " " + formatPurpose(purpose)}
+          </h3>
+
           {/* Heart Icon */}
           <FavoriteBtn RealStateId={id} type="card" />
         </div>
 
-        {/* Property Name */}
-        <h3 className="text-base sm:text-lg font-semibold line-clamp-1 text-gray-900 mb-1 text-right">
-          {formatName(real_estate_type) + " " + formatPurpose(purpose)}
-        </h3>
+        {/* Price */}
+        <div className="flex items-center gap-1">
+          <span className="text-xs sm:text-sm lg:text-2xl font-semibold text-primary">
+            {main_price}
+          </span>
+          <Riyal className="text-primary" />
+          {purpose === "rent" && (
+            <span className="text-gray-500 text-xs sm:text-sm">
+              /{" "}
+              {rental_period === "daily"
+                ? "يوم"
+                : rental_period === "weekly"
+                ? "اسبوع"
+                : rental_period === "monthly"
+                ? "شهر"
+                : rental_period === "yearly"
+                ? "سنة"
+                : ""}
+            </span>
+          )}
+        </div>
 
         {/* Location */}
-        <p className="text-gray-500 text-xs sm:text-sm mb-4 text-right leading-relaxed">
+        <p className="text-gray-500 text-xs sm:text-sm mb-1 md:mb-4 text-right leading-relaxed flex items-center gap-1">
+          <MapPin className="inline w-3 h-3 md:w-4 md:h-4" />
           {city}
         </p>
 
         {/* Property Features */}
-        <div className="flex items-center justify-between text-gray-600 border-t border-gray-200 pt-3 mt-auto">
+        <div className="flex items-center justify-between text-gray-600 border-t border-gray-200 pt-3 ">
           {/* Area */}
           <div className="flex items-center gap-1 sm:gap-2">
             <Image
@@ -117,8 +120,9 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
               alt="مساحة"
               width={20}
               height={20}
+              className="w-2.5 h-2.5 md:w-5 md:h-5"
             />
-            <span className="text-xs sm:text-sm text-gray-400">
+            <span className="text-[9px] sm:text-sm text-gray-400">
               {main_area} م²
             </span>
           </div>
@@ -130,16 +134,23 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
               alt="حمام"
               width={20}
               height={20}
+              className="w-2.5 h-2.5 md:w-5 md:h-5"
             />
-            <span className="text-xs sm:text-sm text-gray-400">
+            <span className="text-[9px] sm:text-sm text-gray-400">
               {bathrooms} حمام
             </span>
           </div>
 
           {/* Bedrooms */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <Image src="/Icons/Bed.svg" alt="غرف" width={20} height={20} />
-            <span className="text-xs sm:text-sm text-gray-400">
+            <Image
+              src="/Icons/Bed.svg"
+              alt="غرف"
+              width={20}
+              height={20}
+              className="w-2.5 h-2.5 md:w-5 md:h-5"
+            />
+            <span className="text-[9px] sm:text-sm text-gray-400">
               {rooms} غرف
             </span>
           </div>

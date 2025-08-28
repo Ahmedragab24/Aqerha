@@ -50,7 +50,7 @@ const ChangePhoneForm = ({ setPhone, setType }: Props) => {
       </div>
 
       <Form {...form}>
-        <div className="space-y-4 bg-secondary p-4 md:p-6 rounded-xl shadow-md">
+        <div className="space-y-4 bg-secondary px-2 py-4 md:p-6 rounded-xl shadow-md">
           <form
             onSubmit={form.handleSubmit(onChangePhone)}
             className="space-y-4"

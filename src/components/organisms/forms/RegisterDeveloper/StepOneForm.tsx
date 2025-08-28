@@ -14,7 +14,6 @@ import CustomFormItem from "../../../molecules/formItems/CustomFormItem";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { StepsType } from "@/app/(pages)/register-developer/page";
 
 export const StepOneFormSchema = z.object({
   logo: z.any().optional(),
@@ -25,7 +24,7 @@ export const StepOneFormSchema = z.object({
 });
 
 interface RegisterFormProps {
-  setSteps: (value: StepsType) => void;
+  setSteps: (value: string) => void;
 }
 
 const StepOneForm = ({ setSteps }: RegisterFormProps) => {

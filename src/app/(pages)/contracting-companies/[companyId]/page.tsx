@@ -10,6 +10,16 @@ import ProjectCard from "@/components/molecules/cards/ProjectCard";
 import CallUserBtns from "@/components/molecules/btnsGroup/CallUserBtns";
 import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
 import DataNotFount from "@/components/Error&NotFound/DataNotFount";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useCarouselIndicators } from "@/hooks/use-carousel-indicators";
+import Autoplay from "embla-carousel-autoplay";
+import { SearchX } from "lucide-react";
 
 const CompanyDetailsPage = () => {
   const params = useParams();
@@ -23,6 +33,8 @@ const CompanyDetailsPage = () => {
   );
 
   const CompanyData = data?.data?.["Contracting Company"];
+
+  const CompanyCarousel = useCarouselIndicators();
 
   if (isLoading) {
     return (
@@ -58,14 +70,14 @@ const CompanyDetailsPage = () => {
 
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white z-20">
           <h1 className="text-xl md:text-5xl font-medium md:font-semibold drop-shadow-2xl-sm text-center">
-            {CompanyData?.name}
+            {CompanyData?.profile?.name}
           </h1>
         </div>
       </div>
 
       <div className="Container mt-16 space-y-20">
         <div className="space-y-6">
-          <SectionTitle Title={`تعرف على ${CompanyData?.name}`} />
+          <SectionTitle Title={`تعرف على ${CompanyData?.profile?.name}`} />
 
           <p className="text-lg text-gray-600 max-full leading-relaxed">
             {CompanyData?.profile?.description}
@@ -73,7 +85,7 @@ const CompanyDetailsPage = () => {
 
           <CallUserBtns
             isText={true}
-            phone={CompanyData?.phone}
+            phone={CompanyData?.profile?.phone}
             whatsapp={CompanyData?.profile?.whatsapp}
           />
         </div>
@@ -83,21 +95,71 @@ const CompanyDetailsPage = () => {
 
           <ServicesCardsForCompany
             Services={CompanyData?.profile?.services || []}
+            callData={{
+              phone: CompanyData?.profile?.phone,
+              whatsapp: CompanyData?.profile?.whatsapp,
+              email: CompanyData?.email,
+              userId: CompanyData?.id,
+            }}
           />
         </div>
 
         <div className="space-y-6">
           <SectionTitle Title="المشاريع المتاحة" />
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {CompanyData?.real_estate_project?.length ? (
-              CompanyData.real_estate_project.map((item) => (
-                <ProjectCard key={item.id} project={item} />
-              ))
-            ) : (
-              <p className="text-gray-500">لا توجد مشاريع حالياً</p>
-            )}
-          </div>
+          {CompanyData?.real_estate_project &&
+          CompanyData.real_estate_project.length > 0 ? (
+            <div>
+              <Carousel
+                opts={{
+                  align: "start",
+                  direction: "rtl",
+                }}
+                className="w-full"
+                plugins={[
+                  Autoplay({
+                    delay: 2800,
+                  }),
+                ]}
+                setApi={CompanyCarousel.setApi}
+              >
+                <CarouselContent className="pb-6">
+                  {CompanyData?.real_estate_project?.map((item) => (
+                    <CarouselItem
+                      key={item.id}
+                      className="basis-full md:basis-1/2 lg:basis-1/3"
+                    >
+                      <ProjectCard project={item} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="hidden lg:block">
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </div>
+              </Carousel>
+
+              <div className="flex justify-center gap-2 mt-2">
+                {Array.from({ length: CompanyCarousel.count }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => CompanyCarousel.api?.scrollTo(i)}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      i === CompanyCarousel.current
+                        ? "bg-primary"
+                        : "bg-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <DataNotFount
+              title="لا توجد مشاريع حالياً"
+              description=""
+              icon={<SearchX className="w-10 h-10" />}
+            />
+          )}
         </div>
       </div>
     </main>

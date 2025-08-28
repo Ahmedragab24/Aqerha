@@ -12,13 +12,13 @@ const EngineeringOfficesSection = () => {
   const EngineeringOfficesData = data?.data?.engineering_offices || [];
 
   return (
-    <section className="Container space-y-10">
+    <section className="Container space-y-4 md:space-y-6">
       <div className="flex justify-between">
         <SectionTitle Title="المكاتب الهندسية" />
         <SeeMore path="/engineeringOffices" />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6">
         {isLoading ? (
           <GroupCardsSkeletons
             count={2}

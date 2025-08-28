@@ -15,7 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../ui/accordion";
-import { ChevronLeft, User, Mail } from "lucide-react";
+import { ChevronLeft, User, Phone } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import { UserMenuType } from "@/types/Auth/UserNavMenu";
@@ -26,6 +26,7 @@ import { ProfileType } from "@/types/Profile";
 import { MembershipType, ServicesProvidersType } from "@/types/Membership";
 
 import LogOutBtn from "@/components/atoms/buttons/LogOutBtn";
+import { useRouter } from "next/navigation";
 
 interface MenuItemProps {
   item: UserMenuType;
@@ -38,7 +39,6 @@ const MenuItem = ({ item, onItemClick, userType }: MenuItemProps) => {
   const FileData = data?.data;
   const [showSubMenu, setShowSubMenu] = useState(false);
 
-  // فلترة العناصر حسب العضوية
   if (
     userType &&
     item.membershipType &&
@@ -216,6 +216,7 @@ const UserAvatar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { data } = useGetProfileQuery();
   const userData = data?.data as ProfileType;
+  const router = useRouter();
   const UserMemberType = userData?.membership_type as
     | MembershipType
     | ServicesProvidersType;
@@ -246,7 +247,7 @@ const UserAvatar = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="w-80 max-w-[90vw] max-h-[80vh] overflow-y-auto p-2 border-gray-300 shadow-lg"
+        className="md:w-80 max-w-[55vw] md:max-w-[90vw] max-h-[80vh] overflow-y-auto p-2 border-gray-300 shadow-lg"
         sideOffset={8}
         align="end"
       >
@@ -263,12 +264,12 @@ const UserAvatar = () => {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start min-w-0 flex-1">
-            <span className="font-semibold text-gray-900 dark:text-white truncate">
+            <span className="text-sm md:text-lg font-semibold text-gray-900 dark:text-white truncate">
               {userData?.profile?.name}
             </span>
             <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-              <Mail className="h-3 w-3" />
-              <span className="truncate"> {userData?.email}</span>
+              <span className="truncate text-[10px]"> {userData?.phone}</span>
+              <Phone className="h-2.5 w-2.5 md:w-4 md:h-4" />
             </div>
           </div>
         </div>
@@ -358,10 +359,13 @@ const UserAvatar = () => {
           <Button
             variant="outline"
             size="sm"
-            className="flex-1 text-xs bg-transparent"
-            onClick={handleItemClick}
+            className="flex-1 !text-[10px] md:text-sm bg-transparent"
+            onClick={() => {
+              handleItemClick();
+              router.push("/profile");
+            }}
           >
-            <User className="h-3 w-3 ml-1" />
+            <User className="!h-2.5 !w-2.5 md:!h-3 md:!w-3" />
             الملف الشخصي
           </Button>
           <LogOutBtn setIsOpen={setIsOpen} />

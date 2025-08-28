@@ -4,8 +4,9 @@ import { Button } from "../../ui/button";
 import React from "react";
 import { AssetsType } from "@/types/Actions";
 import AuctionsRecordDialog from "@/components/organisms/Popups/AuctionsRecordDialog";
+import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
+import { getAuthTokenClient } from "@/lib/auth/auth-client";
 
-// 🔹 دالة لتنسيق التاريخ إلى صيغة عربية جميلة
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("ar-EG", {
@@ -23,6 +24,8 @@ interface AuctionRegisterCardProps {
 }
 
 const AuctionRegisterCard = ({ AssetsDetails }: AuctionRegisterCardProps) => {
+  const token = getAuthTokenClient();
+
   return (
     <div className="md:min-w-[600px] rounded-2xl max-w-2xl border border-gray-300 shadow-md overflow-hidden">
       <div className="bg-[#F3E6D6] p-4 flex items-center justify-center gap-2 text-lg font-semibold">
@@ -87,10 +90,16 @@ const AuctionRegisterCard = ({ AssetsDetails }: AuctionRegisterCardProps) => {
           </div>
         )}
 
-        {AssetsDetails?.category !== "ended" && (
-          <AuctionRegisterDialog AssetsDetails={AssetsDetails}>
+        {token ? (
+          AssetsDetails?.category !== "ended" && (
+            <AuctionRegisterDialog AssetsDetails={AssetsDetails}>
+              <Button className="!h-12">سجل الآن في المزاد</Button>
+            </AuctionRegisterDialog>
+          )
+        ) : (
+          <RegisterDialog>
             <Button className="!h-12">سجل الآن في المزاد</Button>
-          </AuctionRegisterDialog>
+          </RegisterDialog>
         )}
       </div>
     </div>

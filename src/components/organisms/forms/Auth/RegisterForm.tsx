@@ -91,7 +91,7 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
 
   return (
     <Form {...form}>
-      <div className="space-y-4 bg-secondary p-4 md:p-6 rounded-xl shadow-md max-h-[80vh] overflow-y-scroll">
+      <div className="space-y-4 bg-secondary px-2 py-4 md:p-6 rounded-xl shadow-md">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}

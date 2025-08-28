@@ -12,18 +12,20 @@ import PopularRealEstateSection from "../components/templates/PopularRealEstateS
 
 export default function Home() {
   return (
-    <main className="flex flex-col gap-16 md:gap:20 mb-16">
+    <main>
       <HeroSection />
-      <PopularRealEstateSection />
-      <NewProjectsSection />
-      <DevelopersSection />
-      <BannersCarousel />
-      <EngineeringOfficesSection />
-      <AuctionsSection />
-      <NewsSection />
-      <CompaniesSection />
-      <InspectionServicesSection />
-      <AuthenticationServicesSection />
+      <div className="flex flex-col gap-10 md:gap:16 lg:gap-20 mb-16">
+        <PopularRealEstateSection />
+        <NewProjectsSection />
+        <DevelopersSection />
+        <BannersCarousel />
+        <EngineeringOfficesSection />
+        <AuctionsSection />
+        <CompaniesSection />
+        <InspectionServicesSection />
+        <AuthenticationServicesSection />
+        <NewsSection />
+      </div>
     </main>
   );
 }

@@ -36,7 +36,7 @@ const CustomSelect = ({
         dispatch ? dispatch(val) : onChange && onChange(val)
       }
     >
-      <SelectTrigger className={`w-[180px] ${className}`}>
+      <SelectTrigger className={`w-[100px] md:w-[180px] ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

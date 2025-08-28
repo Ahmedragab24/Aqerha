@@ -1,6 +1,6 @@
 import { TypeUserType } from "../Auth";
-import { ProfileType } from "../Profile";
 import { ProjectType } from "../projects";
+import { ProfileType } from "../Real-estates";
 
 export interface DeveloperType {
   id: number;

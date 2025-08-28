@@ -9,7 +9,7 @@ export const showFailedToast = ({ title }: Props) => {
   return toast.custom((id) => (
     <div className="flex flex-row justify-center items-center gap-4 mx-auto border border-destructive w-fit rounded-2xl bg-background shadow-md py-4 px-16">
       <Image
-        src="/icons/Close Circle.svg"
+        src="/Icons/Close Circle.svg"
         alt={`success ${id}`}
         width={30}
         height={30}
