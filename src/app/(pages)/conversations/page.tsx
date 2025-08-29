@@ -51,26 +51,12 @@ const ConversationsPage = () => {
   }
 
   return (
-    <main className="Container pt-28 mb-16">
+    <main className="Container pt-24 md:pt-28 mb-16">
       <div className="space-y-4 lg:space-y-16">
         {chats && chats.length > 0 ? (
           <>
-            <div className="flex items-center justify-between pb-4 border-b border-gray-300">
+            <div className="pb-4 border-b border-gray-300">
               <h1 className="text-2xl font-bold">المحادثات</h1>
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-sm border-none"
-                >
-                  <Image
-                    src="/Icons/Icon.svg"
-                    alt="chat"
-                    width={20}
-                    height={20}
-                  />
-                </Button>
-              </div>
             </div>
 
             <PropertyChatApp

@@ -30,7 +30,7 @@ const AddOrderDialog = ({ children }: Props) => {
   return (
     <Dialog open={open} onOpenChange={changeOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-md mx-auto" dir="rtl">
+      <DialogContent className="max-w-md mx-auto px-4 md:px-6" dir="rtl">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl font-semibold">
             إ ضافة طلب

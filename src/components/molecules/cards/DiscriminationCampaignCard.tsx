@@ -33,7 +33,7 @@ const DiscriminationCampaignCard = ({ DiscriminationCampaign }: Props) => {
         {/* Overlay Icons */}
         <div className="absolute top-4 left-4 flex gap-2">
           <FavoriteBtn RealStateId={id} type="page" />
-          <ShareBtn />
+          <ShareBtn type="card" />
         </div>
       </div>
 

@@ -62,7 +62,7 @@ const FavoriteBtn = ({ RealStateId, type }: Props) => {
       {type === "card" ? (
         token ? (
           <Button
-            className="bg-gray-100/60 rounded-full w-6 h-6 md:w-8 md:h-8 !p-2 border-2 border-gray-200 hover:bg-gray-50 transition-colors"
+            className="bg-gray-100/60 rounded-full w-6 h-6 md:w-8 md:h-8 !p-2 md:!p-4 border-2 border-gray-200 hover:bg-gray-50 transition-colors"
             onClick={handleFavorite}
             disabled={isLoading}
           >
@@ -70,7 +70,7 @@ const FavoriteBtn = ({ RealStateId, type }: Props) => {
               className={`transition-colors w-3 h-3 md:!w-5 md:!h-5 ${
                 IsFavorite
                   ? "fill-primary text-primary"
-                  : "fill-none text-gray-600"
+                  : "fill-none text-primary"
               }`}
             />
           </Button>

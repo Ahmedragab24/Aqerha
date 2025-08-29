@@ -5,7 +5,7 @@ interface RiyalProps {
 }
 
 const Riyal = ({ className }: RiyalProps) => {
-  return <SaudiRiyal className={`!w-4 !h-4 ${className}`} />;
+  return <SaudiRiyal className={`!w-4 !h-4 md:!w-5 md:!h-5 ${className}`} />;
 };
 
 export default Riyal;

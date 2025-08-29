@@ -23,8 +23,6 @@ const AuctionPropertyPage = () => {
   const { data } = useGetAssetByIdQuery(AssetsId);
   const AssetData = data?.data?.asset;
 
-  console.log("AssetData", AssetData);
-
   return (
     <main className=" pt-6 mb-16">
       {/* Profile Images */}
@@ -82,10 +80,7 @@ const AuctionPropertyPage = () => {
                 <h1 className="text-lg font-medium">طرق التواصل</h1>
                 <CallUserBtns
                   isText
-                  phone={AssetData?.owner?.phone}
-                  whatsapp={AssetData?.owner?.phone}
-                  email={AssetData?.owner?.email}
-                  userId={AssetData?.owner?.id}
+                  ownerData={AssetData?.owner || undefined}
                 />
               </div>
             </div>

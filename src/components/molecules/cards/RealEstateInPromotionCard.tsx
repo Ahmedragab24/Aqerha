@@ -43,7 +43,7 @@ const RealEstateInPromotionCard = ({
         {/* Overlay Icons */}
         <div className="absolute top-4 left-4 flex gap-2">
           <FavoriteBtn type="card" RealStateId={id} />
-          <ShareBtn />
+          <ShareBtn type="card" />
         </div>
       </div>
 

@@ -46,13 +46,7 @@ const OfficeDetailsPage = () => {
             {OfficeData?.profile?.description || "لا يوجد وصف متاح حالياً."}
           </p>
 
-          <CallUserBtns
-            isText
-            phone={OfficeData?.profile?.phone}
-            whatsapp={OfficeData?.profile?.whatsapp}
-            email={OfficeData?.email}
-            userId={OfficeData?.profile?.user_id}
-          />
+          <CallUserBtns isText userData={OfficeData?.profile} />
         </div>
 
         <div className="space-y-4 md:space-y-6">
@@ -60,12 +54,7 @@ const OfficeDetailsPage = () => {
 
           <ServicesCardsForCompany
             Services={OfficeData?.profile?.services || []}
-            callData={{
-              phone: OfficeData?.profile?.phone || "",
-              whatsapp: OfficeData?.profile?.whatsapp || "",
-              email: OfficeData?.email || "",
-              userId: OfficeData?.profile?.user_id || 0,
-            }}
+            userData={OfficeData?.profile}
           />
         </div>
       </div>

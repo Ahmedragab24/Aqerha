@@ -94,7 +94,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
               <Button
                 variant="ghost"
                 className={cn(
-                  "flex h-11 items-center gap-3 rounded-none border-0 border-r-2 px-4 transition-all duration-200",
+                  "flex h-11 items-center gap-2 md:gap-3 rounded-none border-0 border-r-2 !px-2 md:!px-4 transition-all duration-200",
                   "focus:outline-none focus:ring-0",
                   getCountryButtonStyling()
                 )}
@@ -106,14 +106,14 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
                   height={20}
                 />
                 <div className="flex flex-col items-start">
-                  <span className="text-sm font-semibold leading-none">
+                  <span className="text-xs font-medium leading-none">
                     {selectedCountry.code}
                   </span>
                   <span className="text-xs text-muted-foreground leading-none">
                     {selectedCountry.country}
                   </span>
                 </div>
-                <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                <ChevronDown className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent

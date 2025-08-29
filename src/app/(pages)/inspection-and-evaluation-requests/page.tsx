@@ -41,10 +41,9 @@ const InspectionAndEvaluationRequestsPage = () => {
             <div className="grid md:grid-cols-2 gap-6">
               <GroupCardsSkeletons count={2} />
             </div>
-          ) : examinations?.examination_requests &&
-            examinations.examination_requests.length > 0 ? (
+          ) : examinations?.data && examinations.data.length > 0 ? (
             <div className="grid md:grid-cols-2 gap-6">
-              {examinations.examination_requests.map((item) => (
+              {examinations.data.map((item) => (
                 <ExaminationRequestCard
                   key={item.id}
                   ExaminationRequest={item}

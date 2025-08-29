@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CommentCard from "@/components/molecules/cards/CommentCard";
 import { useGetProfileByIdQuery } from "@/store/services/Profile";
 import ProjectCard from "@/components/molecules/cards/ProjectCard";
+import { ProfileType } from "@/types/Real-estates";
 
 const AdvertiserPage = () => {
   const { AdvertiserData } = useAppSelector((state) => state.AdvertiserData);
@@ -86,8 +87,7 @@ const AdvertiserPage = () => {
             <CallUserBtns
               isText={false}
               classNameBtns="!px-10 md:!px-20"
-              phone={AdvertiserData?.phone}
-              whatsapp={AdvertiserData?.phone}
+              userData={(data?.data?.profile as ProfileType) || undefined}
             />
           </div>
 

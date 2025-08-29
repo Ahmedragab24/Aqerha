@@ -15,8 +15,13 @@ import {
   useVerifyOtpMutation,
   useVerifyResetOtpMutation,
 } from "@/store/services/Auth";
-import { OtpType } from "@/types/Auth";
+import { OtpType, UserData } from "@/types/Auth";
 import { ErrorType } from "@/types/errors";
+import { setAuthTokenClient } from "@/lib/auth/auth-client";
+import { useAppDispatch } from "@/store/hooks";
+import { AUTH_CHANGE_EVENT } from "@/lib/auth/auth-client";
+import { setUserData } from "@/store/features/Auth/userDataSlice";
+import { useRouter } from "next/navigation";
 
 const OtpFormSchema = z.object({
   code: z.string().min(4, "الرمز مطلوب"),
@@ -25,15 +30,18 @@ const OtpFormSchema = z.object({
 interface Props {
   setType: (value: RegisterType) => void;
   phone: string;
+  setOpen?: (value: boolean) => void;
 }
 
-export default function OtpForm({ setType, phone }: Props) {
+export default function OtpForm({ setType, phone, setOpen }: Props) {
   const [VerifyOtp] = useVerifyOtpMutation();
   const [VerifyResetOtp] = useVerifyResetOtpMutation();
   const [resendTimer, setResendTimer] = useState(90);
   const [canResend, setCanResend] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof OtpFormSchema>>({
     resolver: zodResolver(OtpFormSchema),
@@ -70,11 +78,29 @@ export default function OtpForm({ setType, phone }: Props) {
     if (!canResend || isResending) return;
     setIsResending(true);
 
+    const data: OtpType = {
+      otp: +form.getValues("code"),
+      phone: phone,
+      type: "register",
+    };
+
     try {
-      await VerifyResetOtp({ phone } as OtpType).unwrap();
-      showSuccessToast({ title: "تم إرسال الرمز مرة أخرى" });
+      const res = await VerifyResetOtp(data).unwrap();
+      showSuccessToast({ title: "تم التحقق وتسجيل دخولك بنجاح" });
       resetTimer();
       form.setValue("code", "", { shouldValidate: true });
+
+      if (
+        res.data.user.membership_type !== "property_seeker" &&
+        !res.data.user?.profile?.image &&
+        !res.data.user?.profile?.phone
+      ) {
+        router.push("/profile");
+      } else {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1100);
+      }
     } catch (error) {
       console.error("Error resending code:", error);
       showFailedToast({ title: "فشل في إرسال الرمز" });
@@ -90,14 +116,21 @@ export default function OtpForm({ setType, phone }: Props) {
 
     const data: OtpType = {
       otp: +values.code,
-      phone,
+      phone: phone,
       type: "register",
     };
 
     try {
-      await VerifyOtp(data).unwrap();
+      const res = await VerifyOtp(data).unwrap();
       showSuccessToast({ title: "تم تأكيد الرمز بنجاح" });
+      setAuthTokenClient(res.data.token);
+      dispatch(setUserData(res.data.user as unknown as UserData));
+      setOpen?.(false);
       setType("login");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1100);
     } catch (error) {
       const err = error as ErrorType;
       const firstError = err.data?.message || "حدث خطأ غير متوقع";
@@ -105,6 +138,7 @@ export default function OtpForm({ setType, phone }: Props) {
     } finally {
       setIsVerifying(false);
       form.setValue("code", "", { shouldValidate: true });
+      window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
     }
   }
 

@@ -1,8 +1,8 @@
 "use client";
 
+import React from "react";
 import SeeMore from "../../../../components/atoms/buttons/SeeMore";
 import SectionTitle from "../../../../components/atoms/title/SectionTitle";
-import React from "react";
 import { useExploreRealEstatesQuery } from "@/store/services/RealEstate";
 import RealEstateGuideCard from "@/components/molecules/cards/RealEstateGuideCard";
 import {
@@ -13,126 +13,113 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { useCarouselIndicators } from "@/hooks/use-carousel-indicators";
+
+interface CarouselSectionProps {
+  title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[];
+  indicators: ReturnType<typeof useCarouselIndicators>;
+  delay?: number;
+}
+
+const CarouselSection = ({
+  title,
+  data,
+  indicators,
+  delay = 2500,
+}: CarouselSectionProps) => (
+  <section>
+    <div className="flex justify-between">
+      <SectionTitle Title={title} />
+      <SeeMore path="/real-estate" />
+    </div>
+
+    {data.length === 0 ? (
+      <p className="text-center text-gray-500 py-6">لا توجد بيانات متاحة</p>
+    ) : (
+      <>
+        <Carousel
+          setApi={indicators.setApi}
+          opts={{
+            align: "start",
+            slidesToScroll: 1,
+            containScroll: "trimSnaps",
+            direction: "rtl",
+          }}
+          className="w-full"
+          plugins={[Autoplay({ delay })]}
+        >
+          <CarouselContent className="py-4">
+            {data.map((item) => (
+              <CarouselItem
+                key={item.id}
+                className="basis-full md:basis-1/2 lg:basis-1/3"
+              >
+                <RealEstateGuideCard ExploreRealEstate={item} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="hidden lg:block">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
+        </Carousel>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-2">
+          {Array.from({ length: indicators.count }).map((_, i) => (
+            <button
+              key={i}
+              aria-label={`انتقل إلى العقار ${i + 1}`}
+              onClick={() => indicators.api?.scrollTo(i)}
+              className={`w-3 h-3 rounded-full ${
+                i === indicators.current ? "bg-primary" : "bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+      </>
+    )}
+  </section>
+);
 
 const ExplorePage = () => {
   const { data } = useExploreRealEstatesQuery();
 
-  const featuredRealEstesData = data?.explore?.featured || [];
-  const limitedRealEstesData = data?.explore?.limited_units || [];
-  const topSellingRealEstesData = data?.explore?.top_selling || [];
+  const featuredRealEstatesData = data?.explore?.featured || [];
+  const limitedRealEstatesData = data?.explore?.limited_units || [];
+  const topSellingRealEstatesData = data?.explore?.top_selling || [];
+
+  const featuredIndicators = useCarouselIndicators();
+  const limitedIndicators = useCarouselIndicators();
+  const topSellingIndicators = useCarouselIndicators();
 
   return (
-    <main className="Container pt-28 mb-16">
+    <main className="Container pt-24 md:pt-28 mb-16">
       <SectionTitle Title="استكشف" className="text-center mb-10" />
-      <div className="space-y-16">
-        <section className="space-y-4">
-          <div className="flex justify-between">
-            <SectionTitle Title="دليل عقار الآن" />
-            <SeeMore path="/" />
-          </div>
 
-          <Carousel
-            opts={{
-              align: "start",
-            }}
-            className="w-full"
-            dir="ltr"
-            plugins={[
-              Autoplay({
-                delay: 2400,
-              }),
-            ]}
-          >
-            <CarouselContent className="py-4">
-              {featuredRealEstesData.map((item) => (
-                <CarouselItem
-                  key={item.id}
-                  className="basis-full md:basis-1/2 lg:basis-1/3"
-                >
-                  <RealEstateGuideCard ExploreRealEstate={item} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="hidden lg:block">
-              <CarouselPrevious />
-              <CarouselNext />
-            </div>
-          </Carousel>
-        </section>
+      <div className="space-y-10">
+        <CarouselSection
+          title="دليل عقار الآن"
+          data={featuredRealEstatesData}
+          indicators={featuredIndicators}
+          delay={2400}
+        />
 
-        <section className="space-y-4">
-          <div className="flex justify-between">
-            <SectionTitle Title="الأكثر مبيعا" />
-            <SeeMore path="/" />
-          </div>
+        <CarouselSection
+          title="الأكثر مبيعا"
+          data={topSellingRealEstatesData}
+          indicators={topSellingIndicators}
+          delay={2600}
+        />
 
-          <Carousel
-            opts={{
-              align: "start",
-              slidesToScroll: 1,
-              containScroll: "trimSnaps",
-            }}
-            className="w-full"
-            dir="ltr"
-            plugins={[
-              Autoplay({
-                delay: 2600,
-              }),
-            ]}
-          >
-            <CarouselContent className="py-4">
-              {topSellingRealEstesData.map((item) => (
-                <CarouselItem
-                  key={item.id}
-                  className="basis-full md:basis-1/2 lg:basis-1/3"
-                >
-                  <RealEstateGuideCard ExploreRealEstate={item} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="hidden lg:block">
-              <CarouselPrevious />
-              <CarouselNext />
-            </div>
-          </Carousel>
-        </section>
-
-        <section className="space-y-4">
-          <div className="flex justify-between">
-            <SectionTitle Title="وحدات محدودة" />
-            <SeeMore path="/" />
-          </div>
-
-          <Carousel
-            opts={{
-              align: "start",
-              slidesToScroll: 1,
-              containScroll: "trimSnaps",
-            }}
-            className="w-full"
-            dir="ltr"
-            plugins={[
-              Autoplay({
-                delay: 2800,
-              }),
-            ]}
-          >
-            <CarouselContent className="py-4">
-              {limitedRealEstesData.map((item) => (
-                <CarouselItem
-                  key={item.id}
-                  className="basis-full md:basis-1/2 lg:basis-1/3"
-                >
-                  <RealEstateGuideCard ExploreRealEstate={item} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="hidden lg:block">
-              <CarouselPrevious />
-              <CarouselNext />
-            </div>
-          </Carousel>
-        </section>
+        <CarouselSection
+          title="وحدات محدودة"
+          data={limitedRealEstatesData}
+          indicators={limitedIndicators}
+          delay={2800}
+        />
       </div>
     </main>
   );

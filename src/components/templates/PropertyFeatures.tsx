@@ -1,6 +1,6 @@
 "use client";
 
-import { formatName } from "@/lib/utils";
+import { formatName, formatPrice } from "@/lib/utils";
 import { useGetFeaturesByTypeQuery } from "@/store/services/Features";
 import { RealEstesType } from "@/types/Real-estates";
 import {
@@ -72,10 +72,12 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
       {/* Right Column */}
 
       <div>
-        <h1 className="text-lg font-bold text-right mb-2">تفاصيل العقار</h1>
+        <h1 className="text-md md:text-lg font-bold text-right mb-2">
+          تفاصيل العقار
+        </h1>
         <div className="space-y-4 border border-gray-300 rounded-md p-4">
           {realEstate?.real_estate_type && (
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            <div className="flex items-center justify-between pb-1 md:pb-2 border-b border-gray-200">
               <div className="flex items-center gap-2">
                 <Image
                   src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM4NTgwODAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWhvdXNlLWljb24gbHVjaWRlLWhvdXNlIj48cGF0aCBkPSJNMTUgMjF2LThhMSAxIDAgMCAwLTEtMWgtNGExIDEgMCAwIDAtMSAxdjgiLz48cGF0aCBkPSJNMyAxMGEyIDIgMCAwIDEgLjcwOS0xLjUyOGw3LTUuOTk5YTIgMiAwIDAgMSAyLjU4MiAwbDcgNS45OTlBMiAyIDAgMCAxIDIxIDEwdjlhMiAyIDAgMCAxLTIgMkg1YTIgMiAwIDAgMS0yLTJ6Ii8+PC9zdmc+"
@@ -83,16 +85,18 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">نوع العقار</span>
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
+                  نوع العقار
+                </span>
               </div>
-              <span className="text-gray-800">
+              <span className="text-sm md:text-[16px] text-gray-800">
                 {formatName(realEstate?.real_estate_type || "")}
               </span>
             </div>
           )}
 
           {realEstate?.main_area && (
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            <div className="flex items-center justify-between pb-1 md:pb-2 border-b border-gray-200">
               <div className="flex items-center gap-2">
                 <Image
                   src="/Icons/Area.svg"
@@ -100,18 +104,18 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
                   المساحة الكلية
                 </span>
               </div>
-              <span className="text-gray-800">
-                {realEstate?.main_area || 0} قدم²
+              <span className="text-sm md:text-[16px] text-gray-800">
+                {formatPrice(+realEstate?.main_area) || 0} قدم²
               </span>
             </div>
           )}
 
           {realEstate?.rooms && (
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            <div className="flex items-center justify-between pb-1 md:pb-2 border-b border-gray-200">
               <div className="flex items-center gap-2">
                 <Image
                   src="/Icons/double-bed 1.svg"
@@ -119,16 +123,18 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">غرف النوم</span>
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
+                  غرف النوم
+                </span>
               </div>
-              <span className="text-gray-800">
+              <span className="text-sm md:text-[16px] text-gray-800">
                 {realEstate?.rooms ? realEstate.rooms : "غير متوفر"}
               </span>
             </div>
           )}
 
           {realEstate?.salons && (
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            <div className="flex items-center justify-between pb-1 md:pb-2 border-b border-gray-200">
               <div className="flex items-center gap-2">
                 <Image
                   src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM4NTgwODAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXNvZmEtaWNvbiBsdWNpZGUtc29mYSI+PHBhdGggZD0iTTIwIDlWNmEyIDIgMCAwIDAtMi0ySDZhMiAyIDAgMCAwLTIgMnYzIi8+PHBhdGggZD0iTTIgMTZhMiAyIDAgMCAwIDIgMmgxNmEyIDIgMCAwIDAgMi0ydi01YTIgMiAwIDAgMC00IDB2MS41YS41LjUgMCAwIDEtLjUuNWgtMTFhLjUuNSAwIDAgMS0uNS0uNVYxMWEyIDIgMCAwIDAtNCAweiIvPjxwYXRoIGQ9Ik00IDE4djIiLz48cGF0aCBkPSJNMjAgMTh2MiIvPjxwYXRoIGQ9Ik0xMiA0djkiLz48L3N2Zz4="
@@ -136,16 +142,18 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">غرف المعيشة</span>
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
+                  غرف المعيشة
+                </span>
               </div>
-              <span className="text-gray-800">
+              <span className="text-sm md:text-[16px] text-gray-800">
                 {realEstate?.salons ? realEstate.salons : "غير متوفر"}
               </span>
             </div>
           )}
 
           {realEstate?.bathrooms && (
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            <div className="flex items-center justify-between pb-1 md:pb-2 border-b border-gray-200">
               <div className="flex items-center gap-2">
                 <Image
                   src="/Icons/bath-tub 1.svg"
@@ -153,16 +161,18 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">دورات المياه</span>
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
+                  دورات المياه
+                </span>
               </div>
-              <span className="text-gray-800">
+              <span className="text-sm md:text-[16px] text-gray-800">
                 {realEstate?.bathrooms ? realEstate.bathrooms : "غير متوفر"}
               </span>
             </div>
           )}
 
           {realEstate?.number_of_floors && (
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            <div className="flex items-center justify-between pb-1 md:pb-2 border-b border-gray-200">
               <div className="flex items-center gap-2">
                 <Image
                   src="/Icons/stairs 1.svg"
@@ -170,9 +180,11 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">عدد الطوابق</span>
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
+                  عدد الطوابق
+                </span>
               </div>
-              <span className="text-gray-800">
+              <span className="text-sm md:text-[16px] text-gray-800">
                 {realEstate?.number_of_floors
                   ? realEstate.number_of_floors
                   : "غير متوفر"}
@@ -181,7 +193,7 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
           )}
 
           {realEstate?.number_of_elevators && (
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+            <div className="flex items-center justify-between pb-1 md:pb-2 border-b border-gray-200">
               <div className="flex items-center gap-2">
                 <Image
                   src="/Icons/elevator 1.svg"
@@ -189,9 +201,11 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">عدد المصاعد</span>
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
+                  عدد المصاعد
+                </span>
               </div>
-              <span className="text-gray-800">
+              <span className="text-sm md:text-[16px] text-gray-800">
                 {realEstate?.number_of_elevators
                   ? realEstate.number_of_elevators
                   : "غير متوفر"}
@@ -208,9 +222,11 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   width={20}
                   height={20}
                 />
-                <span className="text-[#7A7474] font-normal">سنة البناء</span>
+                <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
+                  سنة البناء
+                </span>
               </div>
-              <span className="text-gray-800">
+              <span className="text-sm md:text-[16px] text-gray-800">
                 {realEstate?.age && realEstate.age !== "0"
                   ? realEstate.age
                   : "غير متوفر"}
@@ -222,7 +238,9 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
 
       {/* Left Column */}
       <div>
-        <h1 className="text-lg font-bold text-right mb-2">مميزات العقار</h1>
+        <h1 className="text-md md:text-lg font-bold text-right mb-2">
+          مميزات العقار
+        </h1>
         {FeaturesList && FeaturesList.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 border border-gray-300 rounded-md p-4">
             {FeaturesList.map((feature) => {
@@ -231,9 +249,9 @@ const PropertyFeatures = ({ realEstate, className }: PropertyFeaturesProps) => {
                   key={feature.id}
                   className="border-b pb-2 border-gray-200 last:border-b-0 last:pb-0"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-sm md:text-[16px]">
                     {FeatureIcon(feature.name)}
-                    <span className="text-[#7A7474] font-normal">
+                    <span className="text-sm md:text-[16px] text-[#7A7474] font-normal">
                       {feature.name}
                     </span>
                   </div>

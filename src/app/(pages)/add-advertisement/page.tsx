@@ -1,5 +1,6 @@
 "use client";
 
+import AddAppointmentsForm from "@/components/organisms/forms/addAd/AddAppointmentsForm";
 import SectionTitle from "../../../components/atoms/title/SectionTitle";
 import AddAdCompanyForm from "../../../components/organisms/forms/addAd/AddAdCompanyForm";
 import AddAdMultipleAngelsForm from "../../../components/organisms/forms/addAd/AddAdMultipleAngelsForm";
@@ -13,15 +14,19 @@ import {
 } from "../../../components/ui/tabs";
 import { Building2, UserRound, UsersRound } from "lucide-react";
 import React, { useState } from "react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 
 export type stepType = "stepOne" | "stepTwo";
 
 const OwnerAdPage = () => {
   const [step, setStep] = useState<stepType>("stepOne");
+  const [realEstateId, setRealEstateId] = useState<number>(0);
+  const [OpenAppointmentsDialog, setOpenAppointmentsDialog] = useState(false);
 
   return (
-    <main className="Container pt-28 mb-16">
-      <div className="space-y-16">
+    <main className="Container pt-24 md:pt-28 mb-16">
+      <div className="space-y-4 md:space-y-10">
         <SectionTitle Title="إضافة إعلان" className="text-center" />
         <Tabs defaultValue="person" className="w-full">
           <TabsList
@@ -56,7 +61,13 @@ const OwnerAdPage = () => {
               {step === "stepOne" ? (
                 <AddAdPersonForm setStep={setStep} />
               ) : (
-                <AddAdOrRequestForm type="ad" title={false} isPage />
+                <AddAdOrRequestForm
+                  type="ad"
+                  title={false}
+                  isPage
+                  setRealEstateId={setRealEstateId}
+                  setOpenAppointmentsDialog={setOpenAppointmentsDialog}
+                />
               )}
             </div>
           </TabsContent>
@@ -65,7 +76,13 @@ const OwnerAdPage = () => {
               {step === "stepOne" ? (
                 <AddAdCompanyForm setStep={setStep} />
               ) : (
-                <AddAdOrRequestForm type="ad" title={false} isPage />
+                <AddAdOrRequestForm
+                  type="ad"
+                  title={false}
+                  isPage
+                  setRealEstateId={setRealEstateId}
+                  setOpenAppointmentsDialog={setOpenAppointmentsDialog}
+                />
               )}
             </div>
           </TabsContent>
@@ -74,12 +91,36 @@ const OwnerAdPage = () => {
               {step === "stepOne" ? (
                 <AddAdMultipleAngelsForm setStep={setStep} />
               ) : (
-                <AddAdOrRequestForm type="ad" title={false} isPage />
+                <AddAdOrRequestForm
+                  type="ad"
+                  title={false}
+                  isPage
+                  setRealEstateId={setRealEstateId}
+                  setOpenAppointmentsDialog={setOpenAppointmentsDialog}
+                />
               )}
             </div>
           </TabsContent>
         </Tabs>
       </div>
+
+      {OpenAppointmentsDialog && (
+        <Dialog
+          open={OpenAppointmentsDialog}
+          onOpenChange={setOpenAppointmentsDialog}
+        >
+          <DialogContent className="h-[80vh] overflow-x-hidden">
+            <AlertDialogHeader>
+              <DialogTitle></DialogTitle>
+            </AlertDialogHeader>
+            <AddAppointmentsForm
+              setStep={setStep}
+              setOpenAppointmentsDialog={setOpenAppointmentsDialog}
+              realEstateId={realEstateId}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </main>
   );
 };

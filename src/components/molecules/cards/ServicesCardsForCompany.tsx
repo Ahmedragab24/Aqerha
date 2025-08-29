@@ -9,14 +9,10 @@ import {
   DialogTrigger,
 } from "../../ui/dialog";
 import CallUserBtns from "../btnsGroup/CallUserBtns";
+import { ProfileType } from "@/types/Real-estates";
 interface Props {
   Services: string[];
-  callData: {
-    phone: string;
-    whatsapp: string;
-    email: string;
-    userId: number;
-  };
+  userData: ProfileType | undefined;
 }
 
 const serviceImages: { keyword: string[]; image: string }[] = [
@@ -53,7 +49,7 @@ const getServiceImage = (service: string): string => {
   return match ? match.image : "/Icons/bx_brush.svg";
 };
 
-const ServicesCardsForCompany = ({ Services, callData }: Props) => {
+const ServicesCardsForCompany = ({ Services, userData }: Props) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <Dialog>
@@ -79,13 +75,7 @@ const ServicesCardsForCompany = ({ Services, callData }: Props) => {
           <DialogHeader>
             <DialogTitle className="text-center">تواصل مع الشركة</DialogTitle>
             <DialogDescription></DialogDescription>
-            <CallUserBtns
-              isText
-              phone={callData?.phone}
-              whatsapp={callData?.whatsapp}
-              email={callData?.email}
-              userId={callData?.userId}
-            />
+            <CallUserBtns isText userData={userData} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

@@ -38,7 +38,8 @@ interface SendCodeResponse {
 
 interface VerifyOtpResponse {
   data: {
-    otp: number;
+    user: UserData;
+    token: string;
   };
   message: string;
   status_code: number;

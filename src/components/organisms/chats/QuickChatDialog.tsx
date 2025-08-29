@@ -16,16 +16,20 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageType } from "@/types/chat";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { ProfileType } from "@/types/Real-estates";
+import { AuctionOwner } from "@/types/Actions";
 
 interface QuickChatDialogProps {
   isText: boolean;
-  userId: number;
-  productId: number;
+  userData?: ProfileType | undefined;
+  ownerData?: AuctionOwner | undefined;
+  productId?: number | null;
 }
 
 const QuickChatDialog = ({
   isText,
-  userId,
+  userData,
+  ownerData,
   productId,
 }: QuickChatDialogProps) => {
   const [chatId, setChatId] = useState<number | null>(null);
@@ -37,12 +41,14 @@ const QuickChatDialog = ({
     refetch,
     isLoading,
     error,
-  } = useGetChatByIdQuery(chatId ? { chatId, userId } : skipToken);
+  } = useGetChatByIdQuery(
+    chatId ? { chatId, userId: userData?.user_id } : skipToken
+  );
 
   const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
 
   const currentMessages = chatData?.messages?.data || [];
-  const selectedPersonData = chatData?.messages?.data;
+  const selectedPersonData = userData || ownerData;
 
   /** إرسال الرسائل */
   const handleSendMessage = async (
@@ -55,17 +61,20 @@ const QuickChatDialog = ({
         if (!messageText.trim()) return;
 
         const res = await sendMessage({
-          user_id: userId,
+          user_id: userData?.user_id || ownerData?.id || 0,
           chat_id: chatId ? chatId : undefined,
           message: messageText,
           type,
-          product_id: productId,
+          product_id: productId ? productId : null,
         }).unwrap();
         setChatId(res?.messages?.chat_id);
       } else if (type === "file" || type === "image") {
         if (!payload) return;
         const formData = new FormData();
-        formData.append("user_id", String(userId));
+        formData.append(
+          "user_id",
+          String(userData?.user_id || ownerData?.id || 0)
+        );
         if (chatId) formData.append("chat_id", String(chatId));
         if (productId) formData.append("product_id", String(productId));
         formData.append("type", type);
@@ -76,11 +85,11 @@ const QuickChatDialog = ({
         const locationPayload =
           typeof payload === "string" ? payload : JSON.stringify(payload);
         await sendMessage({
-          user_id: userId,
+          user_id: userData?.user_id || ownerData?.id || 0,
           chat_id: chatId ? chatId : undefined,
           message: locationPayload,
           type,
-          product_id: productId,
+          product_id: productId ? productId : null,
         }).unwrap();
       }
 

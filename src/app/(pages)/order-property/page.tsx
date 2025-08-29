@@ -28,11 +28,11 @@ const OrderPropertyPage = () => {
         <SectionTitle Title="أطلب عقارك" className="text-center" />
 
         {marketingRealEstates.length > 0 && (
-          <div className="absolute w-full top-28 right-4">
+          <div className="absolute top-28 right-4 md:right-8">
             <AddOrderDialog>
-              <Button className="w-fit !h-11 flex items-center gap-2">
+              <Button className="w-10 h-10 md:w-fit md:h-11 flex items-center gap-2 rounded-full md:rounded-md">
                 <Plus className="w-5 h-5" />
-                إضافة طلب جديد
+                <h5 className="hidden md:block">إضافة طلب جديد</h5>
               </Button>
             </AddOrderDialog>
           </div>

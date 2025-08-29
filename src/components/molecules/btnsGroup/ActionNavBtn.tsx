@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Tooltip,
@@ -13,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
 import Notifications from "@/components/organisms/notifications/Notifications";
 import ConversationBtn from "@/components/atoms/buttons/ConversationBtn";
+import { useEffect, useState } from "react";
 
 interface Props {
   isScrolled: boolean;
@@ -22,63 +25,57 @@ interface Props {
 
 const ActionNavBtn = ({ isScrolled, navbarBg, userType }: Props) => {
   const token = getAuthTokenClient();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <div className="flex items-center gap-2 md:gap-6">
       {token &&
         (userType === "auction_companies" ||
           userType === "real_estate_developer" ||
-          userType === "agent") && (
-          <Tooltip>
-            <TooltipTrigger>
-              <UserAdditionsBtn isScrolled={isScrolled} navbarBg={navbarBg} />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>إضافة جديدة</p>
-            </TooltipContent>
-          </Tooltip>
+          userType === "agent" ||
+          userType === "contracting_company") && (
+          <UserAdditionsBtn isScrolled={isScrolled} navbarBg={navbarBg} />
         )}
 
       {token &&
         (userType === "evaluator" ||
           userType === "inspector" ||
           userType === "company_agent") && (
-          <Tooltip>
-            <TooltipTrigger>
-              <UserOrdersBtn
-                userType={userType}
-                isScrolled={isScrolled}
-                navbarBg={navbarBg}
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>الطلبات</p>
-            </TooltipContent>
-          </Tooltip>
+          <UserOrdersBtn
+            userType={userType}
+            isScrolled={isScrolled}
+            navbarBg={navbarBg}
+          />
         )}
 
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           {token ? (
-            <Button variant={"noneBg"} className="relative !p-0 !m-0">
+            <Button variant={"noneBg"} className="relative !p-0 !m-0" asChild>
               <Link href={"/favorites"}>
                 <Heart
                   className={`fill-primary text-primary !w-6 !h-6 ${
                     isScrolled || navbarBg
                       ? "text-foreground fill-primary"
-                      : "text-primary-light fill-primary-light"
+                      : "!text-primary !fill-primary"
                   }`}
                 />
               </Link>
             </Button>
           ) : (
             <RegisterDialog>
-              <Button variant={"noneBg"} className="relative !p-0 !m-0">
+              <Button variant={"noneBg"} className="relative !p-0 !m-0" asChild>
                 <Heart
                   className={`fill-primary text-primary !w-6 !h-6 ${
                     isScrolled || navbarBg
                       ? "text-foreground fill-primary"
-                      : "text-primary-light fill-primary-light"
+                      : "!text-primary !fill-primary"
                   }`}
                 />
               </Button>
@@ -90,23 +87,9 @@ const ActionNavBtn = ({ isScrolled, navbarBg, userType }: Props) => {
         </TooltipContent>
       </Tooltip>
 
-      <Tooltip>
-        <TooltipTrigger>
-          <Notifications isScrolled={isScrolled} navbarBg={navbarBg} />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>الإشعارات</p>
-        </TooltipContent>
-      </Tooltip>
+      <Notifications isScrolled={isScrolled} navbarBg={navbarBg} />
 
-      <Tooltip>
-        <TooltipTrigger>
-          <ConversationBtn isScrolled={isScrolled} navbarBg={navbarBg} />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>المحادثات</p>
-        </TooltipContent>
-      </Tooltip>
+      <ConversationBtn isScrolled={isScrolled} navbarBg={navbarBg} />
     </div>
   );
 };

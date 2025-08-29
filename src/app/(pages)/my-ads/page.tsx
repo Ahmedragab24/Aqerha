@@ -29,7 +29,7 @@ const MyAdsPage = () => {
 
   if (isError) {
     return (
-      <main className="Container pt-28 mb-16">
+      <main className="Container pt-24 md:pt-28 mb-16">
         <DataNotFount
           title="حدث خطأ ما"
           description="يرجى تحديث الصفحة"
@@ -40,8 +40,8 @@ const MyAdsPage = () => {
   }
 
   return (
-    <main className="Container pt-28 mb-16">
-      <div className="space-y-10">
+    <main className="Container pt-24 md:pt-28 mb-16">
+      <div className="space-y-4 md:space-y-10">
         <SectionTitle Title="إعلاناتي" className="text-center" />
 
         <Tabs defaultValue="my-ads" className="w-full" dir="rtl">
@@ -63,9 +63,11 @@ const MyAdsPage = () => {
           {/* إعلاناتي */}
           <TabsContent value="my-ads">
             {isLoading ? (
-              <GroupCardsSkeletons count={4} />
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <GroupCardsSkeletons count={4} />
+              </div>
             ) : RealEstate.length > 0 ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 {RealEstate.map((item) => (
                   <RealEstateCard key={item.id} product={item} />
                 ))}

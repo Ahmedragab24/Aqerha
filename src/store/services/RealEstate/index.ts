@@ -1,5 +1,8 @@
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
-import { StoreAppointmentType } from "@/types/appointments";
+import {
+  StoreAppointmentType,
+  StoreUserBookAppointmentType,
+} from "@/types/appointments";
 import {
   AdRealEstesType,
   ExploreRealEstateType,
@@ -17,10 +20,16 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const token = getAuthTokenClient();
 
-interface RealEstatesResponse {
+export interface RealEstatesResponse {
   data: RealEstesType[];
   links: LinksType;
   meta: MetaType;
+  message: MessageType;
+  status_code: StatusCodeType;
+}
+
+export interface StoreRealEstatesResponse {
+  data: RealEstesType;
   message: MessageType;
   status_code: StatusCodeType;
 }
@@ -204,7 +213,10 @@ export const RealEstateApi = createApi({
       }),
     }),
 
-    StoreRealEstate: builder.mutation<RealEstatesResponse, StoreRealEstesType>({
+    StoreRealEstate: builder.mutation<
+      StoreRealEstatesResponse,
+      StoreRealEstesType
+    >({
       query: (body) => ({
         url: `/real-estate`,
         method: "POST",
@@ -256,6 +268,20 @@ export const RealEstateApi = createApi({
       }),
     }),
 
+    StoreUserBookAppointment: builder.mutation<
+      AppointmentsResponse,
+      StoreUserBookAppointmentType
+    >({
+      query: (body) => ({
+        url: `/book-appointment`,
+        method: "POST",
+        body,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
     UpdateRealEstate: builder.mutation<
       RealEstatesResponse,
       { body: StoreRealEstesType; realEstateId: number }
@@ -298,6 +324,7 @@ export const {
   useStoreImagesRealEstateMutation,
   useStoreAdRealEstateMutation,
   useStoreAppointmentRealEstateMutation,
+  useStoreUserBookAppointmentMutation,
   useUpdateRealEstateMutation,
   useDeleteRealEstateMutation,
   useGetAdRealEstateByIdQuery,

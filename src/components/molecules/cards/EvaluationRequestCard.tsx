@@ -13,14 +13,14 @@ interface Props {
 }
 
 const steps = [
-  { key: "جاري الفحص", label: "جاري الفحص" },
-  { key: "التواصل مع الفاحص", label: "التواصل مع الفاحص" },
+  { key: "جاري الفحص", label: "جاري التقييم" },
+  { key: "التواصل مع الفحص", label: "التواصل مع المقيم" },
   { key: "التقرير جاهز", label: "التقرير جاهز" },
 ];
 
 const EvaluationRequestCard = ({ EvaluationRequest }: Props) => {
   const currentStepIndex = steps.findIndex(
-    (s) => s.label === EvaluationRequest.evaluation_status
+    (s) => s.key === EvaluationRequest.evaluation_status
   );
 
   const progressPercentage =
@@ -107,8 +107,7 @@ const EvaluationRequestCard = ({ EvaluationRequest }: Props) => {
 
           {EvaluationRequest.evaluation_status === "التواصل مع الفاحص" && (
             <ContactBtnsDialog
-              phone={EvaluationRequest.phone}
-              whatsapp={EvaluationRequest.phone}
+              userData={EvaluationRequest?.user?.profile || undefined}
             >
               <Button
                 variant={"link"}

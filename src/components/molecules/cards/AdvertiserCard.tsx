@@ -64,9 +64,7 @@ const AdvertiserCard = ({ data, productId }: AdvertiserCardProps) => {
       <div className="flex justify-between items-center gap-2">
         <CallUserBtns
           isText
-          phone={profile?.phone || ""}
-          whatsapp={profile?.whatsapp || ""}
-          userId={id || 0}
+          userData={profile || undefined}
           productId={productId || 0}
         />
 

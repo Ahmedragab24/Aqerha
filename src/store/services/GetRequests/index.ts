@@ -4,7 +4,7 @@ import { MessageType, StatusCodeType } from "@/types/Response";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface ExaminationsResponse {
-  examination_requests: ExaminationType[];
+  data: ExaminationType[];
   message: MessageType;
   status_code: StatusCodeType;
 }

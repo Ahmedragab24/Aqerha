@@ -15,12 +15,13 @@ import { CitiesTabItems } from "@/constants/cities";
 import DevelopersCard from "@/components/molecules/cards/DevelopersCard";
 import DataNotFount from "@/components/Error&NotFound/DataNotFount";
 import PaginationList from "@/components/organisms/paginations/PaginationList";
+import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
 
 const DevelopersPage = () => {
   const [city, setCity] = useState<string>("");
   const { page } = useAppSelector((state) => state.page);
 
-  const { data } = useGetAllDevelopersQuery({
+  const { data, isLoading } = useGetAllDevelopersQuery({
     city: city,
     page: page,
   });
@@ -85,9 +86,25 @@ const DevelopersPage = () => {
             value={item.value}
             className="mt-0 focus-visible:outline-none"
           >
-            {DevelopersData?.data && DevelopersData?.data.length > 0 ? (
+            {isLoading && (
               <div
-                className="
+                className="grid 
+                       grid-cols-2 
+                       lg:grid-cols-3 
+                       xl:grid-cols-4 
+                       2xl:grid-cols-5
+                       gap-3 sm:gap-4 md:gap-5 lg:gap-6
+                       mb-8 sm:mb-10 md:mb-12"
+              >
+                <GroupCardsSkeletons count={5} />
+              </div>
+            )}
+
+            {!isLoading &&
+              DevelopersData?.data &&
+              DevelopersData?.data.length > 0 && (
+                <div
+                  className="
                        grid 
                        grid-cols-2 
                        lg:grid-cols-3 
@@ -96,16 +113,18 @@ const DevelopersPage = () => {
                        gap-3 sm:gap-4 md:gap-5 lg:gap-6
                        mb-8 sm:mb-10 md:mb-12
                      "
-              >
-                {DevelopersData.data.map((developer) => (
-                  <DevelopersCard
-                    key={developer.id}
-                    Developer={developer}
-                    path={`/developers/${developer.id}`}
-                  />
-                ))}
-              </div>
-            ) : (
+                >
+                  {DevelopersData.data.map((developer) => (
+                    <DevelopersCard
+                      key={developer.id}
+                      Developer={developer}
+                      path={`/developers/${developer.id}`}
+                    />
+                  ))}
+                </div>
+              )}
+
+            {!isLoading && DevelopersData?.data.length === 0 && (
               <DataNotFount
                 title="لا يوجد مطورون"
                 description={

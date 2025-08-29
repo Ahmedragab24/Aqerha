@@ -26,7 +26,7 @@ const NavSmallScreen = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
       <div className="flex items-center justify-between gap-6">
         <Logo isScrolled={isScrolled} navbarBg={navbarBg} />
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-6">
           <NavMenuMobile
             isScrolled={isScrolled}
             navbarBg={navbarBg}

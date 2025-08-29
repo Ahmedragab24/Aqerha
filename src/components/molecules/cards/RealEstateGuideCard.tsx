@@ -4,9 +4,8 @@ import Image from "next/image";
 import GradientOverlay from "../../atoms/sliders/GradientOverlay";
 import Riyal from "../../atoms/Icons/Riyal";
 import FavoriteBtn from "../../atoms/buttons/FavoriteBtn";
-import ShareBtn from "../../atoms/buttons/ShareBtn";
 import { ExploreRealEstateType } from "@/types/Real-estates";
-import { formatName, formatPurpose } from "@/lib/utils";
+import { formatName, formatPrice, formatPurpose } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 interface Props {
@@ -49,7 +48,6 @@ const RealEstateGuideCard = ({ ExploreRealEstate }: Props) => {
         {/* Overlay Icons */}
         <div className="absolute top-4 left-4 flex gap-2">
           <FavoriteBtn type="card" RealStateId={id} />
-          <ShareBtn />
         </div>
 
         {/* Overlay Popular */}
@@ -78,9 +76,8 @@ const RealEstateGuideCard = ({ ExploreRealEstate }: Props) => {
           </h3>
 
           <div className="flex items-center md:text:lg font-semibold text-primary">
-            <h4>{price}</h4>
+            <h4>{formatPrice(+price)} </h4>
             <Riyal className="!w-5 !h-5" />
-            <h4>/الشهر</h4>
           </div>
         </div>
 
@@ -102,7 +99,9 @@ const RealEstateGuideCard = ({ ExploreRealEstate }: Props) => {
               width={20}
               height={20}
             />
-            <span className="text-sm text-gray-500">{area} م²</span>
+            <span className="text-sm text-gray-500">
+              {formatPrice(+area)} م²
+            </span>
           </div>
 
           {/* Bathrooms */}

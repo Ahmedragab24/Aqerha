@@ -85,8 +85,7 @@ const CompanyDetailsPage = () => {
 
           <CallUserBtns
             isText={true}
-            phone={CompanyData?.profile?.phone}
-            whatsapp={CompanyData?.profile?.whatsapp}
+            userData={CompanyData?.profile || undefined}
           />
         </div>
 
@@ -95,12 +94,7 @@ const CompanyDetailsPage = () => {
 
           <ServicesCardsForCompany
             Services={CompanyData?.profile?.services || []}
-            callData={{
-              phone: CompanyData?.profile?.phone,
-              whatsapp: CompanyData?.profile?.whatsapp,
-              email: CompanyData?.email,
-              userId: CompanyData?.id,
-            }}
+            userData={CompanyData?.profile || undefined}
           />
         </div>
 

@@ -35,7 +35,7 @@ const CampaignDetailsPage = async ({
             <GradientOverlay position="top" />
             <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex gap-2">
               <FavoriteBtn RealStateId={1} type="page" />
-              <ShareBtn />
+              <ShareBtn type="page" />
             </div>
           </div>
 

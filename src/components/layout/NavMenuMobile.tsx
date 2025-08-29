@@ -12,9 +12,8 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import Image from "next/image";
-import { Menu } from "lucide-react";
+import { LayoutGrid } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ActionNavBtn from "../molecules/btnsGroup/ActionNavBtn";
 import { MembershipType, ServicesProvidersType } from "@/types/Membership";
 import SocialMediaIcons from "../molecules/iconsGroup/SoicalMediaIcons";
 
@@ -26,23 +25,19 @@ interface Props {
   userType: MembershipType | ServicesProvidersType;
 }
 
-const NavMenuMobile = ({
-  open,
-  setOpen,
-  isScrolled,
-  navbarBg,
-  userType,
-}: Props) => {
+const NavMenuMobile = ({ open, setOpen, isScrolled, navbarBg }: Props) => {
   const router = useRouter();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Menu
+        <LayoutGrid
           className={`${
             open ? "text-primary-light" : "text-primary"
           } cursor-pointer hover:text-primary-light transition-colors duration-300 ${
-            isScrolled || navbarBg ? "text-foreground" : "text-primary-light"
+            isScrolled || navbarBg
+              ? "text-foreground fill-primary"
+              : "!text-primary !fill-primary"
           }`}
         />
       </SheetTrigger>
@@ -74,15 +69,6 @@ const NavMenuMobile = ({
               isScrolled={isScrolled}
               navbarBg={navbarBg}
               setOpen={setOpen}
-            />
-          </div>
-
-          {/* ACTION BUTTONS (Login/Register/Post Ad) */}
-          <div className="flex justify-center">
-            <ActionNavBtn
-              isScrolled={isScrolled}
-              navbarBg={navbarBg}
-              userType={userType}
             />
           </div>
 
@@ -119,6 +105,7 @@ const NavMenuMobile = ({
               <a
                 href="https://apps.apple.com/eg/app/%D8%B9%D9%82%D8%B1%D9%87%D8%A7-aqrha/id6743926325?l=ar"
                 target="_blank"
+                rel="noopener"
                 dir="rtl"
               >
                 حمل التطبيق

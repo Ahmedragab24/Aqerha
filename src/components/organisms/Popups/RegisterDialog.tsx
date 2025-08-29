@@ -48,12 +48,14 @@ const RegisterDialog = ({ children }: Props) => {
 
         <div>
           {type === "login" && (
-            <LoginForm setType={setType} setOpen={setOpen} />
+            <LoginForm setType={setType} setPhone={setPhone} />
           )}
           {type === "register" && (
             <RegisterForm setType={setType} setPhone={setPhone} />
           )}
-          {type === "Otp" && <OtpForm setType={setType} phone={phone} />}
+          {type === "Otp" && (
+            <OtpForm setType={setType} phone={phone} setOpen={setOpen} />
+          )}
           {type === "ChangPhone" && (
             <ChangePhoneForm setType={setType} setPhone={setPhone} />
           )}

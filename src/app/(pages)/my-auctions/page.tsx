@@ -15,7 +15,7 @@ const MyAuctionsPage = () => {
 
   if (isError) {
     return (
-      <main className="Container pt-28 mb-16">
+      <main className="Container pt-24 md:pt-28 mb-16">
         <DataNotFount
           title="حدث خطأ ما"
           description="يرجى تحديث الصفحة"
@@ -26,8 +26,8 @@ const MyAuctionsPage = () => {
   }
 
   return (
-    <main className="Container pt-28 mb-16">
-      <div className="space-y-10">
+    <main className="Container pt-24 md:pt-28 mb-16">
+      <div className="space-y-4 md:space-y-10">
         <SectionTitle Title="مزاداتي" className="text-center" />
 
         {isLoading ? (

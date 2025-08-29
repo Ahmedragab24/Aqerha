@@ -6,26 +6,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
 import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
+import { ProfileType } from "@/types/Real-estates";
+import { AuctionOwner } from "@/types/Actions";
 
 interface CallUserBtnsProps {
-  phone?: string;
-  whatsapp?: string;
-  email?: string;
+  userData?: ProfileType | undefined;
+  ownerData?: AuctionOwner | undefined;
+  productId?: number;
   isText: boolean;
   className?: string;
   classNameBtns?: string;
-  userId?: number;
-  productId?: number;
 }
 
 const CallUserBtns = ({
   isText,
-  phone,
-  whatsapp,
+  productId,
+  userData,
+  ownerData,
   className,
   classNameBtns,
-  userId,
-  productId,
 }: CallUserBtnsProps) => {
   const token = getAuthTokenClient();
 
@@ -33,9 +32,12 @@ const CallUserBtns = ({
     <div className={`flex flex-row items-center gap-2 md:gap-4 ${className}`}>
       <Button
         variant={"secondary"}
-        className={`md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
+        className={`px-3 md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
       >
-        <Link href={`tel:${phone}`} className="flex items-center gap-2">
+        <Link
+          href={`tel:${userData?.phone}`}
+          className="flex items-center gap-2"
+        >
           <Image
             src="/Icons/mingcute_phone-line.svg"
             alt="Real Estate"
@@ -49,10 +51,10 @@ const CallUserBtns = ({
 
       <Button
         variant={"secondary"}
-        className={`md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
+        className={`px-3 md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
       >
         <Link
-          href={`https://wa.me/${whatsapp}`}
+          href={`https://wa.me/${userData?.whatsapp || userData?.phone}`}
           className="flex items-center gap-2"
         >
           <Image
@@ -69,19 +71,20 @@ const CallUserBtns = ({
       {token ? (
         <Button
           variant={"secondary"}
-          className={`md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
+          className={`px-3 md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
         >
           <QuickChatDialog
             isText={isText}
-            userId={userId!}
-            productId={productId!}
+            userData={userData || undefined}
+            ownerData={ownerData || undefined}
+            productId={productId || null}
           />
         </Button>
       ) : (
         <RegisterDialog>
           <Button
             variant={"secondary"}
-            className={`md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
+            className={`px-3 md:!p-6 border-none hover:bg-secondary/80 shadow-md ${classNameBtns}`}
           >
             <div className="flex items-center gap-2 cursor-pointer">
               <Image

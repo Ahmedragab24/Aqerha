@@ -21,7 +21,7 @@ const PropertyDetailsBtnsGroup = ({ RealStateId, count }: Props) => {
     <div className="flex items-center gap-1 md:gap-4">
       <Tooltip>
         <TooltipTrigger>
-          <ShareButton />
+          <ShareButton type="page" />
         </TooltipTrigger>
         <TooltipContent>مشاركة العقار</TooltipContent>
       </Tooltip>

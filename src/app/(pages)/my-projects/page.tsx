@@ -18,7 +18,7 @@ const MyProjectsPage = () => {
 
   if (isError) {
     return (
-      <main className="Container pt-28 mb-16">
+      <main className="Container pt-24 md:pt-28 mb-16">
         <DataNotFount
           title="حدث خطأ ما"
           description="يرجى تحديث الصفحة"
@@ -29,16 +29,16 @@ const MyProjectsPage = () => {
   }
 
   return (
-    <main className="Container pt-28 mb-16">
-      <div className="space-y-10">
+    <main className="Container pt-24 md:pt-28 mb-16">
+      <div className="space-y-4 md:space-y-10">
         <SectionTitle Title="مشاريعي" className="text-center" />
 
         {isLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             <GroupCardsSkeletons count={3} />
           </div>
         ) : ProjectsList.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {ProjectsList.map((item) => (
               <ProjectCard key={item.id} project={item} />
             ))}

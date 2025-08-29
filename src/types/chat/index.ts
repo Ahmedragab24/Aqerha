@@ -87,5 +87,5 @@ export interface SendMessageType {
   chat_id?: number;
   message: string | File;
   type: MessageType;
-  product_id?: number;
+  product_id?: number | null;
 }

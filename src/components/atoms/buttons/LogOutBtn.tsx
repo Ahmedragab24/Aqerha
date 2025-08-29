@@ -56,9 +56,9 @@ const LogOutBtn = ({ setIsOpen }: Props) => {
         <Button
           variant="outline"
           size="sm"
-          className="flex-1 !text-[10px] md:text-sm text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent"
+          className="flex-1 py-1 text-xs md:text-sm rounded-sm text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent font-normal"
         >
-          <LogOutIcon className="!h-2.5 !w-2.5 md:!h-3 md:!w-3" />
+          <LogOutIcon className="h-2.5 w-2.5 md:h-4 md:w-4" />
           تسجيل الخروج
         </Button>
       </AlertDialogTrigger>

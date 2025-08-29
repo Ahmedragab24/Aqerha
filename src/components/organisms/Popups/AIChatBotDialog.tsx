@@ -199,7 +199,7 @@ const EnhancedAIChatbot = ({ children }: Props) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
-        className="max-w-2xl mx-auto flex flex-col h-[85vh] p-0 overflow-hidden"
+        className="md:max-w-lg mx-auto flex flex-col h-[85vh] p-0 overflow-hidden"
         dir="rtl"
       >
         {/* Header */}

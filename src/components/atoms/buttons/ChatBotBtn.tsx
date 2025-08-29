@@ -12,13 +12,12 @@ const ChatBotBtn = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full blur-lg opacity-30 animate-pulse group-hover:opacity-50 transition-opacity duration-300"></div>
 
           {/* Main button with floating animation */}
-          <div className="relative bg-white shadow-lg rounded-full p-3 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:scale-110 animate-float border-2 border-emerald-100 hover:border-emerald-300">
+          <div className="relative bg-white/20 shadow-lg rounded-full p-3 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:scale-110 animate-float border-2 border-primary-light hover:border-emerald-300">
             {/* Icon with breathing animation */}
             <div className="animate-breathe">
               <BotMessageSquare
-                color="#16c588"
-                strokeWidth={1.5}
-                className="transition-transform duration-300 group-hover:rotate-12 md:w-14 md:h-14"
+                // strokeWidth={1.5}
+                className="transition-transform text-primary-dark duration-300 group-hover:rotate-12 md:w-14 md:h-14"
               />
             </div>
 

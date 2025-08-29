@@ -7,6 +7,7 @@ import Image from "next/image";
 import ContactBtnsDialog from "../../organisms/Popups/ContactBtnsDialog";
 import { ExaminationType } from "@/types/Requests";
 import ViewRequestDetailsExaminationDialog from "@/components/organisms/Popups/ViewRequestDetailsExaminationDialog";
+import { ProfileType } from "@/types/Real-estates";
 
 interface Props {
   ExaminationRequest: ExaminationType;
@@ -113,8 +114,9 @@ const ExaminationRequestCard = ({ ExaminationRequest }: Props) => {
           {/* Contact Button - Only show when status is in_contact */}
           {ExaminationRequest.examination_status === "التواصل مع الفاحص" && (
             <ContactBtnsDialog
-              phone={ExaminationRequest.phone}
-              whatsapp={ExaminationRequest.phone}
+              userData={
+                (ExaminationRequest as unknown as ProfileType) || undefined
+              }
             >
               <Button
                 variant={"link"}

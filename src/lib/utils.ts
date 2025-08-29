@@ -58,6 +58,12 @@ export const formatPurpose = (purpose: TypePurposeType) => {
   }
 };
 
+export const formatPrice = (price: number) => {
+  const Format = new Intl.NumberFormat("en-Us").format(price);
+
+  return Format;
+};
+
 export function timeAgo(dateString: string) {
   const date = new Date(dateString);
   const now = new Date();

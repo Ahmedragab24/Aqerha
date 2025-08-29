@@ -1,5 +1,8 @@
-import { ProfileType } from "../Profile";
-import { TypePropertyType, TypeUsedRealEstateType } from "../Real-estates";
+import {
+  ProfileType,
+  TypePropertyType,
+  TypeUsedRealEstateType,
+} from "../Real-estates";
 
 export type EvaluationStatus =
   | "جاري الفحص"

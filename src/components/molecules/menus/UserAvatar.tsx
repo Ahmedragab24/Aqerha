@@ -82,7 +82,7 @@ const MenuItem = ({ item, onItemClick, userType }: MenuItemProps) => {
               height={18}
               className="flex-shrink-0"
             />
-            <span className="font-medium text-gray-700 dark:text-gray-300">
+            <span className="text-[10px] md:text-sm font-medium text-gray-700 dark:text-gray-300">
               {item.name}
             </span>
           </div>
@@ -118,7 +118,7 @@ const MenuItem = ({ item, onItemClick, userType }: MenuItemProps) => {
                       height={18}
                       className="flex-shrink-0 opacity-80 group-hover:opacity-100"
                     />
-                    <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
+                    <span className="text-[10px] md:text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
                       {subItem.name}
                     </span>
                   </div>
@@ -139,7 +139,7 @@ const MenuItem = ({ item, onItemClick, userType }: MenuItemProps) => {
                     height={16}
                     className="flex-shrink-0 opacity-70 group-hover:opacity-100"
                   />
-                  <span className="font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200">
+                  <span className="text-[10px] md:text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200">
                     {subItem.name}
                   </span>
                 </Link>
@@ -164,7 +164,7 @@ const MenuItem = ({ item, onItemClick, userType }: MenuItemProps) => {
           height={18}
           className="flex-shrink-0 opacity-80 group-hover:opacity-100"
         />
-        <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
+        <span className="text-[10px] md:text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
           {item.name}
         </span>
       </div>
@@ -184,7 +184,7 @@ const MenuItem = ({ item, onItemClick, userType }: MenuItemProps) => {
         height={18}
         className="flex-shrink-0 opacity-80 group-hover:opacity-100"
       />
-      <span className="font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
+      <span className="text-[10px] md:text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
         {item.name}
       </span>
     </Link>
@@ -220,6 +220,8 @@ const UserAvatar = () => {
   const UserMemberType = userData?.membership_type as
     | MembershipType
     | ServicesProvidersType;
+
+  console.log("userData", userData);
 
   const handleItemClick = () => {
     setIsOpen(false);
@@ -264,11 +266,13 @@ const UserAvatar = () => {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start min-w-0 flex-1">
-            <span className="text-sm md:text-lg font-semibold text-gray-900 dark:text-white truncate">
-              {userData?.profile?.name}
+            <span className="text-[10px] sm:text-sm font-semibold text-gray-900 dark:text-white truncate">
+              {userData?.profile?.name || userData?.name}
             </span>
             <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-              <span className="truncate text-[10px]"> {userData?.phone}</span>
+              <span className="truncate text-[10px] md:text-sm">
+                {userData?.profile?.phone || userData?.phone}
+              </span>
               <Phone className="h-2.5 w-2.5 md:w-4 md:h-4" />
             </div>
           </div>
@@ -284,11 +288,12 @@ const UserAvatar = () => {
             "owner",
             "agent",
             "property_seeker",
-            "contracting_company",
           ].includes(UserMemberType) && (
             <AccordionItem value="orders" className="border-none">
               <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-                <h3 className="text-primary font-semibold text-sm">الطلبات</h3>
+                <h3 className="text-primary font-medium md:font-semibold text-sm">
+                  الطلبات
+                </h3>
               </AccordionTrigger>
               <AccordionContent className="pb-2 pt-1">
                 <MenuSection
@@ -300,16 +305,12 @@ const UserAvatar = () => {
             </AccordionItem>
           )}
 
-          {[
-            "company_agent",
-            "individual_agent",
-            "Owner or agent",
-            "property_seeker",
-            "contracting_company",
-          ].includes(UserMemberType) && (
+          {["company_agent", "individual_agent", "owner", "agent"].includes(
+            UserMemberType
+          ) && (
             <AccordionItem value="advertisements" className="border-none">
               <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-                <h3 className="text-primary font-semibold text-sm">
+                <h3 className="text-primary font-medium md:font-semibold text-sm">
                   الإعلانات
                 </h3>
               </AccordionTrigger>
@@ -329,11 +330,12 @@ const UserAvatar = () => {
             "owner",
             "agent",
             "property_seeker",
-            "contracting_company",
           ].includes(UserMemberType) ? (
             <AccordionItem value="more" className="border-none">
               <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
-                <h3 className="text-primary font-semibold text-sm">المزيد</h3>
+                <h3 className="text-primary font-medium md:font-semibold text-sm">
+                  المزيد
+                </h3>
               </AccordionTrigger>
               <AccordionContent className="pb-2 pt-1">
                 <MenuSection
@@ -355,17 +357,17 @@ const UserAvatar = () => {
         <DropdownMenuSeparator className="my-2" />
 
         {/* Quick Actions */}
-        <div className="flex gap-2 p-2">
+        <div className="flex flex-col md:flex-row gap-2 p-2">
           <Button
             variant="outline"
             size="sm"
-            className="flex-1 !text-[10px] md:text-sm bg-transparent"
+            className="flex-1 py-1 text-xs md:text-sm font-normal bg-transparent rounded-sm"
             onClick={() => {
               handleItemClick();
               router.push("/profile");
             }}
           >
-            <User className="!h-2.5 !w-2.5 md:!h-3 md:!w-3" />
+            <User className="h-2.5 w-2.5 md:h-4 md:w-4" />
             الملف الشخصي
           </Button>
           <LogOutBtn setIsOpen={setIsOpen} />

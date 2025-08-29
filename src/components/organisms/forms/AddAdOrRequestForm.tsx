@@ -57,6 +57,8 @@ interface Props {
   type: "ad" | "request" | "any";
   title: boolean;
   isPage: boolean;
+  setRealEstateId?: (value: number) => void;
+  setOpenAppointmentsDialog?: (value: boolean) => void;
 }
 
 export interface LocationData {
@@ -67,10 +69,11 @@ export interface LocationData {
 
 const AddAdOrRequestForm = ({
   changeOpen,
-
+  setRealEstateId,
   type,
   title,
   isPage,
+  setOpenAppointmentsDialog,
 }: Props) => {
   const [StoreImage] = useStoreImagesRealEstateMutation();
   const [StoreRealEstate, { isLoading: isStoreRealEstateLoading }] =
@@ -242,18 +245,12 @@ const AddAdOrRequestForm = ({
         };
 
         if (ImagesRes?.status_code === 200) {
-          await StoreRealEstate(formData).unwrap();
+          const res = await StoreRealEstate(formData).unwrap();
           // Reset form first, then close modal
+          setRealEstateId?.(res?.data?.id);
           form.reset();
-          showSuccessToast({ title: "تم إضافة الإعلان بنجاح" });
-
-          if (isPage) {
-            setTimeout(() => {
-              window.location.replace("/");
-            }, 2000);
-          }
-
-          // Close modal after successful submission
+          showSuccessToast({ title: "حدد مواعيد المقابلة" });
+          setOpenAppointmentsDialog?.(true);
           changeOpen?.(false);
         }
       } catch (error) {
@@ -263,7 +260,14 @@ const AddAdOrRequestForm = ({
         });
       }
     },
-    [isPage, form, changeOpen, StoreImage, StoreRealEstate]
+    [
+      form,
+      changeOpen,
+      StoreImage,
+      StoreRealEstate,
+      setRealEstateId,
+      setOpenAppointmentsDialog,
+    ]
   );
 
   const handleLocationSelect = useCallback(
@@ -277,7 +281,7 @@ const AddAdOrRequestForm = ({
 
   return (
     <Card
-      className={`${
+      className={`!p-0 ${
         isPage
           ? "rounded-xl shadow-lg border border-gray-200 max-w-6xl mx-auto"
           : "h-[70vh] overflow-hidden overflow-y-scroll shadow-xl"
@@ -298,12 +302,12 @@ const AddAdOrRequestForm = ({
         </CardHeader>
       )}
 
-      <CardContent className={isPage ? "px-8 pb-8" : "px-4 pb-4"}>
+      <CardContent className={isPage ? "px-8 pb-8" : "px-2 md:px-4"}>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className={`rounded-md ${
-              type === "request" ? "bg-secondary p-4" : ""
+              type === "request" ? "bg-secondary py-4" : ""
             } ${isPage ? "space-y-8" : "space-y-6"}`}
           >
             {/* Image Upload Field */}
@@ -740,6 +744,7 @@ const AddAdOrRequestForm = ({
             )}
 
             {/* Location And Description */}
+
             <LocationFields
               field={form.control}
               handleLocationSelect={handleLocationSelect}
@@ -763,7 +768,9 @@ const AddAdOrRequestForm = ({
 
             <div
               className={`grid gap-4 ${
-                isPage ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 gap-10"
+                isPage
+                  ? "grid-cols-1 md:grid-cols-2 gap-8"
+                  : "grid-cols-1 gap-10"
               }`}
             >
               <FormField

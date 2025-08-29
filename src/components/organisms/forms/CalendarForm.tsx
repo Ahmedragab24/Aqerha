@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoreAppointmentRealEstateMutation } from "@/store/services/RealEstate";
+import { useStoreUserBookAppointmentMutation } from "@/store/services/RealEstate";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,28 +17,27 @@ import { Loader } from "lucide-react";
 
 interface Props {
   setIsSuccessfully: (value: boolean) => void;
-  realEstateId: number;
   appointments: AppointmentsType[];
 }
 
-const CalendarForm = ({
-  setIsSuccessfully,
-  realEstateId,
-  appointments,
-}: Props) => {
+const CalendarForm = ({ setIsSuccessfully, appointments }: Props) => {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<{
+    id: number;
     start_time: string;
     end_time: string;
   }>({
+    id: 0,
     start_time: "",
     end_time: "",
   });
   const [selectedLocation, setSelectedLocation] = useState<{
+    id: number;
     address: string;
     latitude: number;
     longitude: number;
   }>({
+    id: 0,
     address: "",
     latitude: 0,
     longitude: 0,
@@ -46,7 +45,7 @@ const CalendarForm = ({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [storeAppointment, { isLoading }] =
-    useStoreAppointmentRealEstateMutation();
+    useStoreUserBookAppointmentMutation();
 
   const availableDates = appointments?.map((item) => item.date);
 
@@ -73,10 +72,12 @@ const CalendarForm = ({
   const handleDateSelection = (dateStr: string) => {
     setSelectedDate(dateStr);
     setSelectedTime({
+      id: 0,
       start_time: "",
       end_time: "",
     });
     setSelectedLocation({
+      id: 0,
       address: "",
       latitude: 0,
       longitude: 0,
@@ -86,10 +87,11 @@ const CalendarForm = ({
   const handleConfirm = async () => {
     try {
       await storeAppointment({
-        date: selectedDate,
-        times: [selectedTime],
-        places: [selectedLocation],
-        real_estate_id: realEstateId,
+        appointment_id: selectedAppointment?.id || 0,
+        appointment_time_id: selectedTime?.id || 0,
+        appointment_place_id: selectedLocation?.id || 0,
+        name,
+        phone,
       });
       setIsSuccessfully(true);
       showSuccessToast({ title: "تم حجز الموعد بنجاح" });

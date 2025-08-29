@@ -112,7 +112,11 @@ const ChatMessages = ({
         <div className="flex items-center gap-3">
           <Avatar>
             <AvatarImage
-              src={selectedPersonData?.image || "/placeholder.svg"}
+              src={
+                selectedPersonData?.profile?.image ||
+                selectedPersonData?.image ||
+                "/placeholder.svg"
+              }
             />
             <AvatarFallback>
               {selectedPersonData?.name?.charAt(0)}
@@ -120,7 +124,7 @@ const ChatMessages = ({
           </Avatar>
           <div>
             <h3 className="font-semibold">{selectedPersonData?.name}</h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-right text-sm text-gray-500">
               {selectedPersonData?.isOnline ? "متصل الآن" : "غير متصل"}
             </p>
           </div>
@@ -166,10 +170,14 @@ const ChatMessages = ({
               {!isMyMessage && (
                 <Avatar className="w-8 h-8">
                   <AvatarImage
-                    src={selectedPersonData?.image || "/placeholder.svg"}
+                    src={
+                      selectedPersonData?.profile?.image ||
+                      selectedPersonData?.image ||
+                      "/placeholder.svg"
+                    }
                   />
                   <AvatarFallback>
-                    {selectedPersonData?.name?.charAt(0)}
+                    {selectedPersonData?.profile?.name?.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
               )}

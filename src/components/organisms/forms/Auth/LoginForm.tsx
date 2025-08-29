@@ -11,26 +11,24 @@ import ProvidersBtns from "../../../molecules/btnsGroup/ProvidersBtns";
 import { loginFormSchema } from "@/schemas/login";
 import CustomPhoneInput from "../../../atoms/inputs/CustomPhoneInput";
 import OrBadge from "../../../atoms/badges/OrBadge";
-import { useUserLoginMutation } from "@/store/services/Auth";
-import { LoginType, UserData } from "@/types/Auth";
+import {
+  useSendOtpMutation,
+  useUserLoginMutation,
+} from "@/store/services/Auth";
+import { LoginType } from "@/types/Auth";
 import { showSuccessToast } from "@/components/Successfully/DoneToast";
 import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
 import { ErrorType } from "@/types/errors";
-import { useAppDispatch } from "@/store/hooks";
-import { setUserData } from "@/store/features/Auth/userDataSlice";
-import { AUTH_CHANGE_EVENT, setAuthTokenClient } from "@/lib/auth/auth-client";
-import { useRouter } from "next/navigation";
 
 interface RegisterFormProps {
   setType: (value: RegisterType) => void;
-  setOpen: (value: boolean) => void;
+  setPhone: (value: string) => void;
 }
 
-const LoginForm = ({ setType, setOpen }: RegisterFormProps) => {
+const LoginForm = ({ setType, setPhone }: RegisterFormProps) => {
   const [login, { isLoading }] = useUserLoginMutation();
-  const router = useRouter();
-  // const [SendCode] = useSendOtpMutation();
-  const dispatch = useAppDispatch();
+  const [SendCode] = useSendOtpMutation();
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -45,38 +43,25 @@ const LoginForm = ({ setType, setOpen }: RegisterFormProps) => {
     const data: LoginType = {
       phone: values.phone,
       password: values.password,
+      fcm_token: "",
       device_type: "web",
     };
 
     try {
-      const res = await login(data).unwrap();
+      await login(data).unwrap();
 
       showSuccessToast({ title: "تم ارسال رمز التحقق" });
-      console.log(res.user);
-      setAuthTokenClient(res.token);
-      dispatch(setUserData(res.user as unknown as UserData));
-      setOpen(false);
-      // await SendCode({ phone: values.phone }).unwrap();
-      // setType("Otp");
-
-      if (
-        res.user.membership_type !== "property_seeker" &&
-        !res.user?.profile?.image &&
-        !res.user?.profile?.phone
-      ) {
-        router.push("/profile");
-      } else {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1100);
-      }
+      setPhone(values.phone);
+      await SendCode({ phone: values.phone }).unwrap();
+      setType("Otp");
     } catch (error: unknown) {
       const err = error as ErrorType;
-      console.log(err);
-      const firstError = err.data.message || "حدث خطأ غير متوقع";
-      showFailedToast({ title: firstError });
-    } finally {
-      window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
+      const firstError =
+        err?.data?.errors && Object.values(err.data.errors)[0]?.[0];
+
+      showFailedToast({
+        title: firstError || "حدث خطأ غير متوقع",
+      });
     }
   }
 

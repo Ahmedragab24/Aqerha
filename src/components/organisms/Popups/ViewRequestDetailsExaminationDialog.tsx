@@ -37,17 +37,20 @@ const ViewRequestDetailsExaminationDialog = ({ ExaminationRequest }: Props) => {
           />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto rounded-2xl">
+
+      <DialogContent className="w-[95%] sm:max-w-2xl lg:max-w-4xl max-h-[85vh] overflow-y-auto rounded-xl sm:rounded-2xl p-4 sm:p-6">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-gray-800 text-center">
+          <DialogTitle className="text-lg sm:text-xl font-bold text-gray-800 text-center">
             تفاصيل طلب الفحص
           </DialogTitle>
         </DialogHeader>
 
         {/* بيانات العقار */}
-        <section className="space-y-4">
-          <h3 className="text-lg font-semibold text-primary">معلومات العقار</h3>
-          <div className="grid sm:grid-cols-2 gap-4">
+        <section className="space-y-3 sm:space-y-4">
+          <h3 className="text-base sm:text-lg font-semibold text-primary">
+            معلومات العقار
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <InfoCard label="اسم العقار" value={ExaminationRequest.name} />
             <InfoCard
               label="نوع العقار"
@@ -68,11 +71,11 @@ const ViewRequestDetailsExaminationDialog = ({ ExaminationRequest }: Props) => {
         </section>
 
         {/* بيانات المستخدم */}
-        <section className="space-y-4 mt-6">
-          <h3 className="text-lg font-semibold text-primary">
+        <section className="space-y-3 sm:space-y-4 mt-5 sm:mt-6">
+          <h3 className="text-base sm:text-lg font-semibold text-primary">
             معلومات المستخدم
           </h3>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <InfoCard label="الاسم" value={ExaminationRequest.name} />
             <InfoCard
               label="الرقم الوطني"
@@ -88,11 +91,11 @@ const ViewRequestDetailsExaminationDialog = ({ ExaminationRequest }: Props) => {
         </section>
 
         {/* الدفع والفحص */}
-        <section className="space-y-4 mt-6">
-          <h3 className="text-lg font-semibold text-primary">
+        <section className="space-y-3 sm:space-y-4 mt-5 sm:mt-6">
+          <h3 className="text-base sm:text-lg font-semibold text-primary">
             معلومات الفحص والدفع
           </h3>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <InfoCard
               label="حالة الفحص"
               value={ExaminationRequest.examination_status}
@@ -113,9 +116,11 @@ const ViewRequestDetailsExaminationDialog = ({ ExaminationRequest }: Props) => {
         </section>
 
         {/* المتابعة */}
-        <section className="space-y-4 mt-6">
-          <h3 className="text-lg font-semibold text-primary">المتابعة</h3>
-          <div className="grid sm:grid-cols-2 gap-4">
+        <section className="space-y-3 sm:space-y-4 mt-5 sm:mt-6">
+          <h3 className="text-base sm:text-lg font-semibold text-primary">
+            المتابعة
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <InfoCard
               label="تاريخ الإنشاء"
               value={ExaminationRequest.created_at}
@@ -123,9 +128,11 @@ const ViewRequestDetailsExaminationDialog = ({ ExaminationRequest }: Props) => {
           </div>
         </section>
 
-        <DialogFooter className="mt-8">
+        <DialogFooter className="mt-6 sm:mt-8">
           <DialogClose asChild>
-            <Button variant="outline">إغلاق</Button>
+            <Button variant="outline" className="w-full sm:w-auto">
+              إغلاق
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
@@ -135,12 +142,12 @@ const ViewRequestDetailsExaminationDialog = ({ ExaminationRequest }: Props) => {
 
 export default ViewRequestDetailsExaminationDialog;
 
-// 🔹 كومبوننت صغير لعرض البيانات بشكل موحد
+// 🔹 كومبوننت صغير لعرض البيانات
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const InfoCard = ({ label, value }: { label: string; value: any }) => (
-  <Card className="p-4 shadow-sm border rounded-lg bg-gray-50">
-    <p className="text-xs text-gray-500 mb-1">{label}</p>
-    <p className="text-sm font-medium text-gray-800 break-words">
+  <Card className="p-3 sm:p-4 shadow-sm border rounded-lg bg-gray-50">
+    <p className="text-xs sm:text-sm text-gray-500 mb-1">{label}</p>
+    <p className="text-sm sm:text-base font-medium text-gray-800 break-words">
       {value ?? "غير متوفر"}
     </p>
   </Card>

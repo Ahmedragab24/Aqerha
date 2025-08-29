@@ -8,6 +8,11 @@ import React from "react";
 import NumberCountBadge from "../badges/NumberCountBadge";
 import { getAuthTokenClient } from "@/lib/auth/auth-client";
 import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   isScrolled: boolean;
@@ -21,32 +26,38 @@ const ConversationBtn = ({ isScrolled, navbarBg }: Props) => {
 
   return (
     <div className="relative">
-      {token ? (
-        <Button variant={"noneBg"} className="relative !p-0 !m-0">
-          <Link href={"/conversations"}>
-            <MessageSquareText
-              className={`fill-primary text-primary !w-6 !h-6 ${
-                isScrolled || navbarBg
-                  ? "text-foreground fill-primary"
-                  : "text-primary-light fill-primary-light"
-              }`}
-            />
-          </Link>
-        </Button>
-      ) : (
-        <RegisterDialog>
-          <Button variant={"noneBg"} className="relative !p-0 !m-0">
-            <MessageSquareText
-              className={`fill-primary text-primary !w-6 !h-6 ${
-                isScrolled || navbarBg
-                  ? "text-foreground fill-primary"
-                  : "text-primary-light fill-primary-light"
-              }`}
-            />
-          </Button>
-        </RegisterDialog>
-      )}
-
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {token ? (
+            <Button variant={"noneBg"} className="relative !p-0 !m-0">
+              <Link href={"/conversations"}>
+                <MessageSquareText
+                  className={`fill-primary text-primary !w-6 !h-6 ${
+                    isScrolled || navbarBg
+                      ? "text-foreground fill-primary"
+                      : "!text-primary !fill-primary"
+                  }`}
+                />
+              </Link>
+            </Button>
+          ) : (
+            <RegisterDialog>
+              <Button variant={"noneBg"} className="relative !p-0 !m-0">
+                <MessageSquareText
+                  className={`fill-primary text-primary !w-6 !h-6 ${
+                    isScrolled || navbarBg
+                      ? "text-foreground fill-primary"
+                      : "!text-primary !fill-primary"
+                  }`}
+                />
+              </Button>
+            </RegisterDialog>
+          )}
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>المحادثات</p>
+        </TooltipContent>
+      </Tooltip>
       <NumberCountBadge count={unreadCount || 0} />
     </div>
   );

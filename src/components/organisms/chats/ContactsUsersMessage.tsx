@@ -99,20 +99,15 @@ const ContactsUsersMessage = ({
       <div className="hidden lg:block w-full lg:w-80 border-l border-gray-200 max-h-[85vh] overflow-y-scroll">
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <Button size="sm">
-              <Plus className="w-4 h-4" />
-            </Button>
-            <div className="flex-1 mx-3">
-              <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search..."
-                  className="pl-10"
-                />
-              </div>
+          <div className="mb-4">
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search..."
+                className="pl-10"
+              />
             </div>
           </div>
         </div>

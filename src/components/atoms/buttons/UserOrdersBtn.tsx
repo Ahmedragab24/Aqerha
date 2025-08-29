@@ -1,3 +1,8 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { MembershipType, ServicesProvidersType } from "@/types/Membership";
 import { Codesandbox } from "lucide-react";
 import Link from "next/link";
@@ -25,11 +30,20 @@ const UserOrdersBtn = ({
           : "/MarketerOrBrokerRequests"
       }
     >
-      <Codesandbox
-        className={`text-primary fill-[#248f6a] !w-6 !h-6 ${
-          isScrolled || navbarBg ? "text-foreground " : "text-primary-light "
-        }`}
-      />
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Codesandbox
+            className={`text-primary fill-primary/20 !w-6 !h-6 ${
+              isScrolled || navbarBg
+                ? "text-foreground "
+                : "!text-primary !fill-primary"
+            }`}
+          />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>الطلبات</p>
+        </TooltipContent>
+      </Tooltip>
     </Link>
   );
 };

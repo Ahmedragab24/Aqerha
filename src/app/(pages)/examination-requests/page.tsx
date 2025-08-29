@@ -11,7 +11,7 @@ import React from "react";
 const EvaluationRequestsPage = () => {
   const { data, isLoading, isError } = useGetNearbyExaminationQuery();
 
-  const ProjectsList = data?.examination_requests || [];
+  const ProjectsList = data?.data || [];
 
   if (isError) {
     return (

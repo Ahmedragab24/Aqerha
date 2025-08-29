@@ -15,12 +15,13 @@ import { EngineeringOfficeType } from "@/types/EngineeringOffices";
 import { useState } from "react";
 import { useAppSelector } from "@/store/hooks";
 import { CitiesTabItems } from "@/constants/cities";
+import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
 
 const EngineeringOfficesPage = () => {
   const [city, setCity] = useState<string>("");
   const { page } = useAppSelector((state) => state.page);
 
-  const { data } = useGetAllOfficesQuery({
+  const { data, isLoading } = useGetAllOfficesQuery({
     city: city,
     page: page,
   });
@@ -84,9 +85,25 @@ const EngineeringOfficesPage = () => {
             value={item.value}
             className="mt-0 focus-visible:outline-none"
           >
-            {OfficesData?.data && OfficesData?.data?.length > 0 ? (
+            {isLoading && (
               <div
-                className="
+                className="grid 
+                                               grid-cols-2 
+                                               lg:grid-cols-3 
+                                               xl:grid-cols-4 
+                                               2xl:grid-cols-5
+                                               gap-3 sm:gap-4 md:gap-5 lg:gap-6
+                                               mb-8 sm:mb-10 md:mb-12"
+              >
+                <GroupCardsSkeletons count={5} />
+              </div>
+            )}
+
+            {!isLoading &&
+              OfficesData?.data &&
+              OfficesData?.data?.length > 0 && (
+                <div
+                  className="
                   grid 
                   grid-cols-2 
                   lg:grid-cols-3 
@@ -95,16 +112,18 @@ const EngineeringOfficesPage = () => {
                   gap-3 sm:gap-4 md:gap-5 lg:gap-6
                   mb-8 sm:mb-10 md:mb-12
                 "
-              >
-                {OfficesData?.data?.map((office: EngineeringOfficeType) => (
-                  <EngineeringOfficesCard2
-                    key={office.id}
-                    EngineeringOffices={office}
-                    path={`engineeringOffices/${office.id}`}
-                  />
-                ))}
-              </div>
-            ) : (
+                >
+                  {OfficesData?.data?.map((office: EngineeringOfficeType) => (
+                    <EngineeringOfficesCard2
+                      key={office.id}
+                      EngineeringOffices={office}
+                      path={`engineeringOffices/${office.id}`}
+                    />
+                  ))}
+                </div>
+              )}
+
+            {!isLoading && OfficesData?.data.length === 0 && (
               <DataNotFount
                 title="لا توجد مكاتب هندسية"
                 description={

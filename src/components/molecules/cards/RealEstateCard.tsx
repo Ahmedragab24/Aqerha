@@ -6,7 +6,7 @@ import FavoriteBtn from "../../atoms/buttons/FavoriteBtn";
 import Riyal from "../../atoms/Icons/Riyal";
 import PurposeBadge from "@/components/atoms/badges/PurposeBadge";
 import { useRouter } from "next/navigation";
-import { formatName, formatPurpose } from "@/lib/utils";
+import { formatName, formatPrice, formatPurpose } from "@/lib/utils";
 import { MapPin } from "lucide-react";
 
 interface RealEstateCardProps {
@@ -86,7 +86,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
         {/* Price */}
         <div className="flex items-center gap-1">
           <span className="text-xs sm:text-sm lg:text-2xl font-semibold text-primary">
-            {main_price}
+            {formatPrice(+main_price)}
           </span>
           <Riyal className="text-primary" />
           {purpose === "rent" && (
@@ -123,7 +123,7 @@ const RealEstateCard = ({ product }: RealEstateCardProps) => {
               className="w-2.5 h-2.5 md:w-5 md:h-5"
             />
             <span className="text-[9px] sm:text-sm text-gray-400">
-              {main_area} م²
+              {formatPrice(+main_area)} م²
             </span>
           </div>
 

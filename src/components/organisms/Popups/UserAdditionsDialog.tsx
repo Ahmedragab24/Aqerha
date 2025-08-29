@@ -8,9 +8,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import StoreAuctionForm from "../forms/UserAdditions/StoreAuctionForm";
+import StoreProjectForm from "../forms/UserAdditions/StoreProjectForm";
 import { useGetProfileQuery } from "@/store/services/Profile";
 import { ServicesProvidersType } from "@/types/Membership";
-import StoreProjectForm from "../forms/UserAdditions/StoreProjectForm";
 import { useState } from "react";
 
 interface Props {
@@ -22,14 +22,14 @@ const UserAdditionsDialog = ({ children }: Props) => {
   const MemberType = data?.data?.membership_type as ServicesProvidersType;
   const [open, changeOpen] = useState(false);
 
-  console.log("MemberTypeMemberType", MemberType);
+  console.log("MemberType", MemberType);
 
   const handlerTitle = () => {
     if (MemberType === "auction_companies") {
       return "إضافة مزاد";
     } else if (
-      MemberType === "real_estate_developer" ||
-      MemberType === "contracting_company"
+      MemberType === "contracting_company" ||
+      MemberType === "real_estate_developer"
     ) {
       return "إضافة مشروع";
     } else {
@@ -43,14 +43,17 @@ const UserAdditionsDialog = ({ children }: Props) => {
       <DialogContent className="h-[90vh] rounded-lg overflow-y-scroll">
         <DialogHeader>
           <DialogTitle className="text-center">{handlerTitle()}</DialogTitle>
-          {MemberType === "auction_companies" && (
-            <StoreAuctionForm changeOpen={changeOpen} />
-          )}
-          {(MemberType === "real_estate_developer" ||
-            MemberType === "contracting_company") && (
-            <StoreProjectForm changeOpen={changeOpen} />
-          )}
         </DialogHeader>
+
+        {/* Forms Section */}
+        {MemberType === "auction_companies" && (
+          <StoreAuctionForm changeOpen={changeOpen} />
+        )}
+
+        {(MemberType === "contracting_company" ||
+          MemberType === "real_estate_developer") && (
+          <StoreProjectForm changeOpen={changeOpen} />
+        )}
       </DialogContent>
     </Dialog>
   );

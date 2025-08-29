@@ -9,7 +9,9 @@ const NumberCountBadge = ({ count }: Props) => {
     <>
       {count > 0 && (
         <div className="absolute -top-1 -right-1 rounded-full bg-red-500 w-4 h-4 text-[8px] text-white p-1">
-          {count}
+          <h6 className="flex justify-center items-center w-full h-full">
+            {count}
+          </h6>
         </div>
       )}
     </>

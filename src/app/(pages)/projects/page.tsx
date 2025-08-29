@@ -14,12 +14,13 @@ import { CitiesTabItems } from "@/constants/cities";
 import ProjectCard from "@/components/molecules/cards/ProjectCard";
 import DataNotFount from "@/components/Error&NotFound/DataNotFount";
 import PaginationList from "@/components/organisms/paginations/PaginationList";
+import GroupCardsSkeletons from "@/components/molecules/Skeletons/GroupCardsSkeletons";
 
 const ProjectsPage = () => {
   const [city, setCity] = useState<string>("");
   const { page } = useAppSelector((state) => state.page);
 
-  const { data } = useGetAllProjectsQuery({
+  const { data, isLoading } = useGetAllProjectsQuery({
     city: city,
     page: page,
   });
@@ -27,7 +28,7 @@ const ProjectsPage = () => {
   const ProjectsData = data;
 
   return (
-    <main className="Container pt-28 mb-16 space-y-10">
+    <main className="Container pt-24 md:pt-28 mb-16 space-y-10">
       <SectionTitle Title="المشاريع" />
 
       <Tabs
@@ -36,7 +37,7 @@ const ProjectsPage = () => {
         dir="rtl"
         onValueChange={(val) => setCity(val)}
       >
-        <TabsList className="bg-transparent mt-8 mb-16 lg:mt-2 lg:mb-8 mx-auto">
+        <TabsList className="bg-transparent mt-4 md:mt-8 mb-16 lg:mt-2 lg:mb-8 mx-auto">
           <div className="flex flex-wrap gap-2 sm:gap-3 px-1 py-2">
             {CitiesTabItems.map((item) => (
               <TabsTrigger
@@ -84,23 +85,40 @@ const ProjectsPage = () => {
             value={item.value}
             className="mt-0 focus-visible:outline-none"
           >
-            {ProjectsData?.data && ProjectsData?.data.length > 0 ? (
+            {isLoading && (
               <div
-                className="
+                className="grid 
+                                   grid-cols-2 
+                                   lg:grid-cols-3 
+                                   xl:grid-cols-4 
+                                   2xl:grid-cols-5
+                                   gap-3 sm:gap-4 md:gap-5 lg:gap-6
+                                   mb-8 sm:mb-10 md:mb-12"
+              >
+                <GroupCardsSkeletons count={5} />
+              </div>
+            )}
+
+            {!isLoading &&
+              ProjectsData?.data &&
+              ProjectsData?.data.length > 0 && (
+                <div
+                  className="
                   grid 
-                  grid-cols-1 
-                  sm:grid-cols-2 
+                  grid-cols-2 
                   lg:grid-cols-3 
                   xl:grid-cols-4 
                   gap-3 sm:gap-4 md:gap-5 lg:gap-6
                   mb-8 sm:mb-10 md:mb-12
                 "
-              >
-                {ProjectsData.data.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))}
-              </div>
-            ) : (
+                >
+                  {ProjectsData.data.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                  ))}
+                </div>
+              )}
+
+            {!isLoading && ProjectsData?.data.length === 0 && (
               <DataNotFount
                 title="لا يوجد مشاريع"
                 description={

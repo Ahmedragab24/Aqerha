@@ -24,9 +24,28 @@ export interface AppointmentsType {
   times: TimesType[];
 }
 
+export interface StoreTimeSlotType {
+  start_time: string;
+  end_time: string;
+}
+
+export interface StorePlaceType {
+  address: string;
+  latitude: number;
+  longitude: number;
+}
+
 export interface StoreAppointmentType {
-  date: string;
+  date: Date;
   real_estate_id: number;
-  places: { address: string; latitude: number; longitude: number }[];
-  times: { start_time: string; end_time: string }[];
+  places: StorePlaceType[];
+  times: StoreTimeSlotType[];
+}
+
+export interface StoreUserBookAppointmentType {
+  appointment_id: number;
+  appointment_time_id: number;
+  appointment_place_id: number;
+  name: string;
+  phone: string;
 }

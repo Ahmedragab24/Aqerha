@@ -1,3 +1,4 @@
+import { ProfileType } from "@/types/Real-estates";
 import CallUserBtns from "../../molecules/btnsGroup/CallUserBtns";
 import {
   Dialog,
@@ -10,11 +11,10 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 
 interface Props {
   children?: React.ReactNode;
-  phone: string;
-  whatsapp: string;
+  userData: ProfileType;
 }
 
-const ContactBtnsDialog = ({ children, phone, whatsapp }: Props) => {
+const ContactBtnsDialog = ({ children, userData }: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -29,8 +29,7 @@ const ContactBtnsDialog = ({ children, phone, whatsapp }: Props) => {
         <div>
           <CallUserBtns
             isText
-            phone={phone}
-            whatsapp={whatsapp}
+            userData={userData}
             className="!flex-col"
             classNameBtns="!w-full"
           />

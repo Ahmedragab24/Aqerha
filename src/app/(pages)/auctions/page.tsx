@@ -26,8 +26,8 @@ const AuctionsPage = () => {
   const AuctionsList = data?.data || [];
 
   return (
-    <main className="Container pt-28 mb-16 space-y-10">
-      <div className="space-y-16">
+    <main className="Container pt-24 md:pt-28 mb-16 space-y-10">
+      <div className="space-y-6 md:space-y-10">
         <div className="text-center">
           <SectionTitle Title="المزادات" />
         </div>
@@ -38,7 +38,7 @@ const AuctionsPage = () => {
             placeholder="نوع المزاد"
             value={type as string}
             onChange={(val) => setType(val as TypeAuctionType)}
-            className="!h-12 shadow-md"
+            className="!h-12 shadow-md w-full"
           />
 
           <CustomSelect
@@ -46,7 +46,7 @@ const AuctionsPage = () => {
             placeholder="الحالة"
             value={category as string}
             onChange={(val) => setCategory(val as TypeAuctionCategoryType)}
-            className="!h-12 shadow-md"
+            className="!h-12 shadow-md w-full"
           />
         </div>
 
@@ -60,7 +60,7 @@ const AuctionsPage = () => {
           )}
         </div>
 
-        {AuctionsList.length === 0 && (
+        {!isLoading && AuctionsList.length === 0 && (
           <DataNotFount
             title="لا يوجد مزادات"
             description="لا يوجد مزادات حالياً"

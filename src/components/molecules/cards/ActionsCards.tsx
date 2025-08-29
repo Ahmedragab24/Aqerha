@@ -29,7 +29,7 @@ const ActionsCards = async ({ realEstate }: Props) => {
                 alt="tabler_report"
                 width={70}
                 height={70}
-                className="w-10 h-10 md:w-16 md:h-16"
+                className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
               />
 
               <h2 className="text-sm md:text-xl font-semibold duration-300 text-primary group-hover:text-primary/80 group-hover:drop-shadow-sm">
@@ -51,7 +51,7 @@ const ActionsCards = async ({ realEstate }: Props) => {
                 alt="tabler_report"
                 width={70}
                 height={70}
-                className="w-10 h-10 md:w-16 md:h-16"
+                className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
               />
 
               <h2 className="text-sm md:text-xl font-semibold duration-300 text-primary group-hover:text-primary/80 group-hover:drop-shadow-sm">
@@ -75,7 +75,7 @@ const ActionsCards = async ({ realEstate }: Props) => {
                 alt="tabler_report"
                 width={70}
                 height={70}
-                className="w-10 h-10 md:w-16 md:h-16"
+                className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
               />
 
               <h2 className="text-sm md:text-xl font-semibold duration-300 text-primary group-hover:text-primary/80 group-hover:drop-shadow-sm">
@@ -97,7 +97,7 @@ const ActionsCards = async ({ realEstate }: Props) => {
                 alt="tabler_report"
                 width={70}
                 height={70}
-                className="w-10 h-10 md:w-16 md:h-16"
+                className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
               />
 
               <h2 className="text-sm md:text-xl font-semibold duration-300 text-primary group-hover:text-primary/80 group-hover:drop-shadow-sm">

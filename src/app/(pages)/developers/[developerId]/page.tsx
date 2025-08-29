@@ -66,13 +66,7 @@ const DeveloperDetailsPage = () => {
             {DeveloperData?.profile?.description || "لا يوجد وصف متاح حالياً."}
           </p>
 
-          <CallUserBtns
-            isText
-            phone={DeveloperData?.profile?.phone}
-            whatsapp={DeveloperData?.profile?.whatsapp}
-            email={DeveloperData?.email}
-            userId={DeveloperData?.profile?.user_id}
-          />
+          <CallUserBtns isText userData={DeveloperData?.profile} />
         </div>
 
         <div className="space-y-6">
