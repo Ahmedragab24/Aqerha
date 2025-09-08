@@ -22,7 +22,7 @@ import { useUserRegisterMutation } from "@/store/services/Auth";
 import { showSuccessToast } from "@/components/Successfully/DoneToast";
 import { ErrorType } from "@/types/errors";
 import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
-import { RegisterType } from "@/types/Auth";
+import AcceptanceTermsCheckbox from "@/components/molecules/checkboxs/AcceptanceTermsCheckbox";
 
 interface RegisterFormProps {
   setType: (value: RegisterDialogType) => void;
@@ -35,7 +35,7 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
-      username: "",
+      name: "",
       phone: "",
       email: "",
       city: "",
@@ -47,27 +47,33 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
       licence_number: "",
       ValLicenseNumber: "",
       Password: "",
+      acceptanceTerms: false,
     },
   });
 
   async function onSubmit(values: z.infer<typeof registerFormSchema>) {
     console.log(values);
 
-    const data: RegisterType = {
-      name: values.username,
-      email: values.email,
-      phone: values.phone,
-      city: values.city,
-      password: values.Password,
-      membership_type: values.membershipType as MembershipType,
-      commercial_registration_number: values.CommercialNumber,
-      unifiedCommercialRegisterNumber: values.unifiedCommercialRegisterNumber,
-      fal_id: values.ValLicenseNumber,
-      device_type: "web",
-      fcm_token: "",
-      licence_number: values.licence_number,
-      nation_id: values.IdNumber,
-    };
+    const data = new FormData();
+    data.append("name", values.name);
+    data.append("email", values.email);
+    data.append("phone", values.phone);
+    data.append("city", values.city);
+    data.append("password", values.Password);
+    data.append("membership_type", values.membershipType);
+    data.append("fal_id", String(values.ValLicenseNumber));
+    data.append("device_type", "web");
+    data.append("fcm_token", "asdasd");
+    data.append(
+      "commercial_registration_number",
+      String(values.CommercialNumber)
+    );
+    data.append(
+      "unifiedCommercialRegisterNumber",
+      String(values.unifiedCommercialRegisterNumber)
+    );
+    data.append("licence_number", String(values.licence_number));
+    data.append("nation_id", String(values.IdNumber));
 
     try {
       await Register(data).unwrap();
@@ -95,7 +101,7 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <CustomFormItem
                 field={field}
@@ -360,6 +366,13 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
               />
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="acceptanceTerms"
+            render={({ field }) => <AcceptanceTermsCheckbox field={field} />}
+          />
+
           <SubmitBtn
             title="إنشاء حساب"
             loading={isLoading}

@@ -1,5 +1,3 @@
-import Image from "next/image";
-import EmailInput from "../atoms/inputs/EmailInput";
 import SocialMediaIcons from "../molecules/iconsGroup/SoicalMediaIcons";
 import LogoGreen from "../atoms/images/LogoGreen";
 import Link from "next/link";
@@ -8,6 +6,7 @@ import {
   FooterImportantLinks,
   ServicesMenu,
 } from "@/constants/navMenu";
+import DownloadAppICons from "../molecules/iconsGroup/DownloadAppICons";
 
 const Footer = () => {
   return (
@@ -25,7 +24,7 @@ const Footer = () => {
                 <Link
                   key={index}
                   href={item.path}
-                  className="footer_Link block"
+                  className="footer_Link block w-fit"
                   dir="rtl"
                 >
                   {item.label}
@@ -47,7 +46,7 @@ const Footer = () => {
                 <Link
                   key={index}
                   href={item.path}
-                  className="footer_Link block"
+                  className="footer_Link block w-fit"
                   dir="rtl"
                 >
                   {item.label}
@@ -67,9 +66,10 @@ const Footer = () => {
             <nav className="space-y-3">
               <a
                 href="https://apps.apple.com/eg/app/%D8%B9%D9%82%D8%B1%D9%87%D8%A7-aqrha/id6743926325?l=ar"
-                className="footer_Link block"
+                className="footer_Link block w-fit"
                 target="_blank"
                 dir="rtl"
+                rel="noopener"
               >
                 حمل التطبيق
               </a>
@@ -77,7 +77,7 @@ const Footer = () => {
                 <Link
                   key={index}
                   href={item.path}
-                  className="footer_Link block"
+                  className="footer_Link block w-fit"
                   dir="rtl"
                 >
                   {item.label}
@@ -87,9 +87,9 @@ const Footer = () => {
           </div>
 
           {/* Newsletter Section */}
-          <div>
+          <div className="flex flex-col items-start md:items-center">
             <div className="text-right sm:text-center mb-6">
-              <div className="inline-flex items-center justify-center">
+              {/* <div className="inline-flex items-center justify-center">
                 <Image
                   src="/Icons/mail2.svg"
                   alt="mail"
@@ -97,26 +97,28 @@ const Footer = () => {
                   height={28}
                   className=""
                 />
-              </div>
+              </div> */}
               <h3
-                className="text-sm md:text-xl font-bold text-gray-900 mb-2"
+                className="text-sm md:text-xl font-bold text-primary mb-2"
                 dir="rtl"
               >
-                ابق على اطلاع
+                {/* ابق على اطلاع */}
+                حمل التطبيق الأن
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed" dir="rtl">
+              {/* <p className="text-gray-600 text-sm leading-relaxed" dir="rtl">
                 اشترك في نشرتنا الإخبارية لتلقي آخبارنا الأسبوعية
-              </p>
+              </p> */}
             </div>
 
             <div className="space-y-4">
-              <EmailInput />
-              <p
+              {/* <EmailInput /> */}
+              {/* <p
                 className="text-xs text-gray-500 text-right sm:text-center"
                 dir="rtl"
               >
                 نحترم خصوصيتك ولن نشارك بياناتك مع أطراف ثالثة
-              </p>
+              </p> */}
+              <DownloadAppICons />
             </div>
           </div>
         </div>

@@ -64,6 +64,14 @@ export const CompanyInfoApi = createApi({
       providesTags: ["CompanyInfo"],
     }),
 
+    getComplaintsHandlingMechanism: builder.query<
+      TermsAndConditionsResponse,
+      void
+    >({
+      query: () => `/Complaints-handling-mechanism`,
+      providesTags: ["CompanyInfo"],
+    }),
+
     getSocialLinks: builder.query<SocialLinksResponse, void>({
       query: () => `/social-links`,
       providesTags: ["social"],
@@ -83,6 +91,7 @@ export const {
   useGetFileAndInfoQuery,
   useContactUsMutation,
   useGetTermsAndConditionsQuery,
+  useGetComplaintsHandlingMechanismQuery,
   useGetPrivacyPolicyQuery,
   useGetSocialLinksQuery,
 } = CompanyInfoApi;

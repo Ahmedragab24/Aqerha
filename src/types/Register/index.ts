@@ -3,4 +3,6 @@ export type RegisterType =
   | "register"
   | "Otp"
   | "ChangPhone"
-  | "ForgetPassword";
+  | "PhoneForForgetPassword"
+  | "ForgetPassword"
+  | "RestPassword";

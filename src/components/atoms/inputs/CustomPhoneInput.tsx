@@ -162,7 +162,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
           <div className="relative flex-1">
             <Input
               type="tel"
-              placeholder="أدخل رقم جوالك"
+              placeholder="555555555"
               value={phoneNumber}
               onChange={handlePhoneChange}
               onBlur={() => {

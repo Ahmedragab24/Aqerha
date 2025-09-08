@@ -24,6 +24,7 @@ const NewProjectsSection = () => {
             count={4}
             showTwoSkeletons={false}
             showThreeSkeletons={false}
+            mainClassSkeleton="h-[200px] md:h-[250px]"
           />
         ) : (
           <>

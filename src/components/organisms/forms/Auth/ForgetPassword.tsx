@@ -33,7 +33,7 @@ interface Props {
   setOpen?: (value: boolean) => void;
 }
 
-export default function OtpForm({ setType, phone, setOpen }: Props) {
+export default function ForgetPassword({ setType, phone, setOpen }: Props) {
   const [VerifyOtp] = useVerifyOtpMutation();
   const [VerifyResetOtp] = useVerifyResetOtpMutation();
   const [resendTimer, setResendTimer] = useState(90);
@@ -115,7 +115,7 @@ export default function OtpForm({ setType, phone, setOpen }: Props) {
     const data = new FormData();
     data.append("phone", phone);
     data.append("otp", values.code || "");
-    data.append("type", "register");
+    data.append("type", "reset_password");
 
     try {
       const res = await VerifyOtp(data).unwrap();
@@ -125,17 +125,9 @@ export default function OtpForm({ setType, phone, setOpen }: Props) {
       setOpen?.(false);
       setType("login");
 
-      if (
-        res.data.user.membership_type !== "property_seeker" &&
-        !res.data.user?.profile?.image &&
-        !res.data.user?.profile?.phone
-      ) {
-        router.push("/profile");
-      } else {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1100);
-      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 1100);
     } catch (error) {
       const err = error as ErrorType;
       const firstError = err.data?.message || "حدث خطأ غير متوقع";

@@ -3,13 +3,13 @@ import { z } from "zod";
 
 export const registerFormSchema = z
   .object({
-    username: z
+    name: z
       .string()
       .min(2, { message: "الاسم يجب أن يحتوي على حرفين على الأقل." })
       .max(50, { message: "الاسم طويل جدًا." }),
     phone: z
       .string()
-      .min(10, { message: "رقم الجوال يجب أن يكون 10 أرقام على الأقل." })
+      .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
       .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
     email: z.string().email({ message: "يرجى إدخال بريد إلكتروني صحيح." }),
     city: z.string().min(1, { message: "يرجى اختيار مدينة." }),
@@ -25,13 +25,11 @@ export const registerFormSchema = z
 
     Password: z
       .string()
-      .min(8, { message: "كلمة المرور يجب أن تكون 8 أحرف على الأقل." })
-      .regex(/[a-z]/, { message: "يجب أن تحتوي على حرف صغير على الأقل." })
-      .regex(/[A-Z]/, { message: "يجب أن تحتوي على حرف كبير على الأقل." })
-      .regex(/[0-9]/, { message: "يجب أن تحتوي على رقم واحد على الأقل." })
-      .regex(/[\W_]/, {
-        message: "يجب أن تحتوي على رمز خاص (!@#$...) واحد على الأقل.",
-      }),
+      .min(8, { message: "كلمة المرور يجب أن تكون 8 أحرف على الأقل." }),
+
+    acceptanceTerms: z.boolean().refine((val) => val === true, {
+      message: "يجب الموافقة على الشروط والأحكام.",
+    }),
   })
   .superRefine((values, ctx) => {
     // Owner or agent → IdNumber مطلوب

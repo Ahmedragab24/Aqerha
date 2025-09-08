@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useGetPrivacyPolicyQuery,
-  useGetTermsAndConditionsQuery,
-} from "@/store/services/CompanyInfo";
+import { useGetComplaintsHandlingMechanismQuery } from "@/store/services/CompanyInfo";
 import SectionTitle from "../../../components/atoms/title/SectionTitle";
 import Image from "next/image";
 import React from "react";
@@ -41,9 +38,8 @@ const formatText = (text: string) => {
   });
 };
 
-const TermsAndConditionsPage = () => {
-  const { data: termsAndConditions } = useGetTermsAndConditionsQuery();
-  const { data: privacyPolicy } = useGetPrivacyPolicyQuery();
+const ComplaintsHandlingMechanismPage = () => {
+  const { data: termsAndConditions } = useGetComplaintsHandlingMechanismQuery();
 
   return (
     <main className="pt-28 mb-16">
@@ -59,7 +55,6 @@ const TermsAndConditionsPage = () => {
           />
         </div>
 
-        {/* الشروط والأحكام */}
         <div className="space-y-4 overflow-hidden" id="termsAndConditions">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -70,38 +65,12 @@ const TermsAndConditionsPage = () => {
                 height={20}
               />
               <h2 className="text-xl md:text-2xl font-semibold">
-                الشروط والأحكام
+                سياسة معالجة الشكاوي
               </h2>
             </div>
-            <p className="text-gray-500">
-              الاتفاقيات و الشروط التي تحكم العلاقة بين عقار و المستخدمين
-            </p>
           </div>
           <div className="border p-8 bg-secondary shadow-md rounded-sm space-y-3">
             {formatText(termsAndConditions?.data || "")}
-          </div>
-        </div>
-
-        {/* سياسة الخصوصية */}
-        <div className="space-y-4 overflow-hidden" id="privacyPolicy">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Image
-                src="/Icons/Policy.svg"
-                alt="Policy"
-                width={20}
-                height={20}
-              />
-              <h2 className="text-xl md:text-2xl font-semibold">
-                سياسة الخصوصية
-              </h2>
-            </div>
-            <p className="text-gray-500">
-              سياسة الخصوصية التي تحكم العلاقة بين عقار و المستخدمين
-            </p>
-          </div>
-          <div className="border p-8 bg-secondary shadow-md rounded-sm space-y-3">
-            {formatText(privacyPolicy?.data || "")}
           </div>
         </div>
       </div>
@@ -109,4 +78,4 @@ const TermsAndConditionsPage = () => {
   );
 };
 
-export default TermsAndConditionsPage;
+export default ComplaintsHandlingMechanismPage;

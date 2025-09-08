@@ -16,7 +16,7 @@ export const EvaluationFormSchema = z.object({
 
   phone: z
     .string()
-    .min(10, { message: "رقم الجوال يجب أن يكون 10 أرقام على الأقل." })
+    .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
     .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
 
   email: z.string().email({ message: "يرجى إدخال بريد إلكتروني صحيح." }),

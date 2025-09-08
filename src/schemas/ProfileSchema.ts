@@ -5,7 +5,7 @@ export const ProfileSchema = z.object({
   name: z.string().min(1, "الأسم مطلوب"),
   phone: z
     .string()
-    .min(10, { message: "رقم الجوال يجب أن يكون 10 أرقام على الأقل." })
+    .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
     .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
   whatsapp: z
     .string()

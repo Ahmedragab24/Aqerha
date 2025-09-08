@@ -288,6 +288,26 @@ export const MenuItemsList: UserMenuListType = {
         },
         {
           id: 2,
+          name: "سياسة معالجة الشكاوي",
+          membershipType: [
+            "property_seeker",
+            "company_agent",
+            "inspector",
+            "owner",
+            "agent",
+            "auction_companies",
+            "Services Providers",
+            "real_estate_developer",
+            "contracting_company",
+            "individual_agent",
+            "engineering_offices",
+            "evaluator",
+          ],
+          icon: "/Icons/T&C.svg",
+          path: "/complaints-handling-mechanism",
+        },
+        {
+          id: 3,
           name: "رخصة فال",
           membershipType: [
             "property_seeker",
@@ -307,7 +327,7 @@ export const MenuItemsList: UserMenuListType = {
           onClick: true,
         },
         {
-          id: 3,
+          id: 4,
           name: "شهادة ضريبة القيمة المضافة",
           membershipType: [
             "property_seeker",

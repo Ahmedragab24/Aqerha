@@ -6,7 +6,7 @@ export const AddAdStepOneFormSchema = z
     user_role: z.string().min(1, { message: "صفة المستخدم مطلوبة" }),
     phone: z
       .string()
-      .min(10, { message: "رقم الجوال يجب أن يتكون من 10 أرقام على الأقل." })
+      .min(9, { message: "رقم الجوال يجب أن يتكون من 9 أرقام على الأقل." })
       .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
     whatsapp: z
       .string()

@@ -15,7 +15,6 @@ import {
   useSendOtpMutation,
   useUserLoginMutation,
 } from "@/store/services/Auth";
-import { LoginType } from "@/types/Auth";
 import { showSuccessToast } from "@/components/Successfully/DoneToast";
 import { showFailedToast } from "@/components/Error&NotFound/FailedToast";
 import { ErrorType } from "@/types/errors";
@@ -38,29 +37,30 @@ const LoginForm = ({ setType, setPhone }: RegisterFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log(values);
-
-    const data: LoginType = {
-      phone: values.phone,
-      password: values.password,
-      fcm_token: "",
-      device_type: "web",
-    };
+    const data = new FormData();
+    data.append("phone", values.phone);
+    data.append("password", values.password);
+    data.append("fcm_token", "adad");
+    data.append("device_type", "web");
 
     try {
       await login(data).unwrap();
 
-      showSuccessToast({ title: "تم ارسال رمز التحقق" });
-      setPhone(values.phone);
-      await SendCode({ phone: values.phone }).unwrap();
-      setType("Otp");
+      try {
+        await SendCode({ phone: values.phone }).unwrap();
+        showSuccessToast({ title: "تم ارسال رمز التحقق" });
+        setPhone(values.phone);
+        setType("Otp");
+      } catch {
+        showFailedToast({ title: "حدث خطأ أثناء إرسال رمز التحقق" });
+      }
     } catch (error: unknown) {
       const err = error as ErrorType;
       const firstError =
         err?.data?.errors && Object.values(err.data.errors)[0]?.[0];
 
       showFailedToast({
-        title: firstError || "حدث خطأ غير متوقع",
+        title: firstError || err?.data?.message,
       });
     }
   }
@@ -94,7 +94,7 @@ const LoginForm = ({ setType, setPhone }: RegisterFormProps) => {
 
           <p
             className="mt-2 mb-4 text-sm text-primary font-light hover:underline cursor-pointer"
-            onClick={() => setType("ForgetPassword")}
+            onClick={() => setType("PhoneForForgetPassword")}
           >
             نسيت كلمة المرور؟
           </p>

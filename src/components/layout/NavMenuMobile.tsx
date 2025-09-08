@@ -16,6 +16,7 @@ import { LayoutGrid } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MembershipType, ServicesProvidersType } from "@/types/Membership";
 import SocialMediaIcons from "../molecules/iconsGroup/SoicalMediaIcons";
+import DownloadAppICons from "../molecules/iconsGroup/DownloadAppICons";
 
 interface Props {
   open: boolean;
@@ -62,7 +63,7 @@ const NavMenuMobile = ({ open, setOpen, isScrolled, navbarBg }: Props) => {
         </SheetHeader>
 
         {/* ====== Main Content ====== */}
-        <div className="flex-1 overflow-y-auto mt-6 space-y-10">
+        <div className="flex-1 mt-2 space-y-4">
           {/* NAV MENU */}
           <div>
             <NavMenu
@@ -94,23 +95,10 @@ const NavMenuMobile = ({ open, setOpen, isScrolled, navbarBg }: Props) => {
             >
               اتصل بنا
             </Button>
-            <Button
-              variant="link"
-              className="text-sm text-gray-700 hover:text-primary transition"
-              onClick={() => {
-                setOpen(false);
-                router.push("/contact");
-              }}
-            >
-              <a
-                href="https://apps.apple.com/eg/app/%D8%B9%D9%82%D8%B1%D9%87%D8%A7-aqrha/id6743926325?l=ar"
-                target="_blank"
-                rel="noopener"
-                dir="rtl"
-              >
-                حمل التطبيق
-              </a>
-            </Button>
+            <div className="flex flex-col gap-2 items-center mt-4">
+              <h4 className="text-sm text-gray-700">حمل التطبيق الأن</h4>
+              <DownloadAppICons />
+            </div>
           </div>
         </div>
 

@@ -1,11 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type {
-  LoginType,
-  OtpType,
-  RegisterType,
-  ResetPasswordType,
-  UserData,
-} from "@/types/Auth";
+import type { UserData } from "@/types/Auth";
 
 interface UserDataResponse {
   message: string;
@@ -68,7 +62,7 @@ export const AuthApi = createApi({
   }),
   tagTypes: ["Auth"],
   endpoints: (builder) => ({
-    userLogin: builder.mutation<UserDataResponse, LoginType>({
+    userLogin: builder.mutation<UserDataResponse, FormData>({
       query: (data) => ({
         url: "/login",
         method: "POST",
@@ -86,15 +80,11 @@ export const AuthApi = createApi({
       }),
     }),
 
-    userRegister: builder.mutation<RegisterResponse, RegisterType>({
+    userRegister: builder.mutation<RegisterResponse, FormData>({
       query: (data) => ({
         url: "/register",
         method: "POST",
         body: data,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
       }),
     }),
 
@@ -106,7 +96,7 @@ export const AuthApi = createApi({
       }),
     }),
 
-    verifyOtp: builder.mutation<VerifyOtpResponse, OtpType>({
+    verifyOtp: builder.mutation<VerifyOtpResponse, FormData>({
       query: (data) => ({
         url: "/verify-otp",
         method: "POST",
@@ -114,7 +104,7 @@ export const AuthApi = createApi({
       }),
     }),
 
-    verifyResetOtp: builder.mutation<VerifyOtpResponse, OtpType>({
+    verifyResetOtp: builder.mutation<VerifyOtpResponse, FormData>({
       query: (data) => ({
         url: "/verify-reset-otp",
         method: "POST",
@@ -122,7 +112,7 @@ export const AuthApi = createApi({
       }),
     }),
 
-    ResetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordType>({
+    ResetPassword: builder.mutation<ResetPasswordResponse, FormData>({
       query: (data) => ({
         url: "/Reset-password",
         method: "POST",

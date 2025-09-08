@@ -16,6 +16,9 @@ import { Button } from "../../ui/button";
 import LoginForm from "../forms/Auth/LoginForm";
 import OtpForm from "../forms/Auth/OtpForm";
 import ChangePhoneForm from "../forms/Auth/ChangePhoneForm";
+import PhoneForForgetPassword from "../forms/Auth/PhoneForForgetPassword";
+import ForgetPassword from "../forms/Auth/ForgetPassword";
+import ResetPasswordForm from "../forms/Auth/ResetPasswordForm";
 
 interface Props {
   children?: React.ReactNode;
@@ -58,6 +61,15 @@ const RegisterDialog = ({ children }: Props) => {
           )}
           {type === "ChangPhone" && (
             <ChangePhoneForm setType={setType} setPhone={setPhone} />
+          )}
+          {type === "PhoneForForgetPassword" && (
+            <PhoneForForgetPassword setType={setType} setPhone={setPhone} />
+          )}
+          {type === "ForgetPassword" && (
+            <ForgetPassword setType={setType} phone={phone} />
+          )}
+          {type === "RestPassword" && (
+            <ResetPasswordForm setType={setType} phone={phone} />
           )}
         </div>
       </DialogContent>
