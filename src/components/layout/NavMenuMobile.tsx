@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { MembershipType, ServicesProvidersType } from "@/types/Membership";
 import SocialMediaIcons from "../molecules/iconsGroup/SoicalMediaIcons";
 import DownloadAppICons from "../molecules/iconsGroup/DownloadAppICons";
+import Link from "next/link";
 
 interface Props {
   open: boolean;
@@ -109,6 +110,17 @@ const NavMenuMobile = ({ open, setOpen, isScrolled, navbarBg }: Props) => {
         <SheetFooter className="pt-4 border-t text-center">
           <p className="text-gray-500 text-xs">
             جميع الحقوق محفوظة © عقرها {new Date().getFullYear()}
+          </p>
+          <p className="text-muted-foreground hover:text-gray-600 text-xs md:text-sm">
+            تم التصميم والتطوير بواسطة
+            <Link
+              href="https://computinggate.com/ar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline underline-offset-2 transition-all duration-200 mx-1"
+            >
+              شركة بوابة الحوسبة
+            </Link>
           </p>
         </SheetFooter>
       </SheetContent>

@@ -26,10 +26,13 @@ export const DalAuthenticationServicesFormSchema = z.object({
       { message: "رقم الهوية الوطنية غير صحيح." }
     ),
 
-  phone: z
-    .string()
-    .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
-    .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
+  phone: z.object({
+    iso_code: z.string().min(1, { message: "اختار كود الدولة." }),
+    number: z
+      .string()
+      .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
+      .regex(/^[0-9]+$/, { message: "رقم الجوال غير صحيح." }),
+  }),
 
   email: z
     .string()

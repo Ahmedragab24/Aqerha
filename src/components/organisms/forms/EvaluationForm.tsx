@@ -36,7 +36,10 @@ const EvaluationForm = ({ setOpen }: Props) => {
       name: "",
       national_id: "",
       user_status: "",
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       email: "",
       real_estate_type: "",
       real_estate_category: "",
@@ -56,7 +59,7 @@ const EvaluationForm = ({ setOpen }: Props) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("email", values.email);
-    formData.append("phone", values.phone);
+    formData.append("phone", values.phone.iso_code + values.phone.number);
     formData.append("national_id", values.national_id);
     formData.append("user_status", values.user_status);
     formData.append("real_estate_type", values.real_estate_type);

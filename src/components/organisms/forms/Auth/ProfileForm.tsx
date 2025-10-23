@@ -26,6 +26,8 @@ interface Props {
 const ProfileForm = ({ userData }: Props) => {
   const dispatch = useAppDispatch();
 
+  console.log("userData", userData);
+
   const { imageFile } = useAppSelector((state) => state.userData);
 
   const [updateUserData, { isLoading }] = useUpdateProfileMutation();
@@ -33,8 +35,8 @@ const ProfileForm = ({ userData }: Props) => {
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      name: userData?.profile?.name || "",
-      phone: userData?.profile?.phone || "",
+      name: userData?.name || "",
+      phone: userData?.phone || "",
       whatsapp: userData?.profile?.whatsapp || "",
       address: userData?.profile?.address || "",
       description: userData?.profile?.description || "",
@@ -56,8 +58,8 @@ const ProfileForm = ({ userData }: Props) => {
   useEffect(() => {
     if (userData) {
       form.reset({
-        name: userData.profile?.name || "",
-        phone: userData.profile?.phone || "",
+        name: userData?.name || "",
+        phone: userData?.phone || "",
         whatsapp: userData.profile?.whatsapp || "",
         address: userData.profile?.address || "",
         description: userData.profile?.description || "",
@@ -75,16 +77,15 @@ const ProfileForm = ({ userData }: Props) => {
   const onSubmit = async (data: z.infer<typeof ProfileSchema>) => {
     const formData = new FormData();
 
-    // إضافة الحقول النصية
-    formData.append("name", data.name);
-    formData.append("phone", data.phone);
-    formData.append("whatsapp", data.whatsapp);
-    formData.append("address", data.address);
-    formData.append("description", data.description);
-    formData.append("license_number", data.license_number);
+    formData.append("name", data.name || userData?.profile?.name || "");
+    formData.append("phone", userData?.profile?.phone || "");
+    formData.append("whatsapp", data.whatsapp || "");
+    formData.append("address", data.address || "");
+    formData.append("description", data.description || "");
+    formData.append("license_number", data.license_number || "");
     formData.append(
       "commercial_registration_number",
-      data.commercial_registration_number
+      data.commercial_registration_number || ""
     );
     if (data.service) formData.append("service", data.service);
     if (data.services && data.services.length > 0) {
@@ -153,9 +154,9 @@ const ProfileForm = ({ userData }: Props) => {
               render={({ field }) => (
                 <CustomFormItem
                   field={field}
-                  type="text"
+                  type="tel"
                   label="رقم الهاتف"
-                  placeholder="ادخل رقم الواتساب"
+                  placeholder="ادخل رقم الهاتف"
                   className="!h-12"
                 />
               )}
@@ -168,7 +169,7 @@ const ProfileForm = ({ userData }: Props) => {
               render={({ field }) => (
                 <CustomFormItem
                   field={field}
-                  type="text"
+                  type="tel"
                   label="رقم الواتساب"
                   placeholder="ادخل رقم الواتساب"
                   className="!h-12"

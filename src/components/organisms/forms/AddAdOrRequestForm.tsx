@@ -105,7 +105,10 @@ const AddAdOrRequestForm = ({
       description: "",
       features: [],
       terms_acceptance: false,
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       whatsapp: "",
       is_marketing_request: type === "request" ? true : false,
       location: {
@@ -234,7 +237,7 @@ const AddAdOrRequestForm = ({
           features: Array.isArray(values.features)
             ? values.features.map(Number)
             : [Number(values.features)],
-          phone: String(values.phone),
+          phone: `${values.phone?.iso_code ?? ""}${values.phone?.number ?? ""}`,
           whatsapp: String(values.whatsapp),
           is_marketing_request: values.is_marketing_request || false,
           rental_period: values.rental_period as TypeRentalPeriodType,
@@ -779,7 +782,9 @@ const AddAdOrRequestForm = ({
                 render={({ field }) => (
                   <CustomPhoneInput
                     field={{
-                      value: field.value || "",
+                      value: (typeof field.value === "string"
+                        ? undefined
+                        : field.value) ?? { iso_code: "", number: "" },
                       onChange: field.onChange,
                       onBlur: field.onBlur,
                       name: field.name,
@@ -793,14 +798,11 @@ const AddAdOrRequestForm = ({
                 control={form.control}
                 name="whatsapp"
                 render={({ field }) => (
-                  <CustomPhoneInput
-                    field={{
-                      value: field.value || "",
-                      onChange: field.onChange,
-                      onBlur: field.onBlur,
-                      name: field.name,
-                    }}
+                  <CustomFormItem
+                    field={field}
+                    type="text"
                     label="رقم الواتساب"
+                    placeholder="ادخل رقم الواتساب"
                     className="!h-11 border-border text-right"
                   />
                 )}

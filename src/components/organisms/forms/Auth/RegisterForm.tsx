@@ -36,7 +36,10 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
       name: "",
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       email: "",
       city: "",
       membershipType: "" as MembershipType,
@@ -57,13 +60,12 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
     const data = new FormData();
     data.append("name", values.name);
     data.append("email", values.email);
-    data.append("phone", values.phone);
+    data.append("phone", values.phone.iso_code + values.phone.number);
     data.append("city", values.city);
     data.append("password", values.Password);
     data.append("membership_type", values.membershipType);
     data.append("fal_id", String(values.ValLicenseNumber));
     data.append("device_type", "web");
-    data.append("fcm_token", "asdasd");
     data.append(
       "commercial_registration_number",
       String(values.CommercialNumber)
@@ -79,7 +81,7 @@ const RegisterForm = ({ setType, setPhone }: RegisterFormProps) => {
       await Register(data).unwrap();
 
       showSuccessToast({ title: "تم التسجيل بنجاح" });
-      setPhone(values.phone);
+      setPhone(values.phone.iso_code + values.phone.number);
 
       setType("login");
     } catch (error) {

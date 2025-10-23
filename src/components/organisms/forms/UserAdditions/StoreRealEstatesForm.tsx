@@ -88,7 +88,10 @@ const StoreRealEstatesForm = ({
       description: "",
       features: [],
       terms_acceptance: false,
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       whatsapp: "",
       is_marketing_request: false,
       location: {
@@ -219,7 +222,7 @@ const StoreRealEstatesForm = ({
         features: Array.isArray(values.features)
           ? values.features.map(Number)
           : [Number(values.features)],
-        phone: String(values.phone),
+        phone: `${values.phone?.iso_code ?? ""}${values.phone?.number ?? ""}`,
         whatsapp: String(values.whatsapp),
         is_marketing_request: values.is_marketing_request || false,
         rental_period: values.rental_period as TypeRentalPeriodType,
@@ -639,7 +642,7 @@ const StoreRealEstatesForm = ({
             render={({ field }) => (
               <CustomPhoneInput
                 field={{
-                  value: field.value || "",
+                  value: field.value ?? { iso_code: "", number: "" },
                   onChange: field.onChange,
                   onBlur: field.onBlur,
                   name: field.name,
@@ -653,14 +656,11 @@ const StoreRealEstatesForm = ({
             control={form.control}
             name="whatsapp"
             render={({ field }) => (
-              <CustomPhoneInput
-                field={{
-                  value: field.value || "",
-                  onChange: field.onChange,
-                  onBlur: field.onBlur,
-                  name: field.name,
-                }}
+              <CustomFormItem
+                field={field}
+                type="tel"
                 label="رقم الواتساب"
+                placeholder="ادخل رقم الواتساب"
                 className="!h-11 border-border text-right"
               />
             )}

@@ -43,14 +43,26 @@ export const MenuItemsList: UserMenuListType = {
     {
       id: 1,
       name: "إعلان عن عقار",
-      membershipType: ["company_agent", "individual_agent", "owner", "agent"],
+      membershipType: [
+        "company_agent",
+        "individual_agent",
+        "owner",
+        "agent",
+        "property_seeker",
+      ],
       icon: "/Icons/fluent_building-32-regular.svg",
       path: "/add-advertisement",
     },
     {
       id: 2,
       name: "إعلاناتي",
-      membershipType: ["company_agent", "individual_agent", "owner", "agent"],
+      membershipType: [
+        "company_agent",
+        "individual_agent",
+        "owner",
+        "agent",
+        "property_seeker",
+      ],
       icon: "/Icons/streamline_annoncement-megaphone.svg",
       path: "/my-ads",
     },

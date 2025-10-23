@@ -76,6 +76,7 @@ export const AuthApi = createApi({
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          Accept: "application/json",
         },
       }),
     }),
@@ -85,6 +86,9 @@ export const AuthApi = createApi({
         url: "/register",
         method: "POST",
         body: data,
+        headers: {
+          Accept: "application/json",
+        },
       }),
     }),
 

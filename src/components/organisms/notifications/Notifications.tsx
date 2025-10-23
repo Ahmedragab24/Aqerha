@@ -52,11 +52,7 @@ const Notifications = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
           {token ? (
             <Popover open={open} onOpenChange={changeOpen}>
               <PopoverTrigger asChild>
-                <Button
-                  variant={"noneBg"}
-                  className="relative !p-0 !m-0"
-                  suppressHydrationWarning
-                >
+                <div className="relative cursor-pointer">
                   <BellRing
                     className={`fill-primary text-primary !w-6 !h-6 ${
                       isScrolled || navbarBg
@@ -64,13 +60,12 @@ const Notifications = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
                         : "!text-primary !fill-primary"
                     }`}
                   />
-
                   {/* Red notification dot */}
                   {NotificationsUnreadData &&
                     NotificationsUnreadData?.countUnreadNotifications > 0 && (
-                      <span className="absolute top-1 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                     )}
-                </Button>
+                </div>
               </PopoverTrigger>
               <PopoverContent
                 className="w-[250px] md:w-lg p-0 shadow-lg border border-gray-200 rtl"
@@ -148,19 +143,13 @@ const Notifications = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
             </Popover>
           ) : (
             <RegisterDialog>
-              <Button
-                variant={"noneBg"}
-                className="relative !p-0 !m-0"
-                suppressHydrationWarning
-              >
-                <BellRing
-                  className={`fill-primary text-primary !w-6 !h-6 ${
-                    isScrolled || navbarBg
-                      ? "text-foreground fill-primary"
-                      : "!text-primary !fill-primary"
-                  }`}
-                />
-              </Button>
+              <BellRing
+                className={`fill-primary text-primary !w-6 !h-6 ${
+                  isScrolled || navbarBg
+                    ? "text-foreground fill-primary"
+                    : "!text-primary !fill-primary"
+                }`}
+              />
             </RegisterDialog>
           )}
         </TooltipTrigger>

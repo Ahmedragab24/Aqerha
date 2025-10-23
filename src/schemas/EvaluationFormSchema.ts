@@ -14,11 +14,13 @@ export const EvaluationFormSchema = z.object({
 
   user_status: z.string().min(1, { message: "يرجى اختيار صفة طالب الفحص." }),
 
-  phone: z
-    .string()
-    .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
-    .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
-
+  phone: z.object({
+    iso_code: z.string().min(1, { message: "اختار كود الدولة." }),
+    number: z
+      .string()
+      .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
+      .regex(/^[0-9]+$/, { message: "رقم الجوال غير صحيح." }),
+  }),
   email: z.string().email({ message: "يرجى إدخال بريد إلكتروني صحيح." }),
 
   real_estate_type: z.string().min(1, { message: "يرجى اختيار نوع العقار." }),

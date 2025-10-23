@@ -4,10 +4,13 @@ export const AddAdStepOneFormSchema = z
   .object({
     userType: z.string().min(1, { message: "نوع المستخدم مطلوب" }),
     user_role: z.string().min(1, { message: "صفة المستخدم مطلوبة" }),
-    phone: z
-      .string()
-      .min(9, { message: "رقم الجوال يجب أن يتكون من 9 أرقام على الأقل." })
-      .regex(/^[0-9+\-\s()]+$/, { message: "رقم الجوال غير صحيح." }),
+    phone: z.object({
+      iso_code: z.string().min(1, { message: "اختار كود الدولة." }),
+      number: z
+        .string()
+        .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
+        .regex(/^[0-9]+$/, { message: "رقم الجوال غير صحيح." }),
+    }),
     whatsapp: z
       .string()
       .min(10, { message: "رقم الواتساب يجب أن يتكون من 10 أرقام على الأقل." })

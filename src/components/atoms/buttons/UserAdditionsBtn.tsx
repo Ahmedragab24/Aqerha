@@ -1,5 +1,4 @@
 import UserAdditionsDialog from "@/components/organisms/Popups/UserAdditionsDialog";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -16,21 +15,15 @@ interface UserAdditionsBtnProps {
 const UserAdditionsBtn = ({ isScrolled, navbarBg }: UserAdditionsBtnProps) => {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
+      <TooltipTrigger>
         <UserAdditionsDialog>
-          <Button
-            variant={"noneBg"}
-            className="relative !p-0 !m-0"
-            suppressHydrationWarning
-          >
-            <CirclePlus
-              className={`text-primary !w-6 !h-6 ${
-                isScrolled || navbarBg
-                  ? "text-foreground fill-primary/80"
-                  : "!text-primary !fill-[#518535]"
-              }`}
-            />
-          </Button>
+          <CirclePlus
+            className={`text-primary !w-6 !h-6 ${
+              isScrolled || navbarBg
+                ? "text-foreground fill-primary/80"
+                : "!text-primary !fill-[#518535]"
+            }`}
+          />
         </UserAdditionsDialog>
       </TooltipTrigger>
       <TooltipContent>

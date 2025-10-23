@@ -31,25 +31,29 @@ const LoginForm = ({ setType, setPhone }: RegisterFormProps) => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       password: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     const data = new FormData();
-    data.append("phone", values.phone);
+    data.append("phone", values.phone.iso_code + values.phone.number);
     data.append("password", values.password);
-    data.append("fcm_token", "adad");
     data.append("device_type", "web");
 
     try {
       await login(data).unwrap();
 
       try {
-        await SendCode({ phone: values.phone }).unwrap();
+        await SendCode({
+          phone: values.phone.iso_code + values.phone.number,
+        }).unwrap();
         showSuccessToast({ title: "تم ارسال رمز التحقق" });
-        setPhone(values.phone);
+        setPhone(values.phone.iso_code + values.phone.number);
         setType("Otp");
       } catch {
         showFailedToast({ title: "حدث خطأ أثناء إرسال رمز التحقق" });

@@ -25,7 +25,10 @@ const PhoneForForgetPassword = ({ setType, setPhone }: RegisterFormProps) => {
   const form = useForm<z.infer<typeof PhoneFormSchema>>({
     resolver: zodResolver(PhoneFormSchema),
     defaultValues: {
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
     },
   });
 
@@ -34,12 +37,14 @@ const PhoneForForgetPassword = ({ setType, setPhone }: RegisterFormProps) => {
 
     try {
       await SendOtp({
-        phone: values.phone,
+        phone: values.phone.iso_code + values.phone.number,
       }).unwrap();
 
       showSuccessToast({ title: "تم ارسال رمز التحقق" });
-      setPhone(values.phone);
-      await SendCode({ phone: values.phone }).unwrap();
+      setPhone(values.phone.iso_code + values.phone.number);
+      await SendCode({
+        phone: values.phone.iso_code + values.phone.number,
+      }).unwrap();
       setType("ForgetPassword");
     } catch (error: unknown) {
       const err = error as ErrorType;

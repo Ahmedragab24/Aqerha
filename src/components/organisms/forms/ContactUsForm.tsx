@@ -19,7 +19,10 @@ const ContactUsForm = () => {
     resolver: zodResolver(ContactUsFormSchema),
     defaultValues: {
       name: "",
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       message: "",
     },
   });
@@ -29,7 +32,7 @@ const ContactUsForm = () => {
 
     const Data = new FormData();
     Data.append("name", values.name);
-    Data.append("phone", values.phone);
+    Data.append("phone", values.phone.iso_code + values.phone.number);
     Data.append("message", values.message);
 
     try {

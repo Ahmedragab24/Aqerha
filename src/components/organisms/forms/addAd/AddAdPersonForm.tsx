@@ -31,14 +31,18 @@ const AddAdPersonForm = ({ setStep }: Props) => {
       userType: "individual" as TypeUserType,
       user_role: "" as TypeUserRoleType,
       birth_date: "",
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       record_number: "",
       unified_commercial_registration_number: "",
       record_date: "",
       whatsapp: "",
       agency_number: "",
       agency_date: "",
-      licence_number: "",
+      licence_number: "", //رقم الرخصه
+      // ad_licence_number: "", //قم الترخيص  AdLicenseNumber
       instrument_number: "",
       instrument_date: "",
       id_number: "",
@@ -57,8 +61,13 @@ const AddAdPersonForm = ({ setStep }: Props) => {
     };
     delete cleanedValues.userType;
 
+    const payload = {
+      ...cleanedValues,
+      phone: `${values.phone.iso_code}${values.phone.number}`,
+    };
+
     try {
-      const res = await StoreAd(cleanedValues).unwrap();
+      const res = await StoreAd(payload).unwrap();
       showSuccessToast({ title: res.message });
 
       setStep("stepTwo");
@@ -149,7 +158,12 @@ const AddAdPersonForm = ({ setStep }: Props) => {
               control={form.control}
               name="whatsapp"
               render={({ field }) => (
-                <CustomPhoneInput field={field} label="رقم الواتساب" />
+                <CustomFormItem
+                  field={field}
+                  label="رقم الواتساب"
+                  placeholder="أدخل رقم الواتساب"
+                  type="tel"
+                />
               )}
             />
           </div>

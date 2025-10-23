@@ -49,7 +49,15 @@ export const AdOrRequestFormSchema = z.object({
   terms_acceptance: z.boolean().refine((val) => val === true, {
     message: "قبول الشروط مطلوب",
   }),
-  phone: z.string().optional(),
+  phone: z
+    .object({
+      iso_code: z.string().min(1, { message: "اختار كود الدولة." }),
+      number: z
+        .string()
+        .min(9, { message: "رقم الجوال يجب أن يكون 9 أرقام على الأقل." })
+        .regex(/^[0-9]+$/, { message: "رقم الجوال غير صحيح." }),
+    })
+    .optional(),
   whatsapp: z.string().optional(),
   is_marketing_request: z.boolean().optional(),
 });

@@ -23,16 +23,21 @@ const ChangePhoneForm = ({ setPhone, setType }: Props) => {
   const form = useForm<z.infer<typeof ChangePhoneFormSchema>>({
     resolver: zodResolver(ChangePhoneFormSchema),
     defaultValues: {
-      changePhone: "",
+      changePhone: {
+        iso_code: "",
+        number: "",
+      },
     },
   });
 
   async function onChangePhone(values: z.infer<typeof ChangePhoneFormSchema>) {
     try {
-      const res = await changePhone(values.changePhone).unwrap();
+      const res = await changePhone(
+        values.changePhone.iso_code + values.changePhone.number
+      ).unwrap();
 
       showSuccessToast({ title: `${res?.massage}` });
-      setPhone(values.changePhone);
+      setPhone(values.changePhone.iso_code + values.changePhone.number);
       setType("Otp");
       form.reset();
     } catch (error) {

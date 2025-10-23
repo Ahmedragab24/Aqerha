@@ -110,7 +110,7 @@ const Footer = () => {
               </p> */}
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-8">
               {/* <EmailInput /> */}
               {/* <p
                 className="text-xs text-gray-500 text-right sm:text-center"
@@ -119,6 +119,10 @@ const Footer = () => {
                 نحترم خصوصيتك ولن نشارك بياناتك مع أطراف ثالثة
               </p> */}
               <DownloadAppICons />
+
+              <div className="flex items-center justify-center">
+                <SocialMediaIcons />
+              </div>
             </div>
           </div>
         </div>
@@ -135,9 +139,17 @@ const Footer = () => {
               جميع الحقوق محفوظة © عقرها {new Date().getFullYear()}
             </div>
 
-            <div className="flex items-center">
-              <SocialMediaIcons />
-            </div>
+            <p className="text-muted-foreground hover:text-gray-600 text-xs md:text-sm">
+              تم التصميم والتطوير بواسطة
+              <Link
+                href="https://computinggate.com/ar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-2 transition-all duration-200 mx-1"
+              >
+                شركة بوابة الحوسبة
+              </Link>
+            </p>
           </div>
         </div>
       </div>

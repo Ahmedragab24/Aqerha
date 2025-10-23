@@ -31,7 +31,7 @@ const UserOrdersBtn = ({
       }
     >
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <Codesandbox
             className={`text-primary fill-primary/20 !w-6 !h-6 ${
               isScrolled || navbarBg

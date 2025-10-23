@@ -1,35 +1,30 @@
-"use client";
-
-import { useGetUnReadCountQuery } from "@/store/services/Chats";
-import { MessageCircleMore } from "lucide-react";
-import Link from "next/link";
 import React from "react";
-import NumberCountBadge from "../badges/NumberCountBadge";
-import { getAuthTokenClient } from "@/lib/auth/auth-client";
 import RegisterDialog from "@/components/organisms/Popups/RegisterDialog";
+import Link from "next/link";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Heart } from "lucide-react";
+import { getAuthTokenClient } from "@/lib/auth/auth-client";
 
-interface Props {
+interface NavLargeScreenProps {
   isScrolled: boolean;
   navbarBg: boolean;
 }
 
-const ConversationBtn = ({ isScrolled, navbarBg }: Props) => {
-  const { data } = useGetUnReadCountQuery();
-  const unreadCount = data?.data?.unread_chats_count;
+const FavoritesIcon = ({ isScrolled, navbarBg }: NavLargeScreenProps) => {
   const token = getAuthTokenClient();
 
   return (
-    <div className="relative">
+    <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
           {token ? (
-            <Link href={"/conversations"}>
-              <MessageCircleMore
+            <Link href={"/favorites"}>
+              <Heart
                 className={`fill-primary text-primary !w-6 !h-6 ${
                   isScrolled || navbarBg
                     ? "text-foreground fill-primary"
@@ -39,7 +34,7 @@ const ConversationBtn = ({ isScrolled, navbarBg }: Props) => {
             </Link>
           ) : (
             <RegisterDialog>
-              <MessageCircleMore
+              <Heart
                 className={`fill-primary text-primary !w-6 !h-6 ${
                   isScrolled || navbarBg
                     ? "text-foreground fill-primary"
@@ -50,12 +45,11 @@ const ConversationBtn = ({ isScrolled, navbarBg }: Props) => {
           )}
         </TooltipTrigger>
         <TooltipContent>
-          <p>المحادثات</p>
+          <p>المفضلة</p>
         </TooltipContent>
       </Tooltip>
-      <NumberCountBadge count={unreadCount || 0} />
-    </div>
+    </TooltipProvider>
   );
 };
 
-export default ConversationBtn;
+export default FavoritesIcon;

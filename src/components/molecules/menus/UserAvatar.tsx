@@ -305,9 +305,13 @@ const UserAvatar = () => {
             </AccordionItem>
           )}
 
-          {["company_agent", "individual_agent", "owner", "agent"].includes(
-            UserMemberType
-          ) && (
+          {[
+            "company_agent",
+            "individual_agent",
+            "owner",
+            "agent",
+            "property_seeker",
+          ].includes(UserMemberType) && (
             <AccordionItem value="advertisements" className="border-none">
               <AccordionTrigger className="hover:no-underline py-2 px-2 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
                 <h3 className="text-primary font-medium md:font-semibold text-sm">

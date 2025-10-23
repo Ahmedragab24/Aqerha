@@ -28,7 +28,10 @@ const AddAdCompanyForm = ({ setStep }: Props) => {
     defaultValues: {
       userType: "company" as TypeUserType,
       user_role: "agent" as TypeUserRoleType,
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       whatsapp: "",
       birth_date: "",
       agent_nation_id: "",
@@ -51,7 +54,12 @@ const AddAdCompanyForm = ({ setStep }: Props) => {
       };
       delete cleanedValues.userType;
 
-      const res = await StoreAd(cleanedValues).unwrap();
+      const payload = {
+        ...cleanedValues,
+        phone: `${values.phone.iso_code}${values.phone.number}`,
+      };
+
+      const res = await StoreAd(payload).unwrap();
       showSuccessToast({ title: res.message });
 
       setStep("stepTwo");
@@ -108,7 +116,12 @@ const AddAdCompanyForm = ({ setStep }: Props) => {
               control={form.control}
               name="whatsapp"
               render={({ field }) => (
-                <CustomPhoneInput field={field} label="رقم الواتساب" />
+                <CustomFormItem
+                  field={field}
+                  label="رقم الواتساب"
+                  placeholder="أدخل رقم الواتساب"
+                  type="tel"
+                />
               )}
             />
           </div>

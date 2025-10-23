@@ -42,7 +42,10 @@ const ExaminationForm = ({ setOpen, ExaminationType }: Props) => {
       name: "",
       national_id: "",
       user_type: "",
-      phone: "",
+      phone: {
+        iso_code: "",
+        number: "",
+      },
       email: "",
       real_estate_type: "",
       real_estate_category: "",
@@ -61,7 +64,7 @@ const ExaminationForm = ({ setOpen, ExaminationType }: Props) => {
       name: values.name,
       national_id: values.national_id,
       user_status: values.user_type,
-      phone: values.phone,
+      phone: values.phone.iso_code + values.phone.number,
       email: values.email,
       real_estate_type: values.real_estate_type as TypePropertyType,
       real_estate_category:
