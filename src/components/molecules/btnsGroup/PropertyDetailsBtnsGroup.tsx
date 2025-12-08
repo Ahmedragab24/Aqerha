@@ -20,14 +20,14 @@ const PropertyDetailsBtnsGroup = ({ RealStateId, count }: Props) => {
   return (
     <div className="flex items-center gap-1 md:gap-4">
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <ShareButton type="page" />
         </TooltipTrigger>
         <TooltipContent>مشاركة العقار</TooltipContent>
       </Tooltip>
 
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <Button className="bg-[#EDF0F8] hover:bg-[#EDF0F8]/80 rounded-xl">
             {count && count > 0 ? (
               <span className="text-[#0e6c8b]">{count}</span>
@@ -44,7 +44,7 @@ const PropertyDetailsBtnsGroup = ({ RealStateId, count }: Props) => {
       </Tooltip>
 
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <FavoriteBtn type="page" RealStateId={RealStateId} />
         </TooltipTrigger>
         <TooltipContent>إضافة للمفضلة</TooltipContent>

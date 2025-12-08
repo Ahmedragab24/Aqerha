@@ -23,9 +23,12 @@ export async function getAllRealEstates() {
 
 export async function getRealEstateById(realEstateId: number) {
   try {
-    const res = await fetch(`${API_BASE_URL}/real-estate/${realEstateId}`, {
-      cache: "force-cache",
-    });
+    const res = await fetch(
+      `${API_BASE_URL}/real-estate/show/${realEstateId}`,
+      {
+        cache: "force-cache",
+      }
+    );
 
     if (!res.ok) throw new Error("فشل في جلب البيانات");
 

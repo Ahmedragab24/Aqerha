@@ -150,7 +150,7 @@ export const RealEstateApi = createApi({
 
     getRealEstateById: builder.query<RealEstateByIdResponse, number>({
       query: (id) => ({
-        url: `/real-estate/${id}`,
+        url: `/real-estate/show/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

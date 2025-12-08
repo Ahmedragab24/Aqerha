@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import Image from "next/image";
 import type { RealEstesType } from "@/types/Real-estates";
+import { loadGoogleMapsScript } from "@/lib/loadGoogleMaps";
 
 interface Props {
   properties: RealEstesType[];
@@ -217,35 +218,24 @@ const FindRealEstateOnMap = ({ properties }: Props) => {
 
   // ✅ تحميل Google Maps
   useEffect(() => {
-    const loadGoogleMaps = async () => {
-      try {
-        if (window.google && window.google.maps) {
+    let isMounted = true;
+
+    loadGoogleMapsScript("places,geometry")
+      .then(() => {
+        if (isMounted) {
           initializeMap();
-          return;
         }
-
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places,geometry&language=ar&region=SA&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-        (window as any).initMap = initializeMap;
-
-        script.onerror = () => {
+      })
+      .catch((error) => {
+        if (isMounted) {
+          console.error(error);
           setMapError("فشل في تحميل خرائط جوجل. تحقق من مفتاح API.");
           setIsMapLoading(false);
-        };
-
-        document.head.appendChild(script);
-      } catch (error) {
-        console.log(error);
-        setMapError("حدث خطأ في تحميل الخريطة");
-        setIsMapLoading(false);
-      }
-    };
-
-    loadGoogleMaps();
+        }
+      });
 
     return () => {
+      isMounted = false;
       markersRef.current.forEach((m) => m.setMap(null));
       infoWindowRef.current?.close();
     };

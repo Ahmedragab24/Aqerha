@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useRef, useState } from "react";
+import { loadGoogleMapsScript } from "@/lib/loadGoogleMaps";
 
 interface Props {
   location: {
@@ -32,27 +33,19 @@ const GoogleMapProperty = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google) {
-        initializeMap();
-        return;
-      }
+    let isMounted = true;
 
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
-      script.async = true;
-      script.defer = true;
-
-      script.onload = () => {
-        initializeMap();
-      };
-
-      script.onerror = () => {
-        setError("Failed to load Google Maps");
-      };
-
-      document.head.appendChild(script);
-    };
+    loadGoogleMapsScript()
+      .then(() => {
+        if (isMounted) {
+          initializeMap();
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setError("Failed to load Google Maps");
+        }
+      });
 
     const initializeMap = () => {
       if (!mapRef.current || !window.google) return;
@@ -93,15 +86,14 @@ const GoogleMapProperty = ({
           content: `
             <div class="p-2">
          
-              ${
-                address
-                  ? `<p class="text-sm text-gray-600 mt-1">${address}</p>`
-                  : ""
-              }
+              ${address
+              ? `<p class="text-sm text-gray-600 mt-1">${address}</p>`
+              : ""
+            }
               <p class="text-xs text-gray-500 mt-1">
                 ${location.latitude.toFixed(6)}, ${location.longitude.toFixed(
-            6
-          )}
+              6
+            )}
               </p>
             </div>
           `,
@@ -118,7 +110,9 @@ const GoogleMapProperty = ({
       }
     };
 
-    loadGoogleMaps();
+    return () => {
+      isMounted = false;
+    };
   }, [location.latitude, location.longitude, zoom, address]);
 
   if (error) {

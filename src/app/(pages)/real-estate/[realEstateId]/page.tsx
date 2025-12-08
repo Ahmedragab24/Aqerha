@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import { formatName, formatPrice, formatPurpose } from "@/lib/utils";
 import PromotionSectionInRealPage from "@/components/templates/PromotionSectionInRealPage";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Script from "next/script";
 
 type Props = {
@@ -28,6 +29,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { realEstateId } = await params;
   const FetchData = await getRealEstateById(Number(realEstateId));
   const RealEstate = FetchData?.data?.realEstate;
+
+  if (!RealEstate) {
+    return {
+      title: "العقار غير موجود",
+      description: "عذراً، لم يتم العثور على هذا العقار.",
+    };
+  }
 
   const title =
     formatName(RealEstate?.real_estate_type || "apartment") +
@@ -83,7 +91,9 @@ const PropertyDetailsPage = async ({
   const RealEstate = FetchData?.data?.realEstate;
   const RelatedRealEstate = FetchData?.data?.related_realEstates;
 
-  console.log("RealEstate", RealEstate);
+  if (!RealEstate) {
+    notFound();
+  }
 
   return (
     <>

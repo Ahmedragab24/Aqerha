@@ -24,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body className={`${RubikSans.variable} antialiased`}>
+      <body
+        className={`${RubikSans.variable} antialiased`}
+        suppressHydrationWarning
+      >
         <StoreProvider>
           <Header />
           {children}

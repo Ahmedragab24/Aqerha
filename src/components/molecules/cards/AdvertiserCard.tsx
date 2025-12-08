@@ -15,13 +15,18 @@ interface AdvertiserCardProps {
 }
 
 const AdvertiserCard = ({ data, productId }: AdvertiserCardProps) => {
-  const { id, name, profile, reviews, ads } = data!;
   const dispatch = useAppDispatch();
-
   const Router = useRouter();
+
+  if (!data) return null;
+
+  const { id, name, profile, reviews = [], ads = [] } = data;
+
   const handleAdvertiser = () => {
-    dispatch(setAdvertiserData(data!));
-    Router.push(`/real-estate/${id}/advertiser`);
+    dispatch(setAdvertiserData(data));
+    if (id) {
+      Router.push(`/real-estate/${id}/advertiser`);
+    }
   };
 
   return (

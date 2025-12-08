@@ -6,6 +6,7 @@ import { Card, CardContent } from "../../ui/card";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { MapPin, Search, Locate, Loader2 } from "lucide-react";
+import { loadGoogleMapsScript } from "@/lib/loadGoogleMaps";
 
 interface LocationMapProps {
   onLocationSelect: (location: {
@@ -80,32 +81,21 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
 
   // تحميل Google Maps
   useEffect(() => {
-    const loadGoogleMaps = async () => {
-      try {
-        if (window.google && window.google.maps) {
+    let isMounted = true;
+
+    loadGoogleMapsScript("places")
+      .then(() => {
+        if (isMounted) {
           initializeMap();
-          return;
         }
-
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&language=ar&region=SA&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-
-        window.initMap = initializeMap;
-
-        script.onerror = () => {
+      })
+      .catch((error) => {
+        if (isMounted) {
+          console.error(error);
           setMapError("فشل في تحميل خرائط جوجل. تحقق من مفتاح API.");
           setIsMapLoading(false);
-        };
-
-        document.head.appendChild(script);
-      } catch (error) {
-        console.log(error);
-        setMapError("حدث خطأ في تحميل الخريطة");
-        setIsMapLoading(false);
-      }
-    };
+        }
+      });
 
     const initializeMap = () => {
       if (!mapRef.current || !window.google) return;
@@ -155,12 +145,8 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
       }
     };
 
-    loadGoogleMaps();
-
     return () => {
-      if (Object.prototype.hasOwnProperty.call(window, "initMap")) {
-        delete (window as any).initMap;
-      }
+      isMounted = false;
     };
   }, [handleLocationSelect]);
 
